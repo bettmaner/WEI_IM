@@ -1,4 +1,4 @@
-package edu.ncu.zww.app.wei_im.utils;
+package edu.ncu.zww.app.wei_im.mvp.model.bean;
 
 public enum TranObjectType {
     REGISTER, // 注册

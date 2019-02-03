@@ -1,6 +1,6 @@
 package edu.ncu.zww.app.wei_im.client;
 
-import edu.ncu.zww.app.wei_im.utils.TranObject;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 
 /**
  * 消息监听接口

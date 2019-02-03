@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import edu.ncu.zww.app.wei_im.commons.Constants;
-import edu.ncu.zww.app.wei_im.utils.TranObject;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 
 
 public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCompatActivity {

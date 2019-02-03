@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
-import edu.ncu.zww.app.wei_im.utils.TranObject;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 
 public class ClientInputThread extends Thread {
     private Socket socket;

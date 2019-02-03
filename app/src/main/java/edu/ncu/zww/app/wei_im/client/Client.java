@@ -22,6 +22,7 @@ public class Client {
             // client = new Socket(ip, port);
             client = new Socket();
             client.connect(new InetSocketAddress(ip,port), 1000);
+            LogUtil.d("创建client： ip为" + ip + " ,port:" + port);
             if (client.isConnected()) {
                 LogUtil.d("客户端已经连接上啦");
                 clientThread = new ClientThread(client);

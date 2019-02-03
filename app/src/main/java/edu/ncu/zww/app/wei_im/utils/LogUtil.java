@@ -5,7 +5,7 @@ import android.util.Log;
 public class LogUtil {
     /**正式上线時候设为false*/
     private final static boolean debug = true;
-    private final static String TAG = "wei";
+    private final static String TAG = "weiim";
 
     public static void v(String tag, String msg) {
         if (debug) {

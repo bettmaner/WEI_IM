@@ -2,7 +2,7 @@ package edu.ncu.zww.app.wei_im.base;
 
 import java.lang.ref.WeakReference;
 
-import edu.ncu.zww.app.wei_im.utils.TranObject;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 
 // 防止所持的view都销毁了，但presenter一直持有，导致内存泄漏。
 public abstract class BasePresenter<T> {

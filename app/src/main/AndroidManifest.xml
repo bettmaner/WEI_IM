@@ -30,6 +30,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".mvp.activity.LoginActivity"></activity>
+
+        <service android:name=".service.GetMsgService"></service>
+
     </application>
+
+
 
 </manifest>
