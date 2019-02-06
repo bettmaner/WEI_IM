@@ -21,7 +21,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".mvp.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,12 +29,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.activity.LoginActivity"></activity>
+        <activity android:name=".mvp.activity.LoginActivity" />
 
-        <service android:name=".service.GetMsgService"></service>
+        <service android:name=".service.GetMsgService" />
 
+        <activity android:name=".mvp.activity.RegisterActivity"></activity>
     </application>
-
-
 
 </manifest>

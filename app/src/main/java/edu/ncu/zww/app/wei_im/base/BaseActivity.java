@@ -4,17 +4,26 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
+import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.commons.Constants;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
+import edu.ncu.zww.app.wei_im.utils.ToolBarHelper;
 
 
 public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCompatActivity {
 
     protected T mPresenter;
+//    private ToolBarHelper mToolBarHelper;
 
     /**
      * 广播接收者，接收GetMsgService发送过来的消息
@@ -38,6 +47,30 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /* 状态栏透明处理 */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            /*// 透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            // 透明导航栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);*/
+            Window window = getWindow();
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        }
+
+        /* 标题栏toolbar设置 */
+        setContentView(getContentViewId());
+        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        if(toolbar != null){
+            System.out.println("准备设置toolbar");
+            ToolBarHelper mToolBarHelper = new ToolBarHelper(toolbar);
+            handleToolBar(mToolBarHelper);
+            setSupportActionBar(toolbar);
+        }
+
         // 创建Presenter
         mPresenter = createPresenter();
         mPresenter.attachView((V)this);
@@ -62,6 +95,37 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
         super.onDestroy();
         mPresenter.detachView();
     }
+
+    /*public static class ToolBarHelper{
+
+        private Toolbar mToolbar;
+
+        public ToolBarHelper(Toolbar toolbar) {
+            mToolbar = toolbar;
+        }
+
+        public Toolbar getToolbar() {
+            return mToolbar;
+        }
+
+        public void setTitle(String title){
+            mToolbar.setTitle("");
+            TextView toolbarTitle = mToolbar.findViewById(R.id.toolbar_title);
+            toolbarTitle.setText(title);
+            //mToolbar.n
+        }
+
+        public void setBackIcon() {
+            mToolbar.setNavigationIcon(R.drawable.ic_back);
+        }
+    }*/
+
+    /**
+     * 子类去实现
+     */
+    protected abstract int getContentViewId();
+
+    protected abstract void handleToolBar(ToolBarHelper toolBarHelper);
 
     protected abstract T createPresenter();
 
