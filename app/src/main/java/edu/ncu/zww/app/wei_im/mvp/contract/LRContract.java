@@ -17,8 +17,12 @@ public class LRContract {
         void NetWorkUnAvailable();
     }
 
-    public interface LRModel{
-        void loginRegister(String account, String password, LRCallBack callBack);
+    public interface LoginModel{
+        void login(Integer account, String password, LRCallBack callBack);
+    }
+
+    public interface RegisterModel{
+        void register(String email, String password, LRCallBack callBack);
     }
 
     public interface LRCallBack{

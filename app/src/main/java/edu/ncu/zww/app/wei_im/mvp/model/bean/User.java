@@ -4,21 +4,22 @@ import java.io.Serializable;
 
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
-    private String id;
-    private String name;
-    private String email;
+    private int id;  // 登录账号
+    private String name;    // 昵称
+    private String email;   // qq邮箱
     private String password;
-    private int isOnline; // 0 for offline,1 for online
-    private int img;
+    private int img;    // 头像
+    private int sex;    // 0 男性，1 女性
+    private int isOnline; // 0 离线, 1 在线
     private String ip;
     private int port;
-    private int group;
+    private int group;  // 哪一个分组
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -86,6 +87,14 @@ public class User implements Serializable {
         this.img = img;
     }
 
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o instanceof User) {
@@ -102,7 +111,7 @@ public class User implements Serializable {
     public String toString() {
         return "User [id=" + id + ", name=" + name + ", email=" + email
                 + ", password=" + password + ", isOnline=" + isOnline
-                + ", img=" + img + ", ip=" + ip + ", port=" + port + ", group="
+                + ", img=" + img + ", sex=" + sex + ", ip=" + ip + ", port=" + port + ", group="
                 + group + "]";
     }
 }

@@ -26,13 +26,13 @@ public class SharePreferenceUtil {
     }
 
     // 用户的id，即QQ号
-    public void setId(String id) {
-        editor.putString("id", id);
+    public void setId(Integer id) {
+        editor.putInt("id", id);
         editor.commit();
     }
 
-    public String getId() {
-        return sp.getString("id", "");
+    public Integer getId() {
+        return sp.getInt("id", 0);
     }
 
     // 用户的昵称
@@ -62,6 +62,16 @@ public class SharePreferenceUtil {
 
     public void setImg(int i) {
         editor.putInt("img", i);
+        editor.commit();
+    }
+
+    // 用户自己的头像
+    public Integer getSex() {
+        return sp.getInt("sex", 0);
+    }
+
+    public void setSex(int i) {
+        editor.putInt("sex", i);
         editor.commit();
     }
 

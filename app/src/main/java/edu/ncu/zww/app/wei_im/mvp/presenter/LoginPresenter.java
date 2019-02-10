@@ -33,12 +33,12 @@ public class LoginPresenter extends BasePresenter<LRContract.LRView> {
             // getView().onCheckFormatSuccess();
             // 显示进度条
 
-            login(account, password);
+            login(Integer.valueOf(account), password);
         }
     }
 
-    public void login(String account, String password) {
-        mLoginModel.loginRegister(account, password, new LRContract.LRCallBack() {
+    public void login(Integer account, String password) {
+        mLoginModel.login(account, password, new LRContract.LRCallBack() {
             @Override
             public void onSuccess() {
 

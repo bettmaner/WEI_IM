@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
+import edu.ncu.zww.app.wei_im.utils.MyObjectInputStream;
 
 public class ClientInputThread extends Thread {
     private Socket socket;
@@ -16,7 +17,7 @@ public class ClientInputThread extends Thread {
     public ClientInputThread(Socket socket) {
         this.socket = socket;
         try {
-            ois = new ObjectInputStream(socket.getInputStream());
+            ois = new MyObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -41,9 +42,11 @@ public class ClientInputThread extends Thread {
         try {
             while (isStart) {
                 msg = (TranObject) ois.readObject();
+                System.out.println(msg.getClass()+"\n"+msg.toString());
+
                 // 每收到一条消息，就调用接口的方法，并传入该消息对象，外部在实现接口的方法时，就可以及时处理传入的消息对象了
                 // 我不知道我有说明白没有？
-                messageListener.Message(msg);
+                //messageListener.Message(msg);
             }
             ois.close();
             if (socket != null)

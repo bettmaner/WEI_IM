@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
+import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType;
 
 /**
@@ -44,8 +44,8 @@ public class ClientOutputThread extends Thread{
             while (isStart) {
                 if (msg != null) {
                     out.writeObject(msg);
-                    LogUtil.d("ClientOutputThread发送msg为"+msg);
                     out.flush();
+                    LogUtil.d("ClientOutputThread发送msg为"+msg);
                     if (msg.getType() == TranObjectType.LOGOUT) {// 如果是发送下线的消息，就直接跳出循环
                         break;
                     }

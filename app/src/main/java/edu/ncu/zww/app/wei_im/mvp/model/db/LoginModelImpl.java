@@ -20,7 +20,7 @@ import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType;
  *完成请求数据，并根据请求状态选择调用回调对应的接口
  * Presenter类会使用本类的函数并实现回调接口，通过回调接口来使用View模块的函数更新UI
   */
-public class LoginModelImpl implements LRContract.LRModel {
+public class LoginModelImpl implements LRContract.LoginModel {
 
     private  MApplication application;
 
@@ -30,7 +30,7 @@ public class LoginModelImpl implements LRContract.LRModel {
         }
     }
 
-    public void loginRegister(String id, String password, final LRContract.LRCallBack callBack) {
+    public void login(Integer id, String password, final LRContract.LRCallBack callBack) {
 
         /*//在这里去获取网络数据，
         Model.getInstance().getGlobalThreadPool().execute(new Runnable() {
@@ -39,8 +39,6 @@ public class LoginModelImpl implements LRContract.LRModel {
 
             }
         });*/
-
-
         LogUtil.d("LoginModelImpl中aplication的值："+application);
         System.out.println(application.isConnected());
         if (application.isConnected()) {
@@ -66,7 +64,7 @@ public class LoginModelImpl implements LRContract.LRModel {
     public void getMessage(TranObject msg, final LRContract.LRCallBack callBack) {
         List<User> list = (List<User>) msg.getObject();
         if (list.size() > 0) {
-            // 保存用户信息
+            // 保存从服务器得到的本人信息
             SharePreferenceUtil util = new SharePreferenceUtil(application, Constants.SAVE_USER);
             util.setId(list.get(0).getId());
             util.setPassword(list.get(0).getPassword());
