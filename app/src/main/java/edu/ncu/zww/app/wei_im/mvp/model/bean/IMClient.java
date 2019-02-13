@@ -4,9 +4,7 @@ public class IMClient {
 
     private IMClient imClient = new IMClient();
 
-    private IMClient() {
-
-    }
+    private IMClient() { }
 
     public IMClient getInstance() {
         return imClient;

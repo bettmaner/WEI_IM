@@ -12,6 +12,7 @@ import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.base.BaseActivity;
 import edu.ncu.zww.app.wei_im.mvp.contract.LRContract;
 import edu.ncu.zww.app.wei_im.mvp.presenter.RegisterPresenter;
+import edu.ncu.zww.app.wei_im.test.TestInput;
 import edu.ncu.zww.app.wei_im.utils.ToolBarHelper;
 
 public class RegisterActivity
@@ -66,8 +67,10 @@ public class RegisterActivity
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.checkFormat(email.getText().toString(),
-                        password.getText().toString());
+                /*mPresenter.checkFormat(email.getText().toString(),
+                        password.getText().toString());*/
+                TestInput testInput = TestInput.getInstance();
+                testInput.setMsg();
             }
         });
     }

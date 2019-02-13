@@ -23,7 +23,6 @@ import edu.ncu.zww.app.wei_im.utils.ToolBarHelper;
 public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCompatActivity {
 
     protected T mPresenter;
-//    private ToolBarHelper mToolBarHelper;
 
     /**
      * 广播接收者，接收GetMsgService发送过来的消息
@@ -96,30 +95,6 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
         mPresenter.detachView();
     }
 
-    /*public static class ToolBarHelper{
-
-        private Toolbar mToolbar;
-
-        public ToolBarHelper(Toolbar toolbar) {
-            mToolbar = toolbar;
-        }
-
-        public Toolbar getToolbar() {
-            return mToolbar;
-        }
-
-        public void setTitle(String title){
-            mToolbar.setTitle("");
-            TextView toolbarTitle = mToolbar.findViewById(R.id.toolbar_title);
-            toolbarTitle.setText(title);
-            //mToolbar.n
-        }
-
-        public void setBackIcon() {
-            mToolbar.setNavigationIcon(R.drawable.ic_back);
-        }
-    }*/
-
     /**
      * 子类去实现
      */
@@ -130,7 +105,6 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
     protected abstract T createPresenter();
 
     // 以下自定义拓展
-
 
     /**
      * 子类直接调用这个方法关闭应用

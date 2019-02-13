@@ -12,10 +12,19 @@ import android.widget.Toast;
 
 import edu.ncu.zww.app.wei_im.MApplication;
 import edu.ncu.zww.app.wei_im.client.Client;
+import edu.ncu.zww.app.wei_im.client.ClientInputThread;
+import edu.ncu.zww.app.wei_im.client.MessageListener;
 import edu.ncu.zww.app.wei_im.commons.Constants;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType;
+import edu.ncu.zww.app.wei_im.test.TestInput;
 import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import edu.ncu.zww.app.wei_im.utils.SharePreferenceUtil;
-
+/*
+*  后台运行
+*  MessageListener获取服务器传来的消息，若后台运行则handle处理并进行通知，否则广播发送消息
+*  负责下线通知服务器
+* */
 public class GetMsgService extends Service {
 
     private static final int MSG = 0x001;
@@ -24,6 +33,7 @@ public class GetMsgService extends Service {
     private boolean isStart = false;// 是否与服务器连接上
     private SharePreferenceUtil util;
 
+    private TestInput testInput;
 
 
     // 收到用户按返回键发出的广播，就显示通知栏
@@ -39,6 +49,7 @@ public class GetMsgService extends Service {
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            LogUtil.d("GetMsgService: 回调handle得到msg，准备通知状态栏");
             switch (msg.what) {
                 //int newMsgNum = application.
             }
@@ -61,6 +72,7 @@ public class GetMsgService extends Service {
         LogUtil.d("GetMsgService的onCreate被调用");
         application = MApplication.getInstance();
         client = application.getClient();
+        testInput = TestInput.getInstance(); // 测试用，删
     }
 
     @Override
@@ -72,18 +84,21 @@ public class GetMsgService extends Service {
         new Thread() {
             @Override
             public void run() {
-                isStart = client.start();
+                //isStart = client.start();
+                isStart = testInput.start();    // 测试用，删
                 application.setConnected(isStart);
                 System.out.println("client start:" + isStart);
-                /*if (isStart) {
-                    ClientInputThread in = client.getClientInputThread();
-                    in.setMessageListener(new MessageListener() {
-
+                if (isStart) {
+//                    ClientInputThread in = client.getClientInputThread();
+//                    in.setMessageListener(new MessageListener() {
+                    testInput.setMessageListener(new MessageListener() {
                         @Override
                         public void Message(TranObject msg) {
                             // System.out.println("GetMsgService:" + msg);
+                            // 只有在FriendListActivity中设置了util的isStart为true
                             if (util.getIsStart()) {// 如果
                                 // 是在后台运行，就更新通知栏，否则就发送广播给Activity
+                                LogUtil.d("GetService: 后台运行中，准备更新通知栏");
                                 if (msg.getType() == TranObjectType.MESSAGE) {// 只处理文本消息类型
                                     // System.out.println("收到新消息");
                                     // 把消息对象发送到handler去处理
@@ -94,6 +109,7 @@ public class GetMsgService extends Service {
                                     handler.sendMessage(message);
                                 }
                             } else {
+                                LogUtil.d("GetService: 后台运行中，准备广播发送消息");
                                 Intent broadCast = new Intent();
                                 broadCast.setAction(Constants.ACTION);
                                 broadCast.putExtra(Constants.MSGKEY, msg);
@@ -101,7 +117,7 @@ public class GetMsgService extends Service {
                             }
                         }
                     });
-                }*/
+                }
             }
 
         }.start();
@@ -113,5 +129,11 @@ public class GetMsgService extends Service {
     public void onDestroy() {
         super.onDestroy();
         LogUtil.d("GetMsgService的onDestroy被调用");
+        // 注销广播
+        unregisterReceiver(broadcastReceiver);
+        // 取消通知栏
+
+        // 给服务器发送下线通知
+
     }
 }

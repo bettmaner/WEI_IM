@@ -7,6 +7,9 @@ import java.net.Socket;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 import edu.ncu.zww.app.wei_im.utils.MyObjectInputStream;
 
+/*
+*  client的读线程
+* */
 public class ClientInputThread extends Thread {
     private Socket socket;
     private TranObject msg;
@@ -24,7 +27,7 @@ public class ClientInputThread extends Thread {
     }
 
     /**
-     * 提供给外部的消息监听方法
+     * 提供给外部的消息监听方法（在GetMsgService和FriendActivity使用）
      *
      * @param messageListener
      *            消息监听接口对象
@@ -44,9 +47,8 @@ public class ClientInputThread extends Thread {
                 msg = (TranObject) ois.readObject();
                 System.out.println(msg.getClass()+"\n"+msg.toString());
 
-                // 每收到一条消息，就调用接口的方法，并传入该消息对象，外部在实现接口的方法时，就可以及时处理传入的消息对象了
-                // 我不知道我有说明白没有？
-                //messageListener.Message(msg);
+                // 处理得到的消息，详见GetMsgService的Message方法，处理消息是显示在通知栏还是广播出去
+                messageListener.Message(msg);
             }
             ois.close();
             if (socket != null)

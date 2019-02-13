@@ -13,7 +13,7 @@ public class User implements Serializable {
     private int isOnline; // 0 离线, 1 在线
     private String ip;
     private int port;
-    private int group;  // 哪一个分组
+    private int groups;  // 哪一个分组
 
     public int getId() {
         return id;
@@ -23,12 +23,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public int getGroup() {
-        return group;
+    public int getGroups() {
+        return groups;
     }
 
-    public void setGroup(int group) {
-        this.group = group;
+    public void setGroups(int groups) {
+        this.groups = groups;
     }
 
     public String getName() {
@@ -111,7 +111,7 @@ public class User implements Serializable {
     public String toString() {
         return "User [id=" + id + ", name=" + name + ", email=" + email
                 + ", password=" + password + ", isOnline=" + isOnline
-                + ", img=" + img + ", sex=" + sex + ", ip=" + ip + ", port=" + port + ", group="
-                + group + "]";
+                + ", img=" + img + ", sex=" + sex + ", ip=" + ip + ", port=" + port + ", groups="
+                + groups + "]";
     }
 }
