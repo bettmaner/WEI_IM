@@ -44,8 +44,9 @@ public class ClientOutputThread extends Thread{
             while (isStart) {
                 if (msg != null) {
                     out.writeObject(msg);
+                    out.writeObject(null);
                     out.flush();
-                    LogUtil.d("ClientOutputThread发送msg为"+msg);
+                    LogUtil.d("ClientOutputThread发送msg为"+msg+msg.getType().getClass());
                     if (msg.getType() == TranObjectType.LOGOUT) {// 如果是发送下线的消息，就直接跳出循环
                         break;
                     }

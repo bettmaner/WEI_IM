@@ -4,7 +4,9 @@ import edu.ncu.zww.app.wei_im.client.MessageListener;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.User;
-
+/*
+*  使用：RegisterActivity、GetMsgService
+* */
 public class TestInput {
 
     private static TestInput testInput = null;

@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.commons.Constants;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
+import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import edu.ncu.zww.app.wei_im.utils.ToolBarHelper;
 
 
@@ -34,7 +35,7 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
             TranObject msg = (TranObject) intent
                     .getSerializableExtra(Constants.MSGKEY);
             if (msg != null) {//如果不是空，说明是消息广播
-                // System.out.println("MyActivity:" + msg);
+                LogUtil.d(this+"获取广播消息"+msg);
                 mPresenter.getMessage(msg);// 处理收到的消息
             } else {//如果是空消息，说明是关闭应用的广播
                 close();

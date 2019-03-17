@@ -43,6 +43,11 @@ public class TranObject<T> implements Serializable {
     public TranObjectType getType() {
         return type;
     }
+    /* 暂时测试，要删掉*/
+
+    public void setType(TranObjectType type) {
+        this.type = type;
+    }
 
     @Override
     public String toString() {

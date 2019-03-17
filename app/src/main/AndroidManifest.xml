@@ -22,18 +22,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />
-        <activity android:name=".mvp.activity.SplashActivity">
+        <activity android:name=".mvp.view.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.activity.LoginActivity" />
+        <activity android:name=".mvp.view.activity.LoginActivity" />
 
         <service android:name=".service.GetMsgService" />
 
-        <activity android:name=".mvp.activity.RegisterActivity"></activity>
+        <activity android:name=".mvp.view.activity.RegisterActivity"></activity>
     </application>
 
 </manifest>

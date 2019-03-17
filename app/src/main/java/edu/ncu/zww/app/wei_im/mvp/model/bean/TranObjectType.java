@@ -9,5 +9,5 @@ public enum TranObjectType {
     MESSAGE, // 用户发送消息
     UNCONNECTED, // 无法连接
     FILE, // 传输文件
-    REFRESH, // 刷新
+    REFRESH//刷新好友列表
 }

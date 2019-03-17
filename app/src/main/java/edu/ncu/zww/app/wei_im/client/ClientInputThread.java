@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType;
 import edu.ncu.zww.app.wei_im.utils.MyObjectInputStream;
 
 /*
@@ -44,8 +45,14 @@ public class ClientInputThread extends Thread {
     public void run() {
         try {
             while (isStart) {
-                msg = (TranObject) ois.readObject();
-                System.out.println(msg.getClass()+"\n"+msg.toString());
+                Object oMsg = ois.readObject();
+                System.out.println(oMsg);
+                if ((oMsg != null && oMsg instanceof TranObject)) {
+                    msg = (TranObject) oMsg;// 转换成传输对象
+                }
+
+                msg.setType(TranObjectType.LOGIN);
+                System.out.println(msg.getType().getClass()+"\n"+msg);
 
                 // 处理得到的消息，详见GetMsgService的Message方法，处理消息是显示在通知栏还是广播出去
                 messageListener.Message(msg);

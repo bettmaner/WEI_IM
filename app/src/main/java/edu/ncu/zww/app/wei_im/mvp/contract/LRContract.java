@@ -11,7 +11,7 @@ public class LRContract {
     public interface LRView {
         //void onCheckFormatSuccess();
         void onCheckFormatFail(String info);
-        void onLRSuccess();
+        void onLRSuccess(String info);
         void onLRFail(String errorInfo);
         void NetWorkAvailable();
         void NetWorkUnAvailable();
@@ -26,7 +26,7 @@ public class LRContract {
     }
 
     public interface LRCallBack{
-        void onSuccess();
+        void onSuccess(String info);
         void onFail(String errorInfo);
     }
 }

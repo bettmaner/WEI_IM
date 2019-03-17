@@ -1,9 +1,10 @@
-package edu.ncu.zww.app.wei_im.mvp.activity;
+package edu.ncu.zww.app.wei_im.mvp.view.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
@@ -84,8 +85,22 @@ public class LoginActivity
             case R.id.forget_password :
                 break;
             case R.id.register :
-                startActivity(new Intent(this, RegisterActivity.class));
+                Intent intent = new Intent(this, RegisterActivity.class);
+                startActivityForResult(intent,1);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode){
+            case 1:
+                if(resultCode==RESULT_OK){
+                    // 获取注册成功的id号
+                    String  registerId= data.getStringExtra("registerId");
+                    account.setText(registerId);
+                    LogUtil.d("LoginActivity获取"+registerId);
+                }
         }
     }
 
@@ -95,13 +110,14 @@ public class LoginActivity
     }
 
     @Override
-    public void onLRSuccess() {
+    public void onLRSuccess(String info) {
         // 跳转
+        Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onLRFail(String errorInfo) {
-
+        Toast.makeText(this, errorInfo, Toast.LENGTH_SHORT).show();
     }
 
     @Override

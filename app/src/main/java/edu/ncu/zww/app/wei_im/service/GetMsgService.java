@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -70,28 +71,36 @@ public class GetMsgService extends Service {
     public void onCreate() {
         super.onCreate();
         LogUtil.d("GetMsgService的onCreate被调用");
+        // 注册广播
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Constants.BACKKEY_ACTION);
+        registerReceiver(broadcastReceiver, intentFilter);
+        // 获取 NotificationManager
+        // 获取client实例
         application = MApplication.getInstance();
         client = application.getClient();
-        testInput = TestInput.getInstance(); // 测试用，删
+//        testInput = TestInput.getInstance(); // 测试用，删
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        LogUtil.d("GetMsgService的onStartCommand被调用");
-
+        LogUtil.d("GetMsgService的onStartCommand被调用"+this);
+        if(application.isConnected()) {
+            return super.onStartCommand(intent, flags, startId);
+        }
         util = new SharePreferenceUtil(getApplicationContext(),
                 Constants.SAVE_USER);
         new Thread() {
             @Override
             public void run() {
-                //isStart = client.start();
-                isStart = testInput.start();    // 测试用，删
+                isStart = client.start();
+//                isStart = testInput.start();    // 测试用，删
                 application.setConnected(isStart);
                 System.out.println("client start:" + isStart);
                 if (isStart) {
-//                    ClientInputThread in = client.getClientInputThread();
-//                    in.setMessageListener(new MessageListener() {
-                    testInput.setMessageListener(new MessageListener() {
+                    ClientInputThread in = client.getClientInputThread();
+                    in.setMessageListener(new MessageListener() {
+//                    testInput.setMessageListener(new MessageListener() {
                         @Override
                         public void Message(TranObject msg) {
                             // System.out.println("GetMsgService:" + msg);
@@ -109,11 +118,11 @@ public class GetMsgService extends Service {
                                     handler.sendMessage(message);
                                 }
                             } else {
-                                LogUtil.d("GetService: 后台运行中，准备广播发送消息");
-                                Intent broadCast = new Intent();
-                                broadCast.setAction(Constants.ACTION);
-                                broadCast.putExtra(Constants.MSGKEY, msg);
-                                sendBroadcast(broadCast);// 把收到的消息已广播的形式发送出去
+                                Intent intent = new Intent();
+                                intent.setAction(Constants.ACTION);
+                                intent.putExtra(Constants.MSGKEY, msg);
+                                sendBroadcast(intent);// 把收到的消息已广播的形式发送出去
+                                LogUtil.d("GetService: 后台运行中，将读线程传来的消息广播出去");
                             }
                         }
                     });
