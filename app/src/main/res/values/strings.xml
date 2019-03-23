@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">WEI_IM</string>
+    <string name="message_text">消息</string>
+    <string name="friends_text">好友</string>
+    <string name="discovery_text">发现</string>
+    <string name="qzone_text">动态</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

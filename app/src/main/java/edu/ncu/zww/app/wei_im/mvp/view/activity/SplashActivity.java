@@ -6,7 +6,6 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import edu.ncu.zww.app.wei_im.MainActivity;
 import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.mvp.model.Model;
 

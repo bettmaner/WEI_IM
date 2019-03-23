@@ -33,7 +33,7 @@ public class TestInput {
     public void setMsg() {
         TranObject<User> o = new TranObject<User>(TranObjectType.LOGIN);
         User u = new User();
-        u.setId(1212);
+        u.setAccount(1212);
         //u.setPassword(Encode.getEncode("MD5", password));
         o.setObject(u);
         System.out.println("TestInput里的消息"+o);

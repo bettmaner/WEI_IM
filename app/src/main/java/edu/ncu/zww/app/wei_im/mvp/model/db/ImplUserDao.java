@@ -25,18 +25,18 @@ public class ImplUserDao implements UserDao {
     public void addUsers(List<User> users) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         for (User u : users) {
-            db.execSQL("insert into users (id,name,img,sex,isOnline,groups) values(?,?,?,?,?,?)",
-                    new Object[] { u.getId(), u.getName(), u.getImg(),
+            db.execSQL("insert into users (account,name,img,sex,isOnline,groups) values(?,?,?,?,?,?)",
+                    new Object[] { u.getAccount(), u.getName(), u.getImg(),
                             u.getSex(), u.getIsOnline(), u.getGroups() });
         }
         db.close();
     }
 
     @Override
-    public User getUserById(Text id) {
+    public User getUserById(Text account) {
         SQLiteDatabase db  = dbHelper.getReadableDatabase();
         User user = new User();
-        Cursor c = db.rawQuery("select * from users where id = ?", new String[]{id+""});
+        Cursor c = db.rawQuery("select * from users where account = ?", new String[]{account+""});
         if (c.moveToFirst()) {
             user.setName(c.getString(c.getColumnIndex("name")));
             user.setImg(c.getInt(c.getColumnIndex("img")));
@@ -54,7 +54,7 @@ public class ImplUserDao implements UserDao {
         Cursor c = db.rawQuery("select * from users", null);
         while (c.moveToNext()) {
             User u = new User();
-            u.setId(c.getInt(c.getColumnIndex("id")));
+            u.setAccount(c.getInt(c.getColumnIndex("account")));
             u.setName(c.getString(c.getColumnIndex("name")));
             u.setImg(c.getInt(c.getColumnIndex("img")));
             u.setSex(c.getInt(c.getColumnIndex("sex")));

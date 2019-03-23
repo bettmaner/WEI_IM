@@ -1,26 +1,47 @@
 package edu.ncu.zww.app.wei_im.mvp.model.bean;
 
+import org.litepal.annotation.Column;
+import org.litepal.crud.LitePalSupport;
+
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class User extends LitePalSupport implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    private int id;  // 登录账号
-    private String name;    // 昵称
+
+    @Column(nullable = false)
+    private int account;  // 登录账号。唯一标识
+
+    @Column(nullable = false, defaultValue = "unknown")
+    private String name;    // 昵称。不为空，默认unknown
+
+    @Column(ignore = true)
     private String email;   // qq邮箱
+
+    @Column(ignore = true)
     private String password;
+
     private int img;    // 头像
+
     private int sex;    // 0 男性，1 女性
+
     private int isOnline; // 0 离线, 1 在线
+
+    @Column(ignore = true)
     private String ip;
+
+    @Column(ignore = true)
     private int port;
+
     private int groups;  // 哪一个分组
 
-    public int getId() {
-        return id;
+
+    public int getAccount() {
+        return account;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAccount(int account) {
+        this.account = account;
     }
 
     public int getGroups() {
@@ -99,7 +120,7 @@ public class User implements Serializable {
     public boolean equals(Object o) {
         if (o instanceof User) {
             User user = (User) o;
-            if (user.getId() == id && user.getIp().equals(ip)
+            if (user.getAccount() == account && user.getIp().equals(ip)
                     && user.getPort() == port) {
                 return true;
             }
@@ -109,7 +130,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", name=" + name + ", email=" + email
+        return "User [account=" + account + ", name=" + name + ", email=" + email
                 + ", password=" + password + ", isOnline=" + isOnline
                 + ", img=" + img + ", sex=" + sex + ", ip=" + ip + ", port=" + port + ", groups="
                 + groups + "]";
