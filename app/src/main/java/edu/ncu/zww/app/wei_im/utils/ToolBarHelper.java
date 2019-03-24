@@ -20,7 +20,6 @@ public class ToolBarHelper {
         mToolbar.setTitle("");
         TextView toolbarTitle = mToolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setText(title);
-        //mToolbar.n
     }
 
     public void setBackIcon() {

@@ -3,14 +3,21 @@ package edu.ncu.zww.app.wei_im.mvp.view.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.base.BaseFragment;
 import edu.ncu.zww.app.wei_im.base.BasePresenter;
+import edu.ncu.zww.app.wei_im.utils.ToolBarHelper;
 
 public class MsgFragment extends BaseFragment {
 
@@ -26,8 +33,6 @@ public class MsgFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-
-    // TODO: Rename and change types and number of parameters
     public static MsgFragment newInstance(String param1, String param2) {
         MsgFragment fragment = new MsgFragment();
         Bundle args = new Bundle();
@@ -51,11 +56,16 @@ public class MsgFragment extends BaseFragment {
         return null;
     }
 
+//    @Override
+//    protected void handleToolBar(ToolBarHelper toolBarHelper) {
+//        toolBarHelper.setTitle("消息");
+//        toolBarHelper.setBackIcon();
+//    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_msg, container, false);
     }
 
@@ -82,6 +92,22 @@ public class MsgFragment extends BaseFragment {
 //        mListener = null;
     }
 
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.newGroupChat:
+//                Toast.makeText(mContext, "创建群聊", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R.id.addFriend:
+//                Toast.makeText(mContext, "添加好友", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R.id.addGroupChat:
+//                Toast.makeText(mContext, "加入群聊", Toast.LENGTH_SHORT).show();
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     /*public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);

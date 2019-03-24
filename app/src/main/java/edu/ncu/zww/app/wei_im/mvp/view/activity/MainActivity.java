@@ -6,6 +6,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.RadioButton;
@@ -13,14 +17,21 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.lang.reflect.Method;
+
 import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.mvp.view.fragment.ContactsFragment;
 import edu.ncu.zww.app.wei_im.mvp.view.fragment.DiscoveryFragment;
 import edu.ncu.zww.app.wei_im.mvp.view.fragment.MsgFragment;
 import edu.ncu.zww.app.wei_im.mvp.view.fragment.QzoneFragment;
+import edu.ncu.zww.app.wei_im.utils.LogUtil;
+import edu.ncu.zww.app.wei_im.utils.ToolBarHelper;
+import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    private Toolbar toolbar;
+    private ToolBarHelper mToolBarHelper;
 
     private TextView msgTab;    // 消息按钮
     private TextView friTab;    // 好友按钮
@@ -31,6 +42,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ContactsFragment contFra;
     private DiscoveryFragment discFra;
     private QzoneFragment qzoneFra;
+
+    private Badge msgNumView;
+    private Badge friNumView;
+    private Badge disNumView;
+    private Badge qzoNumView;
 
     private FragmentManager fragmentManager;
 
@@ -54,19 +70,74 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     protected void initView() {
+        toolbar = findViewById(R.id.toolbar);
+        setToolBar();
+
         msgTab = findViewById(R.id.menu_message);
         friTab = findViewById(R.id.menu_friends);
         disTab = findViewById(R.id.menu_discovery);
         qzoTab = findViewById(R.id.menu_qzone);
-        new QBadgeView(this).bindTarget(friTab)
-                .setGravityOffset(9,true).setBadgeNumber(12);
-        new QBadgeView(this).bindTarget(msgTab)
-                .setGravityOffset(9,true).setBadgeNumber(99);
-        new QBadgeView(this).bindTarget(disTab)
-                .setGravityOffset(9,true).setBadgeNumber(-1);
-        new QBadgeView(this).bindTarget(qzoTab)
-                .setGravityOffset(9,true);
-        initListener();
+
+        msgNumView = new QBadgeView(this).bindTarget(msgTab)
+                .setBadgeGravity(Gravity.END | Gravity.TOP)
+                .setGravityOffset(12,0,true);
+        friNumView = new QBadgeView(this).bindTarget(friTab)
+                .setBadgeGravity(Gravity.END | Gravity.TOP)
+                .setGravityOffset(27,5,true);
+        disNumView = new QBadgeView(this).bindTarget(disTab)
+                .setBadgeGravity(Gravity.END | Gravity.TOP)
+                .setGravityOffset(27,5,true);
+        qzoNumView = new QBadgeView(this).bindTarget(qzoTab)
+                .setBadgeGravity(Gravity.END | Gravity.TOP)
+                .setGravityOffset(27,5,true);
+        msgNumView.setBadgeNumber(12);
+       initListener();
+    }
+
+    /** ToolBar.1 - 初始化设置toolbar  */
+    protected void setToolBar(){
+        if(toolbar != null) {
+            System.out.println("输出toolbar对象" + toolbar);
+            mToolBarHelper = new ToolBarHelper(toolbar);
+            // 调用执行子类实现的handleToolBar()，通过mToolBarHelper设置toolbar
+            mToolBarHelper.setTitle("消息");
+            setSupportActionBar(toolbar); // 将toolbar设为ActionBar，可以使用ActionBar方法
+        }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return true;
+    }
+
+//    /** 加载菜单布局文件 */
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        LogUtil.d("加载布局文件onCreateOptionsMenu");
+//        menu.clear();
+//        inflater.inflate(R.menu.toolbar, menu);
+//    }
+
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        LogUtil.d("设置菜单项图标显示onPrepareOptionsMenu");
+        if(menu != null){
+            if(menu.getClass().getSimpleName().equals("MenuBuilder")){
+                try{
+                    Method m = menu.getClass().getDeclaredMethod(
+                            "setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                }
+                catch(NoSuchMethodException e){}
+                catch(Exception e){}
+            }
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     protected void initListener() {
@@ -100,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     transaction.show(contFra);
                 }
+                msgNumView.setBadgeNumber(20);
                 break;
             case R.id.menu_discovery :
                 setSelected();
@@ -110,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     transaction.show(discFra);
                 }
+                toolbar.setVisibility(View.GONE);
                 break;
             case R.id.menu_qzone :
                 setSelected();
@@ -120,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     transaction.show(qzoneFra);
                 }
+                toolbar.setVisibility(View.VISIBLE);
                 break;
             default:
         }

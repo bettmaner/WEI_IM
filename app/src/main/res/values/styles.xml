@@ -7,6 +7,31 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="actionOverflowButtonStyle">@style/ToolbarOverflow</item>
+    </style>
+
+    <!-- 更改menu三点图标 -->
+    <style name="ToolbarOverflow" parent="@android:style/Widget.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_menu</item>
+    </style>
+
+    <!-- 设置菜单弹出风格 -->
+    <style name="MyPopupTheme" parent="@style/ThemeOverlay.AppCompat.Light">
+        <item name="overlapAnchor">false</item> <!--设置不覆盖锚点，弹出菜单在toolbar下面-->
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/text_gray</item>
+
+    </style>
+
+    <!-- 底部导航按钮 -->
+    <style name="tab_menu_item">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@drawable/tab_menu_text</item>
     </style>
 
 </resources>
