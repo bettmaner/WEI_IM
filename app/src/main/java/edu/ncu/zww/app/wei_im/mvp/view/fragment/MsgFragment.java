@@ -56,13 +56,6 @@ public class MsgFragment extends BaseFragment {
         return null;
     }
 
-//    @Override
-//    protected void handleToolBar(ToolBarHelper toolBarHelper) {
-//        toolBarHelper.setTitle("消息");
-//        toolBarHelper.setBackIcon();
-//    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,23 +84,6 @@ public class MsgFragment extends BaseFragment {
         super.onDetach();
 //        mListener = null;
     }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.newGroupChat:
-//                Toast.makeText(mContext, "创建群聊", Toast.LENGTH_SHORT).show();
-//                return true;
-//            case R.id.addFriend:
-//                Toast.makeText(mContext, "添加好友", Toast.LENGTH_SHORT).show();
-//                return true;
-//            case R.id.addGroupChat:
-//                Toast.makeText(mContext, "加入群聊", Toast.LENGTH_SHORT).show();
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
 
     /*public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);

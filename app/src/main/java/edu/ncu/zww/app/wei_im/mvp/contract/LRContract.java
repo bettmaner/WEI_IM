@@ -25,7 +25,7 @@ public class LRContract {
         void register(String email, String password, LRCallBack callBack);
     }
 
-    public interface LRCallBack{
+    public interface LRCallBack{ // 在调用model层取完数据后回调
         void onSuccess(String info);
         void onFail(String errorInfo);
     }

@@ -22,6 +22,10 @@ public class ToolBarHelper {
         toolbarTitle.setText(title);
     }
 
+    public void setLogo(int id) {
+        mToolbar.setLogo(id);
+    }
+
     public void setBackIcon() {
         mToolbar.setNavigationIcon(R.drawable.ic_back);
     }

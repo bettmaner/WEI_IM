@@ -1,5 +1,6 @@
 package edu.ncu.zww.app.wei_im.mvp.view.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.FragmentManager;
@@ -9,13 +10,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Method;
 
@@ -32,23 +31,18 @@ import q.rorbin.badgeview.QBadgeView;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private Toolbar toolbar;
     private ToolBarHelper mToolBarHelper;
+    private boolean setMenuShow;    // 是否显示menu
+    private boolean isFirst;        // 是否是第一次加载
+    private final String[] title = {"消息","好友","发现","动态"};
 
-    private TextView msgTab;    // 消息按钮
-    private TextView friTab;    // 好友按钮
-    private TextView disTab;    // 发现按钮
-    private TextView qzoTab;    // 动态按钮
+    private TextView msgTab, friTab, disTab, qzoTab;   // 消息、好友、发现、动态按钮
+    private Badge msgNumView,friNumView,disNumView,qzoNumView; //底部导航按钮对应的红点信息数框
 
+    private FragmentManager fragmentManager;
     private MsgFragment msgFra;
     private ContactsFragment contFra;
     private DiscoveryFragment discFra;
     private QzoneFragment qzoneFra;
-
-    private Badge msgNumView;
-    private Badge friNumView;
-    private Badge disNumView;
-    private Badge qzoNumView;
-
-    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initView();
         fragmentManager = getSupportFragmentManager();
         msgTab.performClick(); // 执行msgTab点击事件，默认选中首页按钮
+        setMenuShow = isFirst = true; //默认显示toolbar右边菜单
     }
 
     protected void initView() {
@@ -94,6 +89,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        initListener();
     }
 
+    protected void initListener() {
+        msgTab.setOnClickListener(this);
+        friTab.setOnClickListener(this);
+        disTab.setOnClickListener(this);
+        qzoTab.setOnClickListener(this);
+    }
+
     /** ToolBar.1 - 初始化设置toolbar  */
     protected void setToolBar(){
         if(toolbar != null) {
@@ -102,31 +104,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // 调用执行子类实现的handleToolBar()，通过mToolBarHelper设置toolbar
             mToolBarHelper.setTitle("消息");
             setSupportActionBar(toolbar); // 将toolbar设为ActionBar，可以使用ActionBar方法
+            mToolBarHelper.setLogo(R.drawable.ic_add_friend);
+//            toolbar.setOverflowIcon(); // 修改主菜单图标
         }
     }
 
-
+    /** ToolBar.2 - 加载菜单布局文件 */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar, menu);
         return true;
     }
 
-//    /** 加载菜单布局文件 */
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        LogUtil.d("加载布局文件onCreateOptionsMenu");
-//        menu.clear();
-//        inflater.inflate(R.menu.toolbar, menu);
-//    }
-
-
+    /** ToolBar.3 - 设置菜单下拉菜单有图标 */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-
         LogUtil.d("设置菜单项图标显示onPrepareOptionsMenu");
         if(menu != null){
-            if(menu.getClass().getSimpleName().equals("MenuBuilder")){
+            if(menu.getClass().getSimpleName().equals("MenuBuilder")  && isFirst){
                 try{
                     Method m = menu.getClass().getDeclaredMethod(
                             "setOptionalIconsVisible", Boolean.TYPE);
@@ -136,15 +131,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 catch(NoSuchMethodException e){}
                 catch(Exception e){}
             }
+            menu.setGroupVisible(R.id.addMenu,setMenuShow);
         }
         return super.onPrepareOptionsMenu(menu);
-    }
-
-    protected void initListener() {
-        msgTab.setOnClickListener(this);
-        friTab.setOnClickListener(this);
-        disTab.setOnClickListener(this);
-        qzoTab.setOnClickListener(this);
     }
 
     @Override
@@ -153,8 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         hideAllFragment(transaction);
         switch (v.getId()) {
             case R.id.menu_message :
-                setSelected();  // 按钮全设为未选中状态
-                msgTab.setSelected(true);
+                preChangeFra(0,msgTab);
                 if (msgFra == null) {
                     msgFra = new MsgFragment();
                     transaction.add(R.id.fl_content,msgFra);
@@ -163,8 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.menu_friends :
-                setSelected();
-                friTab.setSelected(true);
+                preChangeFra(1,friTab);
                 if (contFra == null) {
                     contFra = new ContactsFragment();
                     transaction.add(R.id.fl_content,contFra);
@@ -174,30 +161,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 msgNumView.setBadgeNumber(20);
                 break;
             case R.id.menu_discovery :
-                setSelected();
-                disTab.setSelected(true);
+                preChangeFra(2,disTab);
                 if (discFra == null) {
                     discFra = new DiscoveryFragment();
                     transaction.add(R.id.fl_content,discFra);
                 } else {
                     transaction.show(discFra);
                 }
-                toolbar.setVisibility(View.GONE);
+                //toolbar.setVisibility(View.GONE);
                 break;
             case R.id.menu_qzone :
-                setSelected();
-                qzoTab.setSelected(true);
+                preChangeFra(3,qzoTab);
                 if (qzoneFra == null) {
                     qzoneFra = new QzoneFragment();
                     transaction.add(R.id.fl_content,qzoneFra);
                 } else {
                     transaction.show(qzoneFra);
                 }
-                toolbar.setVisibility(View.VISIBLE);
                 break;
             default:
         }
         transaction.commit();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.newGroupChat:
+                Toast.makeText(this, "创建群聊", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.addFriend:
+                startActivity(new Intent(this, AddContactActivity.class));
+                break;
+            default:
+        }
+        return true;
+    }
+
+    // 切换Fragment前完成的动作
+    private void preChangeFra(int index,View view){
+        setSelected();  // 按钮全设为未选中状态
+        view.setSelected(true);
+        mToolBarHelper.setTitle(title[index]);  // 更换title
+        if (index < 2) {    // 即点中前两个tab。消息或好友页面
+            setMenuShow = true; // 显示顶部toolbar的右边memu，图标‘+’
+        } else {
+            setMenuShow = false;
+        }
+        isFirst = false;
+        invalidateOptionsMenu(); // 是之前菜单失效从而回调onPrepareOptionsMenu
     }
 
     //重置所有导航imageView的选中状态
