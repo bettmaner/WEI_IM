@@ -1,7 +1,5 @@
 package edu.ncu.zww.app.wei_im.mvp.model.impl;
 
-import android.widget.Toast;
-
 import org.litepal.LitePal;
 
 import java.util.List;
@@ -11,14 +9,12 @@ import edu.ncu.zww.app.wei_im.client.Client;
 import edu.ncu.zww.app.wei_im.client.ClientOutputThread;
 import edu.ncu.zww.app.wei_im.commons.Constants;
 import edu.ncu.zww.app.wei_im.mvp.contract.LRContract;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.User;
-import edu.ncu.zww.app.wei_im.mvp.model.db.ImplUserDao;
-import edu.ncu.zww.app.wei_im.mvp.model.db.UserDao;
 import edu.ncu.zww.app.wei_im.utils.Encode;
 import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import edu.ncu.zww.app.wei_im.utils.SharePreferenceUtil;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
-import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType;
 
 /*
  *完成请求数据，并根据请求状态选择调用回调对应的接口
@@ -52,7 +48,7 @@ public class LoginModelImpl implements LRContract.LoginModel {
             LogUtil.d("LoginModelImpl已经连接服务");
             Client client = application.getClient();
             ClientOutputThread out = client.getClientOutputThread();
-            TranObject<User> o = new TranObject<User>(TranObjectType.LOGIN);
+            TranObject<User> o = new TranObject<>(TranObjectType.LOGIN);
             User u = new User();
             u.setAccount(account);
             u.setPassword(Encode.getEncode("MD5", password));

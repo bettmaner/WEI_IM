@@ -103,7 +103,6 @@ public class GetMsgService extends Service {
 //                    testInput.setMessageListener(new MessageListener() {
                         @Override
                         public void Message(TranObject msg) {
-                            // System.out.println("GetMsgService:" + msg);
                             // 只有在FriendListActivity中设置了util的isStart为true
                             if (util.getIsStart()) {// 如果
                                 // 是在后台运行，就更新通知栏，否则就发送广播给Activity

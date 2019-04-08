@@ -91,6 +91,7 @@ public class LoginActivity
         }
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (requestCode){
@@ -112,6 +113,8 @@ public class LoginActivity
     @Override
     public void onLRSuccess(String info) {
         // 跳转
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
         Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
     }
 

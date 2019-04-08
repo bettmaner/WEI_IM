@@ -1,19 +1,25 @@
 package edu.ncu.zww.app.wei_im.mvp.model.bean;
 
+
 import java.io.Serializable;
 
+/**
+ * 作为与客户端通讯的序列化对象，类似于json.
+ */
 public class TranObject<T> implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
-    private TranObjectType type;// 发送的消息类型
+    private String type; // 发送的消息类型
 
     private int fromUser;// 来自哪个用户
+
     private int toUser;// 发往哪个用户
 
     private T object;// 传输的对象
 
-    public TranObject(TranObjectType type) {
-        this.type = type;
+    public TranObject(String dealType) {
+        this.type = dealType;
     }
 
     public int getFromUser() {
@@ -40,13 +46,8 @@ public class TranObject<T> implements Serializable {
         this.object = object;
     }
 
-    public TranObjectType getType() {
+    public String getType() {
         return type;
-    }
-    /* 暂时测试，要删掉*/
-
-    public void setType(TranObjectType type) {
-        this.type = type;
     }
 
     @Override

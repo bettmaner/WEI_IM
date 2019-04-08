@@ -101,6 +101,7 @@ public class SharePreferenceUtil {
         editor.commit();
     }
 
+    // 是否正在后台运行
     public boolean getIsStart() {
         return sp.getBoolean("isStart", false);
     }

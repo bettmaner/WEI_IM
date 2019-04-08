@@ -5,8 +5,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
-import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType;
+import edu.ncu.zww.app.wei_im.utils.LogUtil;
 
 /**
  *  客户端写消息线程
@@ -32,7 +32,6 @@ public class ClientOutputThread extends Thread{
     }
 
     public void setMsg(TranObject msg) {
-        LogUtil.d("ClientOutputThread向服务器发送消息了："+ msg);
         this.msg = msg;
         synchronized (this) {
             notify();
