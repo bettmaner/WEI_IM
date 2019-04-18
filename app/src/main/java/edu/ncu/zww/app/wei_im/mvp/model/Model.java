@@ -4,7 +4,7 @@ import android.content.Context;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-// 数据模型层全局类
+// 数据模型层全局类，便于统一管理线程
 public class Model {
     
     private Context mContext;

@@ -3,80 +3,113 @@ package edu.ncu.zww.app.wei_im.client;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
+import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 import edu.ncu.zww.app.wei_im.utils.LogUtil;
 
 public class Client {
-    private Socket client;
-    private String ip;
-    private int port;
-    private ClientThread clientThread;
+    private static Client mInstance; //单例实例对象
+    private Socket clientSocket;  // 连接的socket
+    private String ip;  // client的ip地址
+    private int port;    // client的端口
+    private boolean mIsConnected = false; // 客户端与服务端的连接状态
+    private  ClientInputThread mClientIn;
+    private ClientOutputThread mClientOut;
 
-    public Client(String ip, int port) {
-        this.ip = ip;
-        this.port = port;
+    private Client(){}
+
+    // 该方法获取单例对象
+    public static Client getInstance() {
+        if (mInstance == null) {
+            mInstance = new Client();
+        }
+        return mInstance;
     }
 
-    public boolean start() {
+    // 客户端初始化
+    public void init(String ip, int port) {
+        this.ip = ip;
+        this.port =port;
+    }
+
+    // 建立客户端与服务端的连接
+    public boolean startConnect() {
         try {
             // client = new Socket(ip, port);
-            client = new Socket();
+            // 通过socket建立连接
+            clientSocket = new Socket();
+            clientSocket.connect(new InetSocketAddress(ip,port), 1000);
             LogUtil.d("创建client： ip为" + ip + " ,port:" + port);
-            client.connect(new InetSocketAddress(ip,port), 1000);
 
-            if (client.isConnected()) {
+            if (clientSocket.isConnected()) {
+                mIsConnected =true;
                 LogUtil.d("客户端已经连接上啦");
-                clientThread = new ClientThread(client);
-                clientThread.start();
+//                clientThread = new ClientThread(client);
+//                clientThread.start();
+                startClientIO(); // 开启client读写线程
+            } else {
+                mIsConnected = false;
             }
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            LogUtil.d("Network", "服务器地址无法解析");
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
+            LogUtil.d("Network", "Socket io异常");
             return false;
         }
-        return  true;
+        return true;
     }
 
-    // 直接通过client得到读线程
+    public boolean isConnected() {
+        return mIsConnected;
+    }
+
+    // 创建、开启clien的读线程和写线程
+    private void startClientIO() {
+        if (mIsConnected) {
+            mClientIn = new ClientInputThread(clientSocket); // 实例化读线程
+            mClientOut = new ClientOutputThread(clientSocket); // 实例化写线程
+            /* 运行线程 */
+            mClientIn.start();
+//            mClientOut.start();
+        }
+    }
+
+    // 获取读线程
     public ClientInputThread getClientInputThread() {
-        return clientThread.getIn();
+        return mClientIn;
     }
 
-    // 直接通过client得到写线程
+    // 获取写线程
     public ClientOutputThread getClientOutputThread() {
-        return clientThread.getOut();
+        return mClientOut;
     }
 
-    // 直接通过client停止读写消息
-    public void setIsStart(boolean isStart) {
-        clientThread.getIn().setStart(isStart);
-        clientThread.getOut().setStart(isStart);
+    // 向服务器发送序列化对象TranObject
+    public void send(TranObject t) throws IOException {
+        mClientOut.sendMsg(t);
     }
 
-    public class ClientThread extends Thread {
-
-        private ClientInputThread in;
-        private ClientOutputThread out;
-
-        public ClientThread(Socket socket) {
-            in = new ClientInputThread(socket);
-            out = new ClientOutputThread(socket);
+    // 关闭客户端与服务端的连接
+    public void closeConnection() {
+        if (mClientOut != null) {
+//            mClientOut.close();
+            mClientOut = null;
         }
-
-        public void run() {
-            in.setStart(true);
-            out.setStart(true);
-            in.start();
-            out.start();
+        if (mClientIn != null) {
+            mClientIn.close();
+            mClientIn = null;
         }
-
-        // 得到读消息线程
-        public ClientInputThread getIn() {
-            return in;
-        }
-
-        // 得到写消息线程
-        public ClientOutputThread getOut() {
-            return out;
+        try {
+            if (clientSocket != null)
+                clientSocket.close();
+                clientSocket = null;
+                mIsConnected = false;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

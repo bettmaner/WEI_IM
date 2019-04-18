@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import edu.ncu.zww.app.wei_im.MApplication;
 import edu.ncu.zww.app.wei_im.base.BasePresenter;
 import edu.ncu.zww.app.wei_im.mvp.contract.LRContract;
-import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType;
 import edu.ncu.zww.app.wei_im.mvp.model.impl.LoginModelImpl;
 import edu.ncu.zww.app.wei_im.utils.NetWorkUtil;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
@@ -42,9 +41,7 @@ public class LoginPresenter extends BasePresenter<LRContract.LRView> {
         mLoginModel.login(account, password, new LRContract.LRCallBack() {
             @Override
             public void onSuccess(String info) {
-
                 getView().onLRSuccess(info);
-                //System.out.println("xx");
             }
 
             @Override
@@ -64,21 +61,21 @@ public class LoginPresenter extends BasePresenter<LRContract.LRView> {
 
     @Override
     public void getMessage(TranObject msg) {
-        if (msg != null) {
-            if (msg.getType().equals(TranObjectType.LOGIN)) {
-                    // 先通过model层存储数据
-                    mLoginModel.getMessage(msg,new LRContract.LRCallBack() {
-                        @Override
-                        public void onSuccess(String info) {
-                            getView().onLRSuccess(info);
-                        }
-
-                        @Override
-                        public void onFail(String errorInfo) {
-                            getView().onLRFail(errorInfo);
-                        }
-                    });
-            }
-        }
+//        if (msg != null) {
+//            if (msg.getType().equals(TranObjectType.LOGIN)) {
+//                    // 先通过model层存储数据
+//                    mLoginModel.getMessage(msg,new LRContract.LRCallBack() {
+//                        @Override
+//                        public void onSuccess(String info) {
+//                            getView().onLRSuccess(info);
+//                        }
+//
+//                        @Override
+//                        public void onFail(String errorInfo) {
+//                            getView().onLRFail(errorInfo);
+//                        }
+//                    });
+//            }
+//        }
     }
 }

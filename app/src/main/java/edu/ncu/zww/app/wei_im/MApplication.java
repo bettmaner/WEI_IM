@@ -14,9 +14,6 @@ import edu.ncu.zww.app.wei_im.utils.SharePreferenceUtil;
 public class MApplication extends Application {
 
     private static MApplication instance;
-    public Context context;
-    private Client client; // 客户端
-    private boolean isConnected; // 客户端是否连接
 
     private int newMsgNum = 0;// 后台运行的消息
 
@@ -24,9 +21,10 @@ public class MApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        SharePreferenceUtil spUtil = new SharePreferenceUtil(this, Constants.SAVE_USER);
-        LogUtil.d(spUtil + "Ip:"+spUtil.getIp()+" port:"+spUtil.getPort());
-        client = new Client(spUtil.getIp() , spUtil.getPort()); // 从保存文件中获取ip和端口
+        SharePreferenceUtil spUtil = SharePreferenceUtil.getInstance();
+        spUtil.init(this); // 初始化SharePreferenceUtil
+        LogUtil.d( "Ip:"+spUtil.getIp()+" port:"+spUtil.getPort());
+        Client.getInstance().init(spUtil.getIp(), spUtil.getPort()); // 初始化Client
         Model.getInstance().init(this);
         LitePal.initialize(this);
         LogUtil.d("执行了application创建");
@@ -34,19 +32,5 @@ public class MApplication extends Application {
 
     public static MApplication getInstance() {
         return instance;
-    }
-
-
-
-    public Client getClient() {
-        return client;
-    }
-
-    public boolean isConnected() {
-        return isConnected;
-    }
-
-    public void setConnected(boolean isConnected) {
-        this.isConnected = isConnected;
     }
 }

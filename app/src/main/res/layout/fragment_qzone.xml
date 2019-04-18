@@ -3,12 +3,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:leon="http://schemas.android.com/apk/res-auto"
     tools:context=".mvp.view.fragment.QzoneFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/qzone_text" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+            <ImageView
+                android:id="@+id/h_back"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+            <ImageView
+                android:id="@+id/h_head"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerInParent="true" />
+            <TextView
+                android:id="@+id/h_name"
+                android:layout_alignBottom="@id/h_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
+
+        <com.leon.lib.settingview.LSettingItem
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            leon:isShowRightText="true"
+            leon:rightTextColor="@color/text_gray"
+            leon:leftText="昵称"/>
+        <com.leon.lib.settingview.LSettingItem
+            android:id="@+id/user_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            leon:rightStyle="iconHide"
+            leon:isShowUnderLine="false"
+            leon:isShowRightText="true"
+            leon:rightTextColor="@color/text_gray"
+            leon:leftText="IM账号"/>
+
+        <com.leon.lib.settingview.LSettingItem
+            android:id="@+id/quit"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            leon:isShowUnderLine="false"
+            leon:leftText="退出"/>
+    </LinearLayout>
+
+
 
 </FrameLayout>

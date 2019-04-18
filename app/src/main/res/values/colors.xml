@@ -2,13 +2,14 @@
 <resources>
     <color name="colorPrimary">#00BAE2</color>
     <color name="colorPrimaryDark">#007AE2</color>
-    <color name="windowBackground">#F5F6F7</color>
+    <!--<color name="windowBackground">#F5F6F7</color>-->
+    <color name="windowBackground">#DDD</color>
     <color name="colorAccent">#00B9FF</color>
 
     <color name="white">#FFFFFF</color>
     <color name="blue_0C">#00C9FF</color>
     <color name="tab_blue">#1296db</color>
-    <color name="background_gray">#DDD</color>s
+    <color name="background_gray">#DDD</color>
     <color name="tab_gray">#707070</color>
     <color name="text_gray">#515151</color>
 </resources>

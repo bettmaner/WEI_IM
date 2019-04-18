@@ -7,8 +7,6 @@ import edu.ncu.zww.app.wei_im.MApplication;
 import edu.ncu.zww.app.wei_im.base.BasePresenter;
 import edu.ncu.zww.app.wei_im.mvp.contract.LRContract;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
-import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType;
-import edu.ncu.zww.app.wei_im.mvp.model.bean.User;
 import edu.ncu.zww.app.wei_im.mvp.model.impl.RegisterModelImpl;
 import edu.ncu.zww.app.wei_im.utils.NetWorkUtil;
 
@@ -66,15 +64,15 @@ public class RegisterPresenter extends BasePresenter<LRContract.LRView> {
     * */
     @Override
     public void getMessage(TranObject msg) {
-        if (msg.getType().equals(TranObjectType.REGISTER)) {
-            User user = (User) msg.getObject();
-            int account = user.getAccount();
-            System.out.println(account);
-            if (account > 0) {
-                getView().onLRSuccess(String.valueOf(account));
-            } else {
-                getView().onLRFail("注册失败，已有该账号");
-            }
-        }
+//        if (msg.getType().equals(TranObjectType.REGISTER)) {
+//            User user = (User) msg.getObject();
+//            int account = user.getAccount();
+//            System.out.println(account);
+//            if (account > 0) {
+//                getView().onLRSuccess(String.valueOf(account));
+//            } else {
+//                getView().onLRFail("注册失败，已有该账号");
+//            }
+//        }
     }
 }

@@ -5,13 +5,27 @@ import android.content.SharedPreferences;
 
 import edu.ncu.zww.app.wei_im.commons.Constants;
 
+/**
+ * SharedPreferences工具类，单例模式
+ * 因为只操作同一个文件，所以用单例模式方便些
+ * */
 public class SharePreferenceUtil {
-
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
+    private static SharePreferenceUtil spUtil;
+    static{
+        spUtil= new SharePreferenceUtil();
+    }
 
-    public SharePreferenceUtil(Context context, String file) {
-        sp = context.getSharedPreferences(file, context.MODE_PRIVATE);
+    public static SharePreferenceUtil getInstance(){
+        if(spUtil == null){
+            spUtil = new SharePreferenceUtil();
+        }
+        return spUtil;
+    }
+
+    public void init(Context context) {
+        sp = context.getSharedPreferences(Constants.SAVE_USER, context.MODE_PRIVATE);
         editor = sp.edit();
     }
 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    >
+    <!-- index 好友上面的字母，代码判断是否显示并赋值 -->
+    <TextView
+        android:id="@+id/tv_index"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#bbb"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:textSize="12sp"
+        android:text="A"
+        android:textAllCaps="true"/>
+
+    <!-- 每个好友的列表 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp" >
+
+        <ImageView
+            android:id="@+id/iv_avatar"
+            style="@style/item_img"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_avatar"/>
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/iv_avatar"
+            android:gravity="center_vertical"
+            android:textSize="16sp"
+            android:text="John"/>
+    </RelativeLayout>
+
+</LinearLayout>

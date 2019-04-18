@@ -6,6 +6,10 @@ package edu.ncu.zww.app.wei_im.mvp.model.bean;
 public class TranObjectType {
     public final static String REGISTER = "REGISTER";   // 注册
     public final static String LOGIN = "LOGIN"; // 用户登录
+//    public final static String SEARCH_FRIEND = "SEARCH_FRIEND"; // 查找好友
+//    public final static String SEARCH_GROUP = "SEARCH_GROUP"; // 查找群
+    public final static String FRIEND_REQUEST = "FRIEND_REQUEST"; // 好友请求
+    public final static String GROUP_REQUEST = "GROUP_REQUEST"; // 群请求
     public final static String LOGOUT = "LOGOUT";   // 用户退出登录
     public final static String FRIENDLOGIN = "FRIENDLOGIN"; // 好友上线
     public final static String FRIENDLOGOUT = "FRIENDLOGOUT";   // 好友下线

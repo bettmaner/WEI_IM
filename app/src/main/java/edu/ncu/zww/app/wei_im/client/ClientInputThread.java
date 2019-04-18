@@ -4,16 +4,21 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
+import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
-import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType;
+import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import edu.ncu.zww.app.wei_im.utils.MyObjectInputStream;
+
+import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.LOGIN;
+import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.MESSAGE;
+import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.REGISTER;
 
 /*
 *  client的读线程
 * */
 public class ClientInputThread extends Thread {
     private Socket socket;
-    private TranObject msg;
+//    private TranObject msg;
     private boolean isStart = true;
     private ObjectInputStream ois;
     private MessageListener messageListener;// 消息监听接口对象
@@ -37,25 +42,63 @@ public class ClientInputThread extends Thread {
         this.messageListener = messageListener;
     }
 
-    public void setStart(boolean isStart) {
-        this.isStart = isStart;
-    }
+//    public void setStart(boolean isStart) {
+//        this.isStart = isStart;
+//    }
 
     @Override
     public void run() {
         try {
             while (isStart) {
+                TranObject resultData = null;
+                // 对象输出流
                 Object oMsg = ois.readObject();
-                System.out.println(oMsg);
                 if ((oMsg != null && oMsg instanceof TranObject)) {
-                    msg = (TranObject) oMsg;// 转换成传输对象
+                    resultData = (TranObject) oMsg;// 转换成传输对象
+                }
+                System.out.println(resultData);
+                LogUtil.d("ClientInput","线程:" + Thread.currentThread().getName());
+                ApplicationData mData = ApplicationData.getInstance();
+                // 以mData为锁
+                synchronized(mData){
+                    // ismIsReceived为真表示有线程在取值（，所以应该先等待
+                    if(mData.isIsReceived()){
+                        try{
+                            mData.wait();
+                        } catch(InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    switch (resultData.getType()) {
+                        case REGISTER:
+                            mData.setRegisterResult(resultData);
+                            break;
+                        case LOGIN:
+                            mData.setLoginResult(resultData);
+                            break;
+//                    case SEARCH_FRIEND:
+//                        System.out.println("收到朋友查找结果");
+//                        SearchFriendActivity.messageArrived(resultData);
+//                        break;
+//                    case FRIEND_REQUEST:
+//                        ApplicationData.getInstance().friendRequestArrived(resultData);
+//                        break;
+                        case MESSAGE:
+//                        ApplicationData.getInstance().messageArrived(resultData);
+
+                            // 处理得到的消息，详见GetMsgService的Message方法，处理消息是显示在通知栏还是广播出去
+                            messageListener.Message(resultData);
+                            break;
+                        default:
+                            break;
+                    }
+                    // 数据已更新完，设置为true，因为其它线程根据其可取
+                    mData.setIsReceived(true);
+                    // 唤醒之前被锁的线程
+                    mData.notify();
+
                 }
 
-                msg.setType(TranObjectType.LOGIN);
-                System.out.println(msg.getType().getClass()+"\n"+msg);
-
-                // 处理得到的消息，详见GetMsgService的Message方法，处理消息是显示在通知栏还是广播出去
-                messageListener.Message(msg);
             }
             ois.close();
             if (socket != null)
@@ -65,5 +108,9 @@ public class ClientInputThread extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void close() {
+        isStart = false;
     }
 }
