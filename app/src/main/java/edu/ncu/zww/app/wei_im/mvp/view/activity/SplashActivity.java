@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.mvp.model.Model;
+import edu.ncu.zww.app.wei_im.service.GetMsgService;
+import edu.ncu.zww.app.wei_im.utils.SharePreferenceUtil;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -20,19 +22,31 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             //判断进入主界面还是登录界面
-            toMainnOrLogin();
+            toMainOrLogin();
 
         }
     };
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉状态栏
+        handler.sendMessageDelayed(Message.obtain(), 1000);
+    }
+
+
     //判断进入主界面还是登录界面
-    private void toMainnOrLogin() {
+    private void toMainOrLogin() {
 
         System.out.println("咔咔咔1咔咔咔"+Model.getInstance().getGlobalThreadPool());
         Model.getInstance().getGlobalThreadPool().execute(new Runnable() {
             @Override
             public void run() {
-                if (false) {    // 如果登陆过
+                // 如果登陆过,即密码存在
+//                if (SharePreferenceUtil.getInstance().getPassword() != null) {
+                if (false) {
                     // 获取到当前登录用户的信息
 
                     // 跳转到主页面
@@ -49,17 +63,10 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉状态栏
-        handler.sendMessageDelayed(Message.obtain(), 1000);
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
+        Intent service = new Intent(SplashActivity.this, GetMsgService.class);
+        startService(service);
         handler.removeCallbacksAndMessages(null);
     }
 }

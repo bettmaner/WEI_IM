@@ -13,7 +13,7 @@ public class Client {
     private Socket clientSocket;  // 连接的socket
     private String ip;  // client的ip地址
     private int port;    // client的端口
-    private boolean mIsConnected = false; // 客户端与服务端的连接状态
+//    private boolean mIsConnected = false; // 客户端与服务端的连接状态
     private  ClientInputThread mClientIn;
     private ClientOutputThread mClientOut;
 
@@ -43,13 +43,11 @@ public class Client {
             LogUtil.d("创建client： ip为" + ip + " ,port:" + port);
 
             if (clientSocket.isConnected()) {
-                mIsConnected =true;
+//                mIsConnected =true;
                 LogUtil.d("客户端已经连接上啦");
-//                clientThread = new ClientThread(client);
-//                clientThread.start();
                 startClientIO(); // 开启client读写线程
             } else {
-                mIsConnected = false;
+//                mIsConnected = false;
             }
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -64,12 +62,17 @@ public class Client {
     }
 
     public boolean isConnected() {
-        return mIsConnected;
+//        return mIsConnected;
+        if (clientSocket == null) {
+            return false;
+        } else {
+            return clientSocket.isConnected();
+        }
     }
 
     // 创建、开启clien的读线程和写线程
     private void startClientIO() {
-        if (mIsConnected) {
+        if (isConnected()) {
             mClientIn = new ClientInputThread(clientSocket); // 实例化读线程
             mClientOut = new ClientOutputThread(clientSocket); // 实例化写线程
             /* 运行线程 */
@@ -107,7 +110,7 @@ public class Client {
             if (clientSocket != null)
                 clientSocket.close();
                 clientSocket = null;
-                mIsConnected = false;
+//                mIsConnected = false;
         } catch (IOException e) {
             e.printStackTrace();
         }

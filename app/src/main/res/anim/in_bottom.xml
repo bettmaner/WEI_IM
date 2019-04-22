@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 退出按钮底部菜单进入动画，参考https://www.jianshu.com/p/8943d9d6f49d -->
+    <translate
+        android:duration="300"
+        android:fromYDelta="100%p"
+        android:toYDelta="0"/>
+</set>

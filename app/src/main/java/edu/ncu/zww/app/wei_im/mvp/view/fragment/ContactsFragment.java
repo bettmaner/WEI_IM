@@ -1,7 +1,6 @@
 package edu.ncu.zww.app.wei_im.mvp.view.fragment;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,7 +26,7 @@ import edu.ncu.zww.app.wei_im.base.BaseFragment;
 import edu.ncu.zww.app.wei_im.base.BasePresenter;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
 import edu.ncu.zww.app.wei_im.mvp.view.adapter.ContactAdapter;
-import edu.ncu.zww.app.wei_im.mvp.view.adapter.MyRecyclerView;
+import edu.ncu.zww.app.wei_im.customview.MyRecyclerView;
 import edu.ncu.zww.app.wei_im.utils.PinYinUtils;
 
 /**
@@ -135,32 +134,32 @@ public class ContactsFragment extends BaseFragment {
     }
 
     private void initData() {
-        friends = new ArrayList<>();
-        friends.add(new Contact("啊虎"));
-        friends.add(new Contact("#白虎"));
-        friends.add(new Contact( "常羲"));
-//        friends.add(new Contact( "./嫦娥"));
-        friends.add(new Contact( "二郎神"));
-        friends.add(new Contact( "伏羲"));
-        friends.add(new Contact( "观世音"));
-        friends.add(new Contact( "精卫"));
-        friends.add(new Contact( "夸父"));
-        friends.add(new Contact( "女娲"));
-        friends.add(new Contact( "哪吒"));
-        friends.add(new Contact( "盘古"));
-        friends.add(new Contact( "青龙"));
-        friends.add(new Contact( "如来"));
-        friends.add(new Contact( "孙悟空"));
-        friends.add(new Contact( "沙僧"));
-        friends.add(new Contact( "顺风耳"));
-
-        friends.add(new Contact( "1羲和"));
-        friends.add(new Contact( "玄武"));
-        friends.add(new Contact( "猪八戒"));
-        friends.add(new Contact( "朱雀"));
-        friends.add(new Contact( "祝融"));
-        friends.add(new Contact( "太白金星"));
-        friends.add(new Contact( "太上老君"));
+//        friends = new ArrayList<>();
+//        friends.add(new Contact("啊虎"));
+//        friends.add(new Contact("#白虎"));
+//        friends.add(new Contact( "常羲"));
+////        friends.add(new Contact( "./嫦娥"));
+//        friends.add(new Contact( "二郎神"));
+//        friends.add(new Contact( "伏羲"));
+//        friends.add(new Contact( "观世音"));
+//        friends.add(new Contact( "精卫"));
+//        friends.add(new Contact( "夸父"));
+//        friends.add(new Contact( "女娲"));
+//        friends.add(new Contact( "哪吒"));
+//        friends.add(new Contact( "盘古"));
+//        friends.add(new Contact( "青龙"));
+//        friends.add(new Contact( "如来"));
+//        friends.add(new Contact( "孙悟空"));
+//        friends.add(new Contact( "沙僧"));
+//        friends.add(new Contact( "顺风耳"));
+//
+//        friends.add(new Contact( "1羲和"));
+//        friends.add(new Contact( "玄武"));
+//        friends.add(new Contact( "猪八戒"));
+//        friends.add(new Contact( "朱雀"));
+//        friends.add(new Contact( "祝融"));
+//        friends.add(new Contact( "太白金星"));
+//        friends.add(new Contact( "太上老君"));
 
 
         Collections.sort(friends, new Comparator<Contact>() {

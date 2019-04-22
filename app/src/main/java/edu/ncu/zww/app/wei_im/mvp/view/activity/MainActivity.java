@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +23,8 @@ import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.mvp.view.fragment.ContactsFragment;
 import edu.ncu.zww.app.wei_im.mvp.view.fragment.DiscoveryFragment;
 import edu.ncu.zww.app.wei_im.mvp.view.fragment.MsgFragment;
-import edu.ncu.zww.app.wei_im.mvp.view.fragment.QzoneFragment;
+import edu.ncu.zww.app.wei_im.mvp.view.fragment.MineFragment;
+import edu.ncu.zww.app.wei_im.utils.ActivityCollector;
 import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import edu.ncu.zww.app.wei_im.utils.ToolBarHelper;
 import q.rorbin.badgeview.Badge;
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MsgFragment msgFra;
     private ContactsFragment contFra;
     private DiscoveryFragment discFra;
-    private QzoneFragment qzoneFra;
+    private MineFragment qzoneFra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentManager = getSupportFragmentManager();
         msgTab.performClick(); // 执行msgTab点击事件，默认选中首页按钮
         setMenuShow = isFirst = true; //默认显示toolbar右边菜单
+
+        // 加入活动管理类便于打印该activity存在情况,记得onDestroy对应移除
+        ActivityCollector.addActivity(this);
     }
 
     protected void initView() {
@@ -136,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onPrepareOptionsMenu(menu);
     }
 
+    // 底部tab点击监听
     @Override
     public void onClick(View v) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -173,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.menu_qzone :
                 preChangeFra(3,qzoTab);
                 if (qzoneFra == null) {
-                    qzoneFra = new QzoneFragment();
+                    qzoneFra = new MineFragment();
                     transaction.add(R.id.fl_content,qzoneFra);
                 } else {
                     transaction.show(qzoneFra);
@@ -184,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         transaction.commit();
     }
 
+    // 菜单项点击监听
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -196,6 +203,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             default:
         }
         return true;
+    }
+
+    // 返回键监听处理
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 返回桌面，将此任务转向后台。false表示只有该activity执行有效
+            moveTaskToBack(false);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     // 切换Fragment前完成的动作
@@ -228,4 +246,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(qzoneFra != null) fragmentTransaction.hide(qzoneFra);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
+    }
 }

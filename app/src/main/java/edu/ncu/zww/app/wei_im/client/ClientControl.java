@@ -6,7 +6,7 @@ import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.User;
-import edu.ncu.zww.app.wei_im.utils.UserFilter;
+import edu.ncu.zww.app.wei_im.utils.BeanTransfer;
 
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.FRIEND_REQUEST;
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.GROUP_REQUEST;
@@ -26,6 +26,11 @@ public class ClientControl {
     public static void login(User user) throws IOException {
         TranObject<User> t = new TranObject<>(TranObjectType.LOGIN);
         t.setObject(user);
+        mClient.send(t);
+    }
+
+    public static void LogOff() throws IOException {
+        TranObject<User> t = new TranObject<>(TranObjectType.LOGOFF);
         mClient.send(t);
     }
 
@@ -50,7 +55,7 @@ public class ClientControl {
 //        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm:ss");
 //        String sendTime = sdf.format(date);
 //        t.setSendTime(sendTime);
-        User user = UserFilter.filterUser(ApplicationData.getInstance().getUserInfo());
+        User user = BeanTransfer.filterUser(ApplicationData.getInstance().getUserInfo());
         t.setFromUser(user.getAccount());
         t.setObject(user); // 传入的object是自己的名字
         t.setStatus(2); // 等待确认

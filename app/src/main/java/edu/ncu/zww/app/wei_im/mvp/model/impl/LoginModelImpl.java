@@ -10,6 +10,7 @@ import java.util.List;
 import edu.ncu.zww.app.wei_im.MApplication;
 import edu.ncu.zww.app.wei_im.client.Client;
 import edu.ncu.zww.app.wei_im.client.ClientControl;
+import edu.ncu.zww.app.wei_im.database.RealmHelper;
 import edu.ncu.zww.app.wei_im.mvp.contract.LRContract;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.User;

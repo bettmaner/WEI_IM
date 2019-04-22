@@ -20,7 +20,7 @@ import edu.ncu.zww.app.wei_im.mvp.contract.OperaFGContract;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
 import edu.ncu.zww.app.wei_im.mvp.presenter.AddContactPresenter;
 import edu.ncu.zww.app.wei_im.mvp.view.adapter.AddContactAdapter;
-import edu.ncu.zww.app.wei_im.mvp.view.adapter.MyRecyclerView;
+import edu.ncu.zww.app.wei_im.customview.MyRecyclerView;
 import edu.ncu.zww.app.wei_im.utils.ToolBarHelper;
 
 /* 联系人添加界面 */

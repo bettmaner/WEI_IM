@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.commons.Constants;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
+import edu.ncu.zww.app.wei_im.utils.ActivityCollector;
 import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import edu.ncu.zww.app.wei_im.utils.ToolBarHelper;
 
@@ -74,6 +75,9 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
         // 创建Presenter
         mPresenter = createPresenter();
         mPresenter.attachView((V)this);
+
+        // 加入活动管理类便于打印该activity存在情况,记得onDestroy对应移除
+        ActivityCollector.addActivity(this);
     }
 
     @Override
@@ -94,6 +98,7 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.detachView();
+        ActivityCollector.removeActivity(this);
     }
 
     /**

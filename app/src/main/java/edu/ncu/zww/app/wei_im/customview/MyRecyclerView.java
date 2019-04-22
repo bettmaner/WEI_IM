@@ -1,4 +1,4 @@
-package edu.ncu.zww.app.wei_im.mvp.view.adapter;
+package edu.ncu.zww.app.wei_im.customview;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

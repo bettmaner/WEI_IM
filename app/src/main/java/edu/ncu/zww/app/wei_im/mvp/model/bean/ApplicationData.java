@@ -1,11 +1,11 @@
 package edu.ncu.zww.app.wei_im.mvp.model.bean;
 
 import android.content.Context;
-import android.widget.LinearLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import edu.ncu.zww.app.wei_im.database.RealmHelper;
+import edu.ncu.zww.app.wei_im.utils.BeanTransfer;
 import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import edu.ncu.zww.app.wei_im.utils.SharePreferenceUtil;
 
@@ -13,11 +13,13 @@ public class ApplicationData {
     private static ApplicationData mInitData; // 该类的单例实例
 //    private T currentModel;
     private static SharePreferenceUtil spUtil;
+    private RealmHelper mRealmHelper; // realm数据库操作类
     private User mUser; // 个人数据
     private boolean mIsReceived ;   // 是否已接收完数据
     private TranObject mReceivedMessage;    // 服务器最新传来的信息
 //    private TranObject<User> registerResult; // 注册返回的数据
-    private List<User> mFriendList; // 好友数据
+    private List<Contact> mFriendList; // 好友数据
+    private List<Group> mGroupList; // 群数据
 //    private Map<Integer, Bitmap> mFriendPhotoMap;
 //    private Handler messageHandler;
 //    private Handler chatMessageHandler;
@@ -86,9 +88,12 @@ public class ApplicationData {
             List<User> list = (List<User>) tranObject.getObject();
             // a.设置个人信息
             this.mUser = list.get(0);
-            // b.设置好友信息
-            this.mFriendList = new ArrayList<>();
-            this.mFriendList.addAll(list.subList(1,list.size()));
+            // b.选择对应数据库
+            mRealmHelper = RealmHelper.getInstance();
+            mRealmHelper.initDB(String.valueOf(mUser.getAccount()));
+            // c.设置好友信息,并保存
+            this.mFriendList = BeanTransfer.UsersToFriends(list.subList(1,list.size()));
+            mRealmHelper.saveContacts(this.mFriendList);
         } else {
             mUser = null;
             mFriendList = null;
@@ -159,15 +164,18 @@ public class ApplicationData {
 
     }
 
-    public List<User> getFriendList() {
+    public List<Contact> getFriendList() {
+        if (mFriendList == null) {
+//            mFriendList = m
+        }
         return mFriendList;
     }
 
+    public List<Group> getGroupList() {
+        return mGroupList;
+    }
 
-
-
-
-//    public List<User> getFriendSearched() {
+    //    public List<User> getFriendSearched() {
 //        return mFriendSearched;
 //    }
 //
@@ -296,9 +304,9 @@ public class ApplicationData {
 
     // 是否有该好友
     public boolean hasFriend(Integer account) {
-        List<User> userList = getFriendList();
-        for(User user : userList) {
-            if(account == user.getAccount())
+        List<Contact> friends = getFriendList();
+        for(Contact friend : friends) {
+            if(account == friend.getAccount())
                 return true;
         }
         return false;
@@ -307,11 +315,11 @@ public class ApplicationData {
 
     // 是否加了该群
     /** 需改善 **/
-    public boolean hasGroup(Integer account) {
+    public boolean hasGroup(Integer groupId) {
         // 待完善
-        List<User> groupList = getFriendList();
-        for(User group : groupList) {
-            if(account == group.getAccount())
+        List<Group> groupList = getGroupList();
+        for(Group group : groupList) {
+            if(groupId == group.getGid())
                 return true;
         }
         return false;

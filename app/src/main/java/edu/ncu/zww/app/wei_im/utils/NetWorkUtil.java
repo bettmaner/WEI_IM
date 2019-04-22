@@ -6,13 +6,21 @@ import android.net.NetworkInfo;
 
 public class NetWorkUtil {
 
-    public static boolean isNetWorkAvailable(Context context) {
+    private static Context mContext;
+
+    public static void initialize(Context context) {
+        mContext = context;
+    }
+
+    public static boolean isNetWorkAvailable() {
         ConnectivityManager manager
-                = (ConnectivityManager) context.getApplicationContext()
+                = (ConnectivityManager) mContext.getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
 
         return (networkInfo != null && networkInfo.isConnected());
-}
+    }
+
+
 }

@@ -12,33 +12,40 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.leon.lib.settingview.LSettingItem;
 
 import edu.ncu.zww.app.wei_im.MApplication;
 import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.base.BaseFragment;
-import edu.ncu.zww.app.wei_im.base.BasePresenter;
+import edu.ncu.zww.app.wei_im.customview.MyBottomDialog;
+import edu.ncu.zww.app.wei_im.mvp.contract.MineContact;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.User;
+import edu.ncu.zww.app.wei_im.mvp.presenter.MinePresenter;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class QzoneFragment extends BaseFragment {
+public class MineFragment extends BaseFragment<MineContact.MineView, MinePresenter>
+        implements MineContact.MineView {
 
     private ImageView backImage,headImg;
     private TextView headName;
     private LSettingItem nameView,accountView,quitView;
     private User user;
-    public QzoneFragment() {
+
+    public MineFragment() {
         // Required empty public constructor
 
     }
 
+    @Override
+    protected MinePresenter createPresenter() {
+        return new MinePresenter();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,14 +78,24 @@ public class QzoneFragment extends BaseFragment {
         quitView.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
             @Override
             public void click(boolean isChecked) {
-                Toast.makeText(mContext, "退出", Toast.LENGTH_SHORT).show();
+                MyBottomDialog dialog = new MyBottomDialog(mContext);
+                dialog.setClickListen(new MyBottomDialog.ItemClickInterface() {
+                    @Override
+                    public void onClickLogoff() {
+                        Toast.makeText(mContext, "退出登录", Toast.LENGTH_SHORT).show();
+                        mPresenter.logOff();
+                    }
+
+                    @Override
+                    public void onClickQuit() {
+                        Toast.makeText(mContext, "关闭应用", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dialog.show();
+                //ActivityCollector.finishAll();
+
             }
         });
-    }
-
-    @Override
-    protected BasePresenter createPresenter() {
-        return null;
     }
 
 
@@ -95,5 +112,25 @@ public class QzoneFragment extends BaseFragment {
             nameView.setRightText("ghghh");
             accountView.setRightText(String.valueOf(user.getAccount()));
         }
+    }
+
+    @Override
+    public void error(String info) {
+
+    }
+
+    @Override
+    public void showDoing(Integer type) {
+
+    }
+
+    @Override
+    public void success(String info) {
+
+    }
+
+    @Override
+    public void fail(String info) {
+
     }
 }

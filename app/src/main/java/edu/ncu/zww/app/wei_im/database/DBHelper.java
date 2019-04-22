@@ -9,15 +9,28 @@ import edu.ncu.zww.app.wei_im.utils.LogUtil;
 
 public class DBHelper extends SQLiteOpenHelper {
 
+    private static Context mContext;
+
     //数据库名
-    private static final String DBNAME = Constants.DBNAME;
+    private static String DB_NAME;
+
     //版本号
     private static final int VERSION = 1;
     //表名
     private static final String TABLENAME = "users";
 
-    public DBHelper(Context context) {
-        super(context, DBNAME, null, VERSION);
+    // 传入context
+    public static void initialize(Context context) {
+        mContext = context;
+    }
+
+    // 根据账户选择不同的db名
+    public static void selectDB(String account) {
+        DB_NAME = "IM"+account+".db";
+    }
+
+    public DBHelper() {
+        super(mContext, DB_NAME, null, VERSION);
     }
 
     /**

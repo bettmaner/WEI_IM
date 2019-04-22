@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <edu.ncu.zww.app.wei_im.mvp.view.adapter.MyRecyclerView
+        <edu.ncu.zww.app.wei_im.customview.MyRecyclerView
             android:id="@+id/friends_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

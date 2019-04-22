@@ -17,7 +17,7 @@ public class ImplUserDao implements UserDao {
     private DBHelper dbHelper;
 
     public ImplUserDao(Context context) {
-        dbHelper = new DBHelper(context);
+        dbHelper = new DBHelper();
         System.out.println("开始实例化DBHelper");
     }
 
@@ -39,7 +39,7 @@ public class ImplUserDao implements UserDao {
         Cursor c = db.rawQuery("select * from users where account = ?", new String[]{account+""});
         if (c.moveToFirst()) {
             user.setName(c.getString(c.getColumnIndex("name")));
-            user.setImg(c.getInt(c.getColumnIndex("img")));
+            user.setImg(c.getString(c.getColumnIndex("img")));
             user.setSex(c.getInt(c.getColumnIndex("sex")));
         }
         c.close();
@@ -56,7 +56,7 @@ public class ImplUserDao implements UserDao {
             User u = new User();
             u.setAccount(c.getInt(c.getColumnIndex("account")));
             u.setName(c.getString(c.getColumnIndex("name")));
-            u.setImg(c.getInt(c.getColumnIndex("img")));
+            u.setImg(c.getString(c.getColumnIndex("img")));
             u.setSex(c.getInt(c.getColumnIndex("sex")));
             u.setIsOnline(c.getInt(c.getColumnIndex("isOnline")));
             u.setGroups(c.getInt(c.getColumnIndex("groups")));

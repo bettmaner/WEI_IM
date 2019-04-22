@@ -47,7 +47,7 @@
         </LinearLayout>
 
         <!-- 结果显示区域 -->
-        <edu.ncu.zww.app.wei_im.mvp.view.adapter.MyRecyclerView
+        <edu.ncu.zww.app.wei_im.customview.MyRecyclerView
             android:id="@+id/recycler_contacts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

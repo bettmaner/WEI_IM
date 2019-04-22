@@ -43,7 +43,7 @@ public class LoginActivity
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.isNetWorkAvailable(); // 判断网络状态并处理
+//        mPresenter.isNetWorkAvailable(); // 判断网络状态并处理
     }
 
     @Override
@@ -106,6 +106,23 @@ public class LoginActivity
         }
     }
 
+
+    @Override
+    public void NetWorkAvailable() {
+//        Toast.makeText(this, "网络可用", Toast.LENGTH_SHORT).show();
+//
+//        // 开启接收信息服务GetMsgService
+//        Intent service = new Intent(LoginActivity.this, GetMsgService.class);
+//        startService(service);
+//        LogUtil.d("已完成开启服务");
+
+    }
+
+    @Override
+    public void NetWorkUnAvailable() {
+//        toast(this);
+    }
+
     @Override
     public void onCheckFormatFail(String info) {
         Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
@@ -116,28 +133,12 @@ public class LoginActivity
         // 跳转
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
-        Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
+        super.finish(); // 记住销毁该activity
     }
 
     @Override
     public void onLRFail(String errorInfo) {
          Toast.makeText(this, errorInfo, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void NetWorkAvailable() {
-        Toast.makeText(this, "网络可用", Toast.LENGTH_SHORT).show();
-
-        // 开启接收信息服务GetMsgService
-        Intent service = new Intent(LoginActivity.this, GetMsgService.class);
-        startService(service);
-        LogUtil.d("已完成开启服务");
-
-    }
-
-    @Override
-    public void NetWorkUnAvailable() {
-        toast(this);
     }
 
 

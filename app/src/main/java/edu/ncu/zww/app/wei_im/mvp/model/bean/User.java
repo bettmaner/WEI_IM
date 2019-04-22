@@ -1,6 +1,5 @@
 package edu.ncu.zww.app.wei_im.mvp.model.bean;
 
-import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
 import java.io.Serializable;
@@ -9,28 +8,22 @@ public class User extends LitePalSupport implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(nullable = false)
     private int account;  // 登录账号。唯一标识
 
-    @Column(nullable = false, defaultValue = "unknown")
     private String name;    // 昵称。不为空，默认unknown
 
-    @Column(ignore = true)
     private String email;   // qq邮箱
 
-    @Column(ignore = true)
     private String password;
 
-    private int img;    // 头像
+    private String img;    // 头像
 
     private int sex;    // 0 男性，1 女性
 
     private int isOnline; // 0 离线, 1 在线
 
-    @Column(ignore = true)
     private String ip;
 
-    @Column(ignore = true)
     private int port;
 
     private int groups;  // 哪一个分组
@@ -100,11 +93,11 @@ public class User extends LitePalSupport implements Serializable {
         this.isOnline = isOnline;
     }
 
-    public int getImg() {
+    public String getImg() {
         return img;
     }
 
-    public void setImg(int img) {
+    public void setImg(String img) {
         this.img = img;
     }
 

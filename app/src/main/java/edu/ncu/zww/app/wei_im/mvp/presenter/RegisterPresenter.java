@@ -52,7 +52,7 @@ public class RegisterPresenter extends BasePresenter<LRContract.LRView> {
     }
 
     public void isNetWorkAvailable() {
-        if (NetWorkUtil.isNetWorkAvailable((Context) getView())) {
+        if (NetWorkUtil.isNetWorkAvailable()) {
             getView().NetWorkAvailable();
         } else {
             getView().NetWorkUnAvailable();
