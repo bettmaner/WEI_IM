@@ -7,6 +7,7 @@ import com.dou361.dialogui.DialogUIUtils;
 import org.litepal.LitePal;
 
 import edu.ncu.zww.app.wei_im.client.Client;
+import edu.ncu.zww.app.wei_im.database.RealmHelper;
 import edu.ncu.zww.app.wei_im.mvp.model.Model;
 import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import edu.ncu.zww.app.wei_im.utils.NetWorkUtil;
@@ -34,6 +35,9 @@ public class MApplication extends Application {
         Realm.init(this); // 初始化realm数据库，在登录后还可更改配置选择数据库
         DialogUIUtils.init(this); // 使用弹出框插件https://github.com/lingcimi/jjdxm_dialogui
         LogUtil.d("执行了application创建");
+
+        RealmHelper.getInstance().initDB("100051");
+
     }
 
     public static MApplication getInstance() {

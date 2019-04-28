@@ -74,8 +74,8 @@ public class SharePreferenceUtil {
         return sp.getString("img", "");
     }
 
-    public void setImg(String i) {
-        editor.putString("img", i);
+    public void setImg(String img) {
+        editor.putString("img", img);
         editor.commit();
     }
 

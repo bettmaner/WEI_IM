@@ -5,7 +5,8 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:background="@color/white">
     <ImageView
         android:id="@+id/contact_icon"
         android:layout_width="48dp"
@@ -41,7 +42,18 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:padding="6dp"
+        android:minWidth="50dp"
+        android:background="@drawable/selector_item_btn"
+        android:textSize="16sp"
+        android:textColor="@color/text_black"
+        android:text=" 添 加 "/>
+    <!--<TextView
+        android:id="@+id/item_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="6dp"
         android:background="@color/colorAccent"
         android:textSize="16sp"
-        android:text=" 添 加 "/>
+        android:text=" 添 加 "/>-->
 </LinearLayout>

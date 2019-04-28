@@ -1,11 +1,7 @@
 package edu.ncu.zww.app.wei_im.mvp.presenter;
 
-import java.io.IOException;
-import java.util.List;
-
 import edu.ncu.zww.app.wei_im.base.BasePresenter;
-import edu.ncu.zww.app.wei_im.client.ClientControl;
-import edu.ncu.zww.app.wei_im.mvp.contract.MineContact;
+import edu.ncu.zww.app.wei_im.mvp.contract.MineContract;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 import edu.ncu.zww.app.wei_im.mvp.model.impl.MineModelImpl;
 import io.reactivex.Observer;
@@ -13,7 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class MinePresenter extends BasePresenter<MineContact.MineView> {
+public class MinePresenter extends BasePresenter<MineContract.MineView> {
 
     private MineModelImpl mineModel;
 

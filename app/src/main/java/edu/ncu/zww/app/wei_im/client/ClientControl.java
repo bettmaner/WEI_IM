@@ -3,6 +3,8 @@ package edu.ncu.zww.app.wei_im.client;
 import java.io.IOException;
 
 import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.Invitation;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.User;
@@ -47,20 +49,19 @@ public class ClientControl {
 //        mClient.send(t);
 //    }
 
-    public static void sendContactRequest(Integer account, Integer type) throws IOException {
-        String typeStr = type==0 ? FRIEND_REQUEST : GROUP_REQUEST;
-        TranObject t = new TranObject<User>(typeStr);
-        t.setToUser(account);
+    // 发送人或者群的邀请信息
+    public static void sendConOrGroupRequest(Invitation invitation,String tranType) throws IOException {
+        TranObject t = new TranObject<Invitation>(tranType);
+        t.setObject(invitation);
+//        t.setToUser(account);
 //        Date date = new Date();
 //        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm:ss");
 //        String sendTime = sdf.format(date);
 //        t.setSendTime(sendTime);
-        User user = BeanTransfer.filterUser(ApplicationData.getInstance().getUserInfo());
-        t.setFromUser(user.getAccount());
-        t.setObject(user); // 传入的object是自己的名字
-        t.setStatus(2); // 等待确认
         mClient.send(t);
     }
+
+
 
 //    public static void sendMessage(ChatEntity message) {
 //

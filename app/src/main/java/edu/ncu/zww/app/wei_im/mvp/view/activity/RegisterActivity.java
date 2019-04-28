@@ -1,6 +1,5 @@
 package edu.ncu.zww.app.wei_im.mvp.view.activity;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.base.BaseActivity;
 import edu.ncu.zww.app.wei_im.mvp.contract.LRContract;
 import edu.ncu.zww.app.wei_im.mvp.presenter.RegisterPresenter;
-import edu.ncu.zww.app.wei_im.test.TestInput;
 import edu.ncu.zww.app.wei_im.utils.ToolBarHelper;
 
 public class RegisterActivity

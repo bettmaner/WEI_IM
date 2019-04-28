@@ -4,14 +4,20 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import edu.ncu.zww.app.wei_im.client.ClientControl;
 import edu.ncu.zww.app.wei_im.client.HttpUtil;
+import edu.ncu.zww.app.wei_im.database.RealmHelper;
 import edu.ncu.zww.app.wei_im.mvp.contract.OperaFGContract;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
-import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.Invitation;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.StatusText;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.TestBean;
+import edu.ncu.zww.app.wei_im.utils.BeanTransfer;
 import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -19,6 +25,9 @@ import io.reactivex.ObservableOnSubscribe;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+
+import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.FRIEND_REQUEST;
+import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.GROUP_REQUEST;
 
 public class AddContactModelImpl implements OperaFGContract.AddContactModel {
 
@@ -50,30 +59,35 @@ public class AddContactModelImpl implements OperaFGContract.AddContactModel {
     }
 
     @Override
-    public Observable<TranObject> addContact(final Integer account, final Integer type) {
-        return Observable.create(new ObservableOnSubscribe<TranObject>(){
+    public Observable<String> addContact(final Contact toUser, final String info, final Integer type) {
+        return Observable.create(new ObservableOnSubscribe<String>(){
 
             @Override
-            public void subscribe(ObservableEmitter<TranObject> emitter) throws Exception {
-                ClientControl.sendContactRequest(account, type);
-                // 接收服务器返回结果
-                ApplicationData mData = ApplicationData.getInstance();
-                //这里要同步加锁，保证client获取数据操作mData时，这里需要等待
-                synchronized(mData){
-                    if (!mData.isIsReceived()) { // 当数据没更新
-                        try {
-                            mData.wait(); // 释放该锁，自己进入阻塞等待
-                        } catch(InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    TranObject result = mData.getReceivedMessage();
-                    // 取完数据将flag标志改为false，表明ApplicationData可以更新数据了
-                    mData.setIsReceived(false);
-                    // 唤醒输出线程，允许空唤醒，即没有需要被唤醒的也可以
-                    mData.notify();
-                    emitter.onNext(result); // 发射数据
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+
+                Contact fromUser = BeanTransfer.userToContact(ApplicationData.getInstance().getUserInfo());
+                Invitation invitation = new Invitation();
+                invitation.setUuid(UUID.randomUUID().toString());
+                invitation.setFromUser(fromUser);
+                invitation.setToUser(toUser);
+                invitation.setInfo(info);
+                invitation.setCreateDate(new Date());
+                invitation.setStatus(StatusText.CONTACT_WAIT);
+                invitation.setType(type);
+                if (type==0) {
+                    String tranType = FRIEND_REQUEST;
+                    ClientControl.sendConOrGroupRequest(invitation,tranType);
+                    // 保存邀请数据进数据库
+                    RealmHelper.getInstance().saveInvitation(invitation);
+//                    TestBean testBean = new TestBean();
+//                    testBean.setMid("3232323");
+//                    testBean.setName("阿萨斯多");
+//                    RealmHelper.getInstance().saveTestBean(testBean);
+                } else {
+                    String tranType = GROUP_REQUEST;
+                    ClientControl.sendConOrGroupRequest(invitation,tranType);
                 }
+                emitter.onNext("发送成功");
                 emitter.onComplete();
             }
 

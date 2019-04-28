@@ -1,15 +1,20 @@
 package edu.ncu.zww.app.wei_im.mvp.view.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.dou361.dialogui.DialogUIUtils;
+import com.dou361.dialogui.listener.DialogUIListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +23,13 @@ import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.base.BaseActivity;
 import edu.ncu.zww.app.wei_im.mvp.contract.OperaFGContract;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.Invitation;
 import edu.ncu.zww.app.wei_im.mvp.presenter.AddContactPresenter;
 import edu.ncu.zww.app.wei_im.mvp.view.adapter.AddContactAdapter;
 import edu.ncu.zww.app.wei_im.customview.MyRecyclerView;
 import edu.ncu.zww.app.wei_im.utils.ToolBarHelper;
+
+import static com.dou361.dialogui.DialogUIUtils.showToast;
 
 /* 联系人添加界面 */
 public class AddContactActivity
@@ -65,6 +73,17 @@ public class AddContactActivity
     @Override
     protected void handleToolBar(ToolBarHelper toolBarHelper) {
         toolBarHelper.setTitle("添加联系人");
+        toolBarHelper.setBackIcon();
+    }
+
+    // toolbar返回图标点击事件
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -151,7 +170,7 @@ public class AddContactActivity
 
                 switch (vType) {
                     case "iBtn":
-                        mPresenter.preAddContact(contact.getAccount(),type); // 添加联系人
+                        mPresenter.preAddContact(contact,"添加好友呗",type); // 添加联系人
                         break;
                     case "item":
                         System.out.println("item。位置："+position+"，name:"+contact.getName());
@@ -182,12 +201,20 @@ public class AddContactActivity
     // 添加联系人成功
     @Override
     public void onAddSuccess(String info) {
-        System.out.println("联系人添加成功，"+info);
+        DialogUIUtils.showAlert(this, "标题", info, "", "", "确定", "", true, true, true, new DialogUIListener() {
+            @Override
+            public void onPositive() {
+            }
+
+            @Override
+            public void onNegative() {
+            }
+        }).show();
     }
 
     // 添加联系人失败
     @Override
-    public void onAddFail(String info) {
+    public void onFail(String info) {
         System.out.println("联系人添加失败，"+info);
         Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
     }

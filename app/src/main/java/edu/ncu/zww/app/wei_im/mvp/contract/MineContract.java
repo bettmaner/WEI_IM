@@ -13,7 +13,7 @@ import io.reactivex.Observable;
  * 规范定义，定义功能和模板。主要是定义回调类
  *
  */
-public class MineContact {
+public class MineContract {
 
     /**
      *  view

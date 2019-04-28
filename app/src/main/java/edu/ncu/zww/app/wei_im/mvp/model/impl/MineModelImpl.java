@@ -1,12 +1,12 @@
 package edu.ncu.zww.app.wei_im.mvp.model.impl;
 
 import edu.ncu.zww.app.wei_im.client.ClientControl;
-import edu.ncu.zww.app.wei_im.mvp.contract.MineContact;
+import edu.ncu.zww.app.wei_im.mvp.contract.MineContract;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 
-public class MineModelImpl implements MineContact.MineModel {
+public class MineModelImpl implements MineContract.MineModel {
 
     @Override
     public Observable<String> logOff() {

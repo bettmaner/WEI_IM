@@ -19,7 +19,7 @@ import edu.ncu.zww.app.wei_im.MApplication;
 import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.base.BaseFragment;
 import edu.ncu.zww.app.wei_im.customview.MyBottomDialog;
-import edu.ncu.zww.app.wei_im.mvp.contract.MineContact;
+import edu.ncu.zww.app.wei_im.mvp.contract.MineContract;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.User;
 import edu.ncu.zww.app.wei_im.mvp.presenter.MinePresenter;
@@ -29,8 +29,8 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MineFragment extends BaseFragment<MineContact.MineView, MinePresenter>
-        implements MineContact.MineView {
+public class MineFragment extends BaseFragment<MineContract.MineView, MinePresenter>
+        implements MineContract.MineView {
 
     private ImageView backImage,headImg;
     private TextView headName;
@@ -73,6 +73,7 @@ public class MineFragment extends BaseFragment<MineContact.MineView, MinePresent
             @Override
             public void click(boolean isChecked) {
                 Toast.makeText(mContext, "电脑呢", Toast.LENGTH_SHORT).show();
+
             }
         });
         quitView.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {

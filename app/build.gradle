@@ -40,7 +40,7 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:2.0.1'
     implementation 'com.gjiazhe:wavesidebar:1.0.2'
     implementation files('libs/pinyin4j-2.5.0.jar')
-    implementation ('com.dou361.dialogui:jjdxm-dialogui:1.0.3'){
+    implementation('com.dou361.dialogui:jjdxm-dialogui:1.0.3') {
         exclude group: 'com.android.support', module: 'support-v7'
         exclude group: 'com.android.support', module: 'design'
     }

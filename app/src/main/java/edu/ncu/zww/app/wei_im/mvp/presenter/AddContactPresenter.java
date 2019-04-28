@@ -6,8 +6,8 @@ import edu.ncu.zww.app.wei_im.base.BasePresenter;
 import edu.ncu.zww.app.wei_im.client.Client;
 import edu.ncu.zww.app.wei_im.mvp.contract.OperaFGContract;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
-import edu.ncu.zww.app.wei_im.mvp.model.bean.User;
 import edu.ncu.zww.app.wei_im.mvp.model.impl.AddContactModelImpl;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -43,7 +43,7 @@ public class AddContactPresenter extends BasePresenter<OperaFGContract.AddContac
 
                     @Override
                     public void onError(Throwable e) {
-                        getView().onAddFail("服务器连接异常");
+                        getView().onError("服务器连接异常");
                     }
 
                     @Override
@@ -53,44 +53,46 @@ public class AddContactPresenter extends BasePresenter<OperaFGContract.AddContac
     }
 
     // 添加联系人之前的验证
-    public void preAddContact(Integer account,Integer type) {
+    public void preAddContact(Contact contact,String info, Integer type) {
         if (!Client.getInstance().isConnected()) {
             getView().onError("未连接服务器");
             return;
         }
         // 加人的情况
         ApplicationData appData = ApplicationData.getInstance();
+        Integer account = contact.getAccount();
         if (type == 0) {
             if (account == appData.getUserInfo().getAccount()){
-                getView().onAddFail("不能添加自己");
+                getView().onFail("不能添加自己");
                 return;
             } else if (appData.hasFriend(account)) {
-                getView().onAddFail("已经有该好友了");
+                getView().onFail("已经有该好友了");
                 return;
             }
         }
         if (type==1 && appData.hasGroup(account)) {
-            getView().onAddFail("已经加过该群了");
+            getView().onFail("已经加过该群了");
             return;
         }
         // 通过前面验证后开始添加
-        addContact(account,type);
+        addContact(contact,info,type);
     }
 
     // 发送联系人添加请求
-    public void addContact(Integer account,Integer type) {
-        mAddContactModel.addContact(account, type)
+    public void addContact(Contact contact,String info, Integer type) {
+
+        mAddContactModel.addContact(contact,info, type)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<TranObject>() {
+                .subscribe(new Observer<String>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(TranObject tranObject) {
-
+                    public void onNext(String info) {
+                        getView().onAddSuccess("好友申请已发送，等待好友确认");
                     }
 
                     @Override
@@ -100,7 +102,6 @@ public class AddContactPresenter extends BasePresenter<OperaFGContract.AddContac
 
                     @Override
                     public void onComplete() {
-
                     }
                 });
     }

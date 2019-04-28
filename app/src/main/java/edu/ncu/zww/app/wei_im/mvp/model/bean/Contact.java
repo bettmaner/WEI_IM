@@ -1,9 +1,11 @@
 package edu.ncu.zww.app.wei_im.mvp.model.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import edu.ncu.zww.app.wei_im.utils.PinYinUtils;
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
@@ -14,7 +16,10 @@ import io.realm.annotations.Required;
  * 该类还作为本地数据库联系人表实体类，在/main/assets/litepal注册映射模型
  * 作为联系人表，存放好友、非好友（群里的）
  * */
-public class Contact extends RealmObject {
+public class Contact extends RealmObject implements Serializable {
+
+    @Ignore
+    private static final long serialVersionUID = 1L;
 
     @PrimaryKey
     private Integer account; // 账号。唯一标识

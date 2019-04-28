@@ -1,6 +1,7 @@
 package edu.ncu.zww.app.wei_im.mvp.view.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,14 +18,14 @@ import android.widget.Toast;
 import com.gjiazhe.wavesidebar.WaveSideBar;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.base.BaseFragment;
-import edu.ncu.zww.app.wei_im.base.BasePresenter;
+import edu.ncu.zww.app.wei_im.mvp.contract.ContactContract;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
+import edu.ncu.zww.app.wei_im.mvp.presenter.ContactPresenter;
+import edu.ncu.zww.app.wei_im.mvp.view.activity.NewContactActivity;
 import edu.ncu.zww.app.wei_im.mvp.view.adapter.ContactAdapter;
 import edu.ncu.zww.app.wei_im.customview.MyRecyclerView;
 import edu.ncu.zww.app.wei_im.utils.PinYinUtils;
@@ -32,18 +33,20 @@ import edu.ncu.zww.app.wei_im.utils.PinYinUtils;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ContactsFragment extends BaseFragment {
+public class ContactsFragment extends BaseFragment<ContactContract.ContactView,ContactPresenter>
+        implements ContactContract.ContactView {
     private WaveSideBar waveSideBar;
     private MyRecyclerView recyclerView;
     private View mHeaderView; // recycler头布局
     private View mEmptyView;    // recycler空布局
     private LinearLayout newFriendsView, groupView; // 头布局的两个item
-
+    private ContactAdapter adapter;
     private List<Contact> friends;
 
     public ContactsFragment() {
         // Required empty public constructor
-        initData();
+//        friends = new ArrayList<Contact>();
+//        initData();
     }
 
     @Override
@@ -71,6 +74,7 @@ public class ContactsFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         initRecyclerView();
         initWaveSideBar();
+        mPresenter.queryFriends();
     }
 
     private void initWaveSideBar() {
@@ -98,23 +102,25 @@ public class ContactsFragment extends BaseFragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator()); // 平滑移动
         // 添加分割线
         recyclerView.addItemDecoration(new DividerItemDecoration(mContext,DividerItemDecoration.VERTICAL));
-        ContactAdapter adapter = new ContactAdapter(friends);
         recyclerView.setHeaderView(mHeaderView); // 设置头布局
         recyclerView.setEmptyView(mEmptyView); // 设置空布局
-        recyclerView.setAdapter(adapter); // 配置adapter
-        // 普通item点击事件
-        adapter.setOnItemClickListener(new ContactAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                String name = friends.get(position).getName();
-                String pinyin = PinYinUtils.getPinyin(name);
-                Toast.makeText(mContext, pinyin, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        // 配置adapter
+//        adapter = new ContactAdapter(friends);
+//        recyclerView.setAdapter(adapter);
+//        // 普通item点击事件
+//        adapter.setOnItemClickListener(new ContactAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                String name = friends.get(position).getName();
+//                String pinyin = PinYinUtils.getPinyin(name);
+//                Toast.makeText(mContext, pinyin, Toast.LENGTH_SHORT).show();
+//            }
+//        });
         // 头布局的新的好友点击事件
         newFriendsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(mContext,NewContactActivity.class));
                 Toast.makeText(mContext, "跳转到新的好友界面", Toast.LENGTH_SHORT).show();
             }
         });
@@ -129,8 +135,8 @@ public class ContactsFragment extends BaseFragment {
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected ContactPresenter createPresenter() {
+        return new ContactPresenter();
     }
 
     private void initData() {
@@ -162,21 +168,54 @@ public class ContactsFragment extends BaseFragment {
 //        friends.add(new Contact( "太上老君"));
 
 
-        Collections.sort(friends, new Comparator<Contact>() {
-            @Override
-            public int compare(Contact c1, Contact c2) {
-                return c1.getPinyin().compareTo(c2.getPinyin());
-            }
-        });
-        List<Contact> notLetter = new ArrayList<>();
-        List<Contact> copyContacts = new ArrayList<>(friends);
-        for (Contact contact : copyContacts) {
-            if (contact.getLetter().equals("#")) {
-                notLetter.add(contact);
-                friends.remove(contact);
-            }
+//        Collections.sort(friends, new Comparator<Contact>() {
+//            @Override
+//            public int compare(Contact c1, Contact c2) {
+//                return c1.getPinyin().compareTo(c2.getPinyin());
+//            }
+//        });
+//        List<Contact> notLetter = new ArrayList<>();
+//        List<Contact> copyContacts = new ArrayList<>(friends);
+//        for (Contact contact : copyContacts) {
+//            if (contact.getLetter().equals("#")) {
+//                notLetter.add(contact);
+//                friends.remove(contact);
+//            }
+//        }
+//        friends.addAll(notLetter);
+//        copyContacts.clear();
+    }
+
+    @Override
+    public void onQuerySuccess(List friendlist) {
+        if (friends == null) {
+            friends = new ArrayList<>();
+        } else {
+            friends.clear();
         }
-        friends.addAll(notLetter);
-        copyContacts.clear();
+        friends.addAll(friendlist);
+
+        if (adapter==null) {
+            // 配置adapter
+            adapter = new ContactAdapter(friends);
+            recyclerView.setAdapter(adapter);
+            // 普通item点击事件
+            adapter.setOnItemClickListener(new ContactAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    String name = friends.get(position).getName();
+                    String pinyin = PinYinUtils.getPinyin(name);
+                    Toast.makeText(mContext, pinyin, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        //adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onError(String info) {
+
     }
 }

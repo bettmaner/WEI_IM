@@ -12,14 +12,14 @@ import edu.ncu.zww.app.wei_im.utils.SharePreferenceUtil;
 public class ApplicationData {
     private static ApplicationData mInitData; // 该类的单例实例
 //    private T currentModel;
-    private static SharePreferenceUtil spUtil;
+    private SharePreferenceUtil spUtil;
     private RealmHelper mRealmHelper; // realm数据库操作类
     private User mUser; // 个人数据
     private boolean mIsReceived ;   // 是否已接收完数据
     private TranObject mReceivedMessage;    // 服务器最新传来的信息
 //    private TranObject<User> registerResult; // 注册返回的数据
     private List<Contact> mFriendList; // 好友数据
-    private List<Group> mGroupList; // 群数据
+    private List<GroupInfo> mGroupInfoList; // 群数据
 //    private Map<Integer, Bitmap> mFriendPhotoMap;
 //    private Handler messageHandler;
 //    private Handler chatMessageHandler;
@@ -42,12 +42,14 @@ public class ApplicationData {
     public static ApplicationData getInstance() {
         if (mInitData == null) {
             mInitData = new ApplicationData();
-            spUtil = SharePreferenceUtil.getInstance();
         }
         return mInitData;
     }
 
-    private ApplicationData() {}
+    private ApplicationData() {
+        spUtil = SharePreferenceUtil.getInstance();
+        mRealmHelper = RealmHelper.getInstance();
+    }
 
     // 初始化本对象的所有数据
     public void initData() {
@@ -88,8 +90,8 @@ public class ApplicationData {
             List<User> list = (List<User>) tranObject.getObject();
             // a.设置个人信息
             this.mUser = list.get(0);
+            saveUserInfo(this.mUser);
             // b.选择对应数据库
-            mRealmHelper = RealmHelper.getInstance();
             mRealmHelper.initDB(String.valueOf(mUser.getAccount()));
             // c.设置好友信息,并保存
             this.mFriendList = BeanTransfer.UsersToFriends(list.subList(1,list.size()));
@@ -148,6 +150,16 @@ public class ApplicationData {
         return mReceivedMessage;
     }
 
+    public void saveUserInfo(User user) {
+        SharePreferenceUtil util = SharePreferenceUtil.getInstance();
+        util.setId(user.getAccount());
+        util.setPassword(user.getPassword());
+        util.setEmail(user.getEmail());
+        util.setName(user.getName());
+        util.setImg(user.getImg());
+        util.setSex(user.getSex());
+        LogUtil.d(this+"登录后保存个人信息");
+    }
 
     public User getUserInfo() {
         if (mUser!=null) {
@@ -166,15 +178,19 @@ public class ApplicationData {
 
     public List<Contact> getFriendList() {
         if (mFriendList == null) {
-//            mFriendList = m
+            mFriendList = mRealmHelper.getFriends();
         }
         return mFriendList;
     }
 
-    public List<Group> getGroupList() {
-        return mGroupList;
+    public List<GroupInfo> getGroupList() {
+        return mGroupInfoList;
     }
 
+
+    public void saveInvitation(Invitation invitation) {
+        mRealmHelper.saveInvitation(invitation);
+    }
     //    public List<User> getFriendSearched() {
 //        return mFriendSearched;
 //    }
@@ -300,6 +316,12 @@ public class ApplicationData {
 //        this.friendListHandler = handler;
 //    }
 
+
+    public List<Invitation> getInvitationList() {
+        List<Invitation> invitationList = mRealmHelper.getInvitationList();
+        return invitationList;
+    }
+
     /** 其它帮助类方法 */
 
     // 是否有该好友
@@ -317,9 +339,9 @@ public class ApplicationData {
     /** 需改善 **/
     public boolean hasGroup(Integer groupId) {
         // 待完善
-        List<Group> groupList = getGroupList();
-        for(Group group : groupList) {
-            if(groupId == group.getGid())
+        List<GroupInfo> groupInfoList = getGroupList();
+        for(GroupInfo groupInfo : groupInfoList) {
+            if(groupId == groupInfo.getGid())
                 return true;
         }
         return false;
