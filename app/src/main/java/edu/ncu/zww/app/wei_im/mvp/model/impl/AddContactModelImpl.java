@@ -79,10 +79,6 @@ public class AddContactModelImpl implements OperaFGContract.AddContactModel {
                     ClientControl.sendConOrGroupRequest(invitation,tranType);
                     // 保存邀请数据进数据库
                     RealmHelper.getInstance().saveInvitation(invitation);
-//                    TestBean testBean = new TestBean();
-//                    testBean.setMid("3232323");
-//                    testBean.setName("阿萨斯多");
-//                    RealmHelper.getInstance().saveTestBean(testBean);
                 } else {
                     String tranType = GROUP_REQUEST;
                     ClientControl.sendConOrGroupRequest(invitation,tranType);

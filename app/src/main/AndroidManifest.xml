@@ -23,19 +23,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"> <!-- 这行配置网络，视情况配置 -->
         <activity android:name=".mvp.view.activity.MainActivity">
-             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
+             <!--<intent-filter>-->
+                 <!--<action android:name="android.intent.action.MAIN" />-->
 
 
-                 <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
+             <!--</intent-filter>-->
         </activity>
         <activity android:name=".mvp.view.activity.SplashActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".mvp.view.activity.LoginActivity" />
 

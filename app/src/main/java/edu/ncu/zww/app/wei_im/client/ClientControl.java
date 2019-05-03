@@ -53,11 +53,6 @@ public class ClientControl {
     public static void sendConOrGroupRequest(Invitation invitation,String tranType) throws IOException {
         TranObject t = new TranObject<Invitation>(tranType);
         t.setObject(invitation);
-//        t.setToUser(account);
-//        Date date = new Date();
-//        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm:ss");
-//        String sendTime = sdf.format(date);
-//        t.setSendTime(sendTime);
         mClient.send(t);
     }
 
