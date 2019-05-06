@@ -68,6 +68,9 @@ public class AddContactPresenter extends BasePresenter<OperaFGContract.AddContac
             } else if (appData.hasFriend(account)) {
                 getView().onFail("已经有该好友了");
                 return;
+            } else if (mAddContactModel.hasInvitation(account)) {
+                getView().onFail("已经有该邀请了");
+                return;
             }
         }
         if (type==1 && appData.hasGroup(account)) {
@@ -106,4 +109,7 @@ public class AddContactPresenter extends BasePresenter<OperaFGContract.AddContac
                 });
     }
 
+    public void closeRealm() {
+        mAddContactModel.closeRealm();
+    }
 }

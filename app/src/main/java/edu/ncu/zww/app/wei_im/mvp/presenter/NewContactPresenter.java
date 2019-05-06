@@ -1,20 +1,15 @@
 package edu.ncu.zww.app.wei_im.mvp.presenter;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import edu.ncu.zww.app.wei_im.base.BasePresenter;
 import edu.ncu.zww.app.wei_im.mvp.contract.OperaFGContract;
-import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Invitation;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.ResultBean;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.StatusText;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 import edu.ncu.zww.app.wei_im.mvp.model.impl.NewContactModelImpl;
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -39,8 +34,9 @@ public class NewContactPresenter extends BasePresenter<OperaFGContract.NewContac
 
     public void accessInvitation(final Invitation invitation) {
 
-//        invitation.setStatus(StatusText.CONTACT_AGREE);
-        invitation.setStatus(StatusText.CONTACT_WAIT);
+        // 邀请状态切换成已添加（但并未保存，待返回成功后才保存）
+        invitation.setStatus(StatusText.CONTACT_AGREE);
+//        invitation.setStatus(StatusText.CONTACT_WAIT);
         mNewContactModel.accessInvitation(invitation)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

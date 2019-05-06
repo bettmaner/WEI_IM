@@ -4,14 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
-    >
+    android:background="@color/white">
     <!-- index 好友上面的字母，代码判断是否显示并赋值 -->
     <TextView
         android:id="@+id/tv_index"
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        android:background="#bbb"
+        android:background="@color/windowBackground"
         android:gravity="center_vertical"
         android:paddingLeft="12dp"
         android:textSize="12sp"
@@ -21,7 +20,8 @@
     <!-- 每个好友的列表 -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp" >
+        android:layout_height="60dp"
+        android:background="@drawable/selector_item">
 
         <ImageView
             android:id="@+id/iv_avatar"

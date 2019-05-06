@@ -45,9 +45,11 @@ public class Contact extends RealmObject implements Serializable {
 
     public Contact() {}
 
+    // 如果是好友使用这个构造参数
     public Contact(String name, Integer isContact) {
         this.name = name;
         this.isContact = isContact;
+        // 如果是好友
         if (isContact==1) {
             this.pinyin = PinYinUtils.getPinyin(name);
             this.letter = PinYinUtils.getLetter(pinyin);

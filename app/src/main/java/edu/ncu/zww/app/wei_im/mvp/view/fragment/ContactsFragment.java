@@ -9,9 +9,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,12 +45,6 @@ public class ContactsFragment extends BaseFragment<ContactContract.ContactView,C
     private ContactAdapter adapter;
     private List<Contact> friends;
 
-    public ContactsFragment() {
-        // Required empty public constructor
-//        friends = new ArrayList<Contact>();
-//        initData();
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,6 +70,12 @@ public class ContactsFragment extends BaseFragment<ContactContract.ContactView,C
         super.onActivityCreated(savedInstanceState);
         initRecyclerView();
         initWaveSideBar();
+//        mPresenter.queryFriends();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         mPresenter.queryFriends();
     }
 
@@ -204,8 +206,33 @@ public class ContactsFragment extends BaseFragment<ContactContract.ContactView,C
                 @Override
                 public void onItemClick(View view, int position) {
                     String name = friends.get(position).getName();
-                    String pinyin = PinYinUtils.getPinyin(name);
-                    Toast.makeText(mContext, pinyin, Toast.LENGTH_SHORT).show();
+                    final String pinyin = PinYinUtils.getPinyin(name);
+//                    Toast.makeText(mContext, pinyin, Toast.LENGTH_SHORT).show();
+
+                    PopupMenu popupMenu = new PopupMenu(mContext,view);
+                    popupMenu.getMenuInflater().inflate(R.menu.contact_item_popup_menu, popupMenu.getMenu());
+
+                    // 弹出式菜单的菜单项注册点击事件
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.to_message:
+                                    Toast.makeText(mContext, "跳转发消息", Toast.LENGTH_SHORT).show();
+//                                    System.out.println("菜单删除键");
+//                                    fruitList.remove(i);
+//                                    adapter.notifyItemRemoved(i);
+////                                adapter.notifyDataSetChanged();
+                                    break;
+                                case R.id.delete_contact:
+                                    Toast.makeText(mContext, "删除联系人", Toast.LENGTH_SHORT).show();
+                                    break;
+                                default:
+                            }
+                            return false;
+                        }
+                    });
+                    popupMenu.show();
                 }
             });
         }

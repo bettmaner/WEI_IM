@@ -8,7 +8,7 @@ import edu.ncu.zww.app.wei_im.R;
 public class MyBottomDialog extends BottomDialogBase implements
         View.OnClickListener{
 
-    private ItemClickInterface clickInterface;
+    private QuitItemClickInterface mQuitInterface;
 
     public MyBottomDialog(Context context) {
         super(context);
@@ -26,29 +26,30 @@ public class MyBottomDialog extends BottomDialogBase implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.logoff:
-                if (clickInterface!=null) {
-                    clickInterface.onClickLogoff();
+                if (mQuitInterface!=null) {
+                    mQuitInterface.onClickLogoff();
                 }
                 break;
             case R.id.close_app:
-                if (clickInterface!=null) {
-                    clickInterface.onClickQuit();
+                if (mQuitInterface!=null) {
+                    mQuitInterface.onClickQuit();
                 }
                 break;
             default:
         }
-        dismiss();
+        dismiss(); // 关闭弹框
     }
 
 
     // 传入接口监听
-    public void setClickListen(ItemClickInterface clickInterface) {
-        this.clickInterface = clickInterface;
-
+    public void setQuitClickListen(QuitItemClickInterface clickInterface) {
+        this.mQuitInterface = clickInterface;
     }
 
-    public interface ItemClickInterface{
+
+    public interface QuitItemClickInterface{
         void onClickLogoff(); // 点击退出登录
         void onClickQuit(); // 点击关闭IM
     }
+
 }

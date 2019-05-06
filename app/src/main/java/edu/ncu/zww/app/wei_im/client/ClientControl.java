@@ -52,6 +52,8 @@ public class ClientControl {
     // 发送人或者群的邀请信息
     public static void sendConOrGroupRequest(Invitation invitation,String tranType) throws IOException {
         TranObject t = new TranObject<Invitation>(tranType);
+        t.setFromUser(ApplicationData.getInstance().getUserInfo().getAccount());
+        t.setToUser(invitation.getAccount());
         t.setObject(invitation);
         mClient.send(t);
     }

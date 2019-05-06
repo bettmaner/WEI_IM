@@ -16,7 +16,7 @@ import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Invitation;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.StatusText;
-import edu.ncu.zww.app.wei_im.mvp.model.bean.TestBean;
+import edu.ncu.zww.app.wei_im.mvp.model.db.InvitationDao;
 import edu.ncu.zww.app.wei_im.utils.BeanTransfer;
 import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import io.reactivex.Observable;
@@ -30,6 +30,17 @@ import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.FRIEND_REQUES
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.GROUP_REQUEST;
 
 public class AddContactModelImpl implements OperaFGContract.AddContactModel {
+
+    private InvitationDao invitationDao;
+
+    public AddContactModelImpl() {
+        invitationDao = new InvitationDao();
+    }
+
+    // 是否已存在该邀请
+    public boolean hasInvitation(Integer account) {
+        return invitationDao.hasInvitation(account);
+    }
 
     public Observable<List> queryContacts(final String account, final Integer type){
         return Observable.create(new ObservableOnSubscribe<List>(){
@@ -68,12 +79,12 @@ public class AddContactModelImpl implements OperaFGContract.AddContactModel {
                 Contact fromUser = BeanTransfer.userToContact(ApplicationData.getInstance().getUserInfo());
                 Invitation invitation = new Invitation();
                 invitation.setUuid(UUID.randomUUID().toString());
-                invitation.setFromUser(fromUser);
                 invitation.setToUser(toUser);
                 invitation.setInfo(info);
                 invitation.setCreateDate(new Date());
-                invitation.setStatus(StatusText.CONTACT_WAIT);
                 invitation.setType(type);
+                invitation.setStatus(StatusText.CONTACT_WAIT);
+
                 if (type==0) {
                     String tranType = FRIEND_REQUEST;
                     ClientControl.sendConOrGroupRequest(invitation,tranType);
@@ -88,6 +99,10 @@ public class AddContactModelImpl implements OperaFGContract.AddContactModel {
             }
 
         });
+    }
+
+    public void closeRealm() {
+        invitationDao.closeRealm();
     }
 
 }

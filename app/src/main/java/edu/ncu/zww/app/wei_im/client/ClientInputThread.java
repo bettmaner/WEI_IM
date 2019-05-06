@@ -9,6 +9,7 @@ import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import edu.ncu.zww.app.wei_im.utils.MyObjectInputStream;
 
+import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.FRIEND_REQUEST;
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.LOGIN;
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.MESSAGE;
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.REGISTER;
@@ -61,7 +62,7 @@ public class ClientInputThread extends Thread {
                 ApplicationData mData = ApplicationData.getInstance();
                 // 以mData为锁
                 synchronized(mData){
-                    // ismIsReceived为真表示有线程在取值（，所以应该先等待
+                    // ismIsReceived为真表示有线程在取值，所以应该先等待
                     if(mData.isIsReceived()){
                         try{
                             mData.wait();
@@ -80,9 +81,20 @@ public class ClientInputThread extends Thread {
 //                        System.out.println("收到朋友查找结果");
 //                        SearchFriendActivity.messageArrived(resultData);
 //                        break;
-//                    case FRIEND_REQUEST:
-//                        ApplicationData.getInstance().friendRequestArrived(resultData);
-//                        break;
+                        case FRIEND_REQUEST:
+                            mData.dealFriendRequest(resultData);
+                            /**
+                             *   判断该请求是别人发过来的还是服务器响应自己的操作
+                             *  属于前者则需要messageListener转到service显示通知栏提醒
+                             */
+                            int userAccount = ApplicationData.getInstance().getUserInfo().getAccount();
+                            // 如果toUser是自己，则属于后者情况
+                            if (resultData.getToUser()==userAccount) {
+                                System.out.println("邀请转交给service显示通知栏");
+                                messageListener.Message(resultData); // 转到GetMsgService，负责显示通知
+                            }
+
+                            break;
                         case MESSAGE:
 //                        ApplicationData.getInstance().messageArrived(resultData);
 

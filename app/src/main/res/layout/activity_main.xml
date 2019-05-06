@@ -14,8 +14,7 @@
         android:layout_above="@id/tab_bar_line"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/windowBackground" />
+        android:layout_weight="1" />
 
     <!--底部导航栏上方分割线-->
     <View

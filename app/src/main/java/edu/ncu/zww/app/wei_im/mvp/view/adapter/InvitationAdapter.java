@@ -69,7 +69,9 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Vi
         viewHolder.name.setText(invitation.getName());
         viewHolder.content.setText(invitation.getInfo());
         viewHolder.itemBtn.setText(invitation.getStatus());
-        if (!StatusText.CONTACT_SELECT.equals(invitation.getInfo())) {
+        if (StatusText.CONTACT_SELECT.equals(invitation.getStatus())) {
+            viewHolder.itemBtn.setEnabled(true);
+        } else {
             viewHolder.itemBtn.setEnabled(false);
         }
 

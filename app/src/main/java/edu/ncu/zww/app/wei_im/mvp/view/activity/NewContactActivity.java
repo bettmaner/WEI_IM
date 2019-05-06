@@ -117,7 +117,6 @@ public class NewContactActivity
 
                 switch (vType) {
                     case "iBtn":
-                        //mPresenter.preAddContact(contact,"添加好友呗",type); // 添加联系人
                         // 能点击只有“接受”状态
                         Toast.makeText(NewContactActivity.this, "button"+invitation.getName(), Toast.LENGTH_SHORT).show();
                         mPresenter.accessInvitation(invitation);

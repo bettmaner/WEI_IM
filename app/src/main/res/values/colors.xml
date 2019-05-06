@@ -3,7 +3,7 @@
     <color name="colorPrimary">#00BAE2</color>
     <color name="colorPrimaryDark">#007AE2</color>
     <!--<color name="windowBackground">#F5F6F7</color>-->
-    <color name="windowBackground">#DDD</color>
+    <color name="windowBackground">#E6E6E6</color>
     <color name="colorAccent">#00B9FF</color>
 
     <color name="white">#FFFFFF</color>

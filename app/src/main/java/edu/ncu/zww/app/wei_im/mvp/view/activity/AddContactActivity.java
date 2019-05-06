@@ -216,12 +216,18 @@ public class AddContactActivity
     @Override
     public void onFail(String info) {
         System.out.println("联系人添加失败，"+info);
-        Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
+        DialogUIUtils.showToastTopLong(info);
     }
 
     // 异常
     @Override
     public void onError(String info) {
         Toast.makeText(this, info, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.closeRealm();
     }
 }

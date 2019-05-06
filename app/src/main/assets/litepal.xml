@@ -32,7 +32,7 @@
     	</list>
     -->
     <list>
-        <mapping class="edu.ncu.zww.app.wei_im.mvp.model.bean.User"/>
+        <mapping class="edu.ncu.zww.app.wei_im.mvp.model.bean.Contact"/>
     </list>
 
     <!--

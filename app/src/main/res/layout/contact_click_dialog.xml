@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/to_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:textSize="17sp"
+        android:drawableLeft="@drawable/icon_logoff"
+        android:drawablePadding="12dp"
+        android:text="@string/to_message"/>
+    <TextView
+        android:id="@+id/delete_contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:textSize="17sp"
+        android:drawableLeft="@drawable/icon_quit"
+        android:drawablePadding="12dp"
+        android:text="@string/delete_contact"/>
+
+</LinearLayout>

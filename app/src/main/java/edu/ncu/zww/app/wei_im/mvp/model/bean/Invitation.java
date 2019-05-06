@@ -15,9 +15,6 @@ public class Invitation extends RealmObject implements Serializable {
     @PrimaryKey
     private String uuid;
 
-    @Ignore
-    private Contact fromUser; // 发送者信息,自己的信息
-
     private int account; // 接受者账号
 
     private String name; // 接受者姓名
@@ -26,19 +23,11 @@ public class Invitation extends RealmObject implements Serializable {
 
     private String info;
 
-    private int type; // 邀请类型，0人1群
-
     private Date createDate; // 创建时间
 
+    private int type; // 邀请类型，0人1群
+
     private String status; // 邀请状态
-
-    public Contact getFromUser() {
-        return fromUser;
-    }
-
-    public void setFromUser(Contact fromUser) {
-        this.fromUser = fromUser;
-    }
 
     public void setToUser(Contact toUser) {
         this.account = toUser.getAccount();
@@ -109,13 +98,13 @@ public class Invitation extends RealmObject implements Serializable {
     @Override
     public String toString() {
         return "Invitation{" +
-                "fromUser=" + fromUser +
-                ", account='" + account + '\'' +
+                "uuid='" + uuid + '\'' +
+                ", account=" + account +
                 ", name='" + name + '\'' +
                 ", img='" + img + '\'' +
                 ", info='" + info + '\'' +
-                ", type=" + type +
                 ", createDate=" + createDate +
+                ", type=" + type +
                 ", status='" + status + '\'' +
                 '}';
     }

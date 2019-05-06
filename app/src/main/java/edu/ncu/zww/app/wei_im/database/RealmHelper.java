@@ -38,9 +38,21 @@ public class RealmHelper {
         System.out.println("实例realm在线程"+Thread.currentThread().getName());
     }
 
-
     // 保存联系人
-    public void saveContacts(final List<Contact> contacts) {
+    public void saveContact(final Contact contact) {
+        System.out.println("保存realm"+Thread.currentThread().getName());
+        Realm mRealm = Realm.getDefaultInstance();
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(contact);//传入对象
+            }
+        });
+        mRealm.close();
+    }
+
+    // 保存联系人列表
+    public void saveContactList(final List<Contact> contacts) {
         System.out.println("保存realm"+Thread.currentThread().getName());
         Realm mRealm = Realm.getDefaultInstance();
         mRealm.executeTransaction(new Realm.Transaction() {
@@ -51,6 +63,8 @@ public class RealmHelper {
         });
         mRealm.close();
     }
+
+
 
     public List<Contact> getFriends() {
         Realm mRealm = Realm.getDefaultInstance();

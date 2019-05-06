@@ -80,7 +80,7 @@ public class MineFragment extends BaseFragment<MineContract.MineView, MinePresen
             @Override
             public void click(boolean isChecked) {
                 MyBottomDialog dialog = new MyBottomDialog(mContext);
-                dialog.setClickListen(new MyBottomDialog.ItemClickInterface() {
+                dialog.setQuitClickListen(new MyBottomDialog.QuitItemClickInterface() {
                     @Override
                     public void onClickLogoff() {
                         Toast.makeText(mContext, "退出登录", Toast.LENGTH_SHORT).show();

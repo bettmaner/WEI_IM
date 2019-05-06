@@ -9,6 +9,7 @@ import edu.ncu.zww.app.wei_im.utils.BeanTransfer;
 import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import edu.ncu.zww.app.wei_im.utils.SharePreferenceUtil;
 
+
 public class ApplicationData {
     private static ApplicationData mInitData; // 该类的单例实例
 //    private T currentModel;
@@ -95,13 +96,31 @@ public class ApplicationData {
             mRealmHelper.initDB(String.valueOf(mUser.getAccount()));
             // c.设置好友信息,并保存
             this.mFriendList = BeanTransfer.UsersToFriends(list.subList(1,list.size()));
-            mRealmHelper.saveContacts(this.mFriendList);
+            mRealmHelper.saveContactList(this.mFriendList);
         } else {
             mUser = null;
             mFriendList = null;
         }
         // mChatMessagesMap = new HashMap<Integer, List<ChatEntity>>();
 //        mIsReceived = true; // 最新消息更新状态
+    }
+
+    /**
+     *  处理好友请求.
+     *  泛型为Invitation。
+     *  */
+    public void dealFriendRequest(final TranObject tranObject) {
+        this.mReceivedMessage = tranObject;
+        // 保存该invitation
+        Invitation invitation = (Invitation) tranObject.getObject();
+        mRealmHelper.saveInvitation(invitation);
+        // 如果是好友同意状态，还需要保存联系人
+        if (StatusText.CONTACT_AGREE.equals(invitation.getStatus())) {
+            Contact contact = new Contact(invitation.getName(),1);
+            contact.setImg(invitation.getImg());
+            contact.setAccount(invitation.getAccount());
+            mRealmHelper.saveContact(contact);
+        }
     }
 
 
@@ -191,6 +210,9 @@ public class ApplicationData {
     public void saveInvitation(Invitation invitation) {
         mRealmHelper.saveInvitation(invitation);
     }
+
+
+
     //    public List<User> getFriendSearched() {
 //        return mFriendSearched;
 //    }
