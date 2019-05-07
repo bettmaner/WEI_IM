@@ -44,6 +44,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-v7'
         exclude group: 'com.android.support', module: 'design'
     }
+    implementation 'com.github.stfalcon:chatkit:0.3.3'
 //    implementation "io.realm:realm-annotations:2.1.1"
 //    implementation "io.realm:realm-android-library:2.1.1"
 //    annotationProcessor "io.realm:realm-annotations-processor:2.1.1"
