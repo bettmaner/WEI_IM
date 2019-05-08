@@ -18,7 +18,7 @@ public class GroupInfo extends RealmObject implements Serializable {
 
     private String name; // 名字。不为空，默认unknown
 
-    private String img; // 群头像
+    private String avatar; // 群头像
 
     private String Creator; // 群主
 
@@ -42,12 +42,12 @@ public class GroupInfo extends RealmObject implements Serializable {
         this.name = name;
     }
 
-    public String getImg() {
-        return img;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getCreator() {
@@ -63,7 +63,7 @@ public class GroupInfo extends RealmObject implements Serializable {
         return "Group{" +
                 "gid=" + gid +
                 ", name='" + name + '\'' +
-                ", img='" + img + '\'' +
+                ", avatar='" + avatar + '\'' +
                 ", Creator='" + Creator + '\'' +
                 '}';
     }

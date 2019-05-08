@@ -16,7 +16,7 @@ public class User extends LitePalSupport implements Serializable {
 
     private String password;
 
-    private String img;    // 头像
+    private String avatar;    // 头像
 
     private int sex;    // 0 男性，1 女性
 
@@ -93,12 +93,12 @@ public class User extends LitePalSupport implements Serializable {
         this.isOnline = isOnline;
     }
 
-    public String getImg() {
-        return img;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public int getSex() {
@@ -125,7 +125,7 @@ public class User extends LitePalSupport implements Serializable {
     public String toString() {
         return "User [account=" + account + ", name=" + name + ", email=" + email
                 + ", password=" + password + ", isOnline=" + isOnline
-                + ", img=" + img + ", sex=" + sex + ", ip=" + ip + ", port=" + port + ", groups="
+                + ", avatar=" + avatar + ", sex=" + sex + ", ip=" + ip + ", port=" + port + ", groups="
                 + groups + "]";
     }
 }

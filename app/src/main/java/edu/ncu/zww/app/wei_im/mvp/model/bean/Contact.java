@@ -1,5 +1,7 @@
 package edu.ncu.zww.app.wei_im.mvp.model.bean;
 
+import com.stfalcon.chatkit.commons.models.IUser;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,7 +18,7 @@ import io.realm.annotations.Required;
  * 该类还作为本地数据库联系人表实体类，在/main/assets/litepal注册映射模型
  * 作为联系人表，存放好友、非好友（群里的）
  * */
-public class Contact extends RealmObject implements Serializable {
+public class Contact extends RealmObject implements IUser,Serializable {
 
     @Ignore
     private static final long serialVersionUID = 1L;
@@ -29,7 +31,7 @@ public class Contact extends RealmObject implements Serializable {
 
     private String nick; // 备注
 
-    private String img; // 图像地址
+    private String avatar; // 图像地址
 
     private int isContact; // 是否为好友，0否1是
 
@@ -56,12 +58,25 @@ public class Contact extends RealmObject implements Serializable {
         }
     }
 
+    // 测试用
+    public Contact(int account, String name, String avatar, boolean online) {
+        this.account = account;
+        this.name = name;
+        this.avatar = avatar;
+        //this.online = online;
+    }
+
     public Integer getAccount() {
         return account;
     }
 
     public void setAccount(Integer account) {
         this.account = account;
+    }
+
+    @Override
+    public String getId() {
+        return account.toString();
     }
 
     public String getName() {
@@ -80,12 +95,12 @@ public class Contact extends RealmObject implements Serializable {
         this.nick = nick;
     }
 
-    public String getImg() {
-        return img;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Integer getIsContact() {
@@ -126,7 +141,7 @@ public class Contact extends RealmObject implements Serializable {
                 "account=" + account +
                 ", name='" + name + '\'' +
                 ", nick='" + nick + '\'' +
-                ", img='" + img + '\'' +
+                ", avatar='" + avatar + '\'' +
                 ", isContact=" + isContact +
                 ", sex=" + sex +
                 ", data=" + data +

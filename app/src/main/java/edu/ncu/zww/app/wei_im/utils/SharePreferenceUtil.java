@@ -70,12 +70,12 @@ public class SharePreferenceUtil {
     }
 
     // 用户自己的头像
-    public String getImg() {
-        return sp.getString("img", "");
+    public String getAvatar() {
+        return sp.getString("avatar", "");
     }
 
-    public void setImg(String img) {
-        editor.putString("img", img);
+    public void setAvatar(String avatar) {
+        editor.putString("avatar", avatar);
         editor.commit();
     }
 

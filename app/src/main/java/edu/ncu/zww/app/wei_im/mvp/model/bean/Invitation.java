@@ -19,7 +19,7 @@ public class Invitation extends RealmObject implements Serializable {
 
     private String name; // 接受者姓名
 
-    private String img; // 接受者图像
+    private String avatar; // 接受者图像
 
     private String info;
 
@@ -32,7 +32,7 @@ public class Invitation extends RealmObject implements Serializable {
     public void setToUser(Contact toUser) {
         this.account = toUser.getAccount();
         this.name = toUser.getName();
-        this.img = toUser.getImg();
+        this.avatar = toUser.getAvatar();
     }
 
     public void setUuid(String uuid) {
@@ -55,12 +55,12 @@ public class Invitation extends RealmObject implements Serializable {
         this.name = name;
     }
 
-    public String getImg() {
-        return img;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getInfo() {
@@ -101,7 +101,7 @@ public class Invitation extends RealmObject implements Serializable {
                 "uuid='" + uuid + '\'' +
                 ", account=" + account +
                 ", name='" + name + '\'' +
-                ", img='" + img + '\'' +
+                ", avatar='" + avatar + '\'' +
                 ", info='" + info + '\'' +
                 ", createDate=" + createDate +
                 ", type=" + type +

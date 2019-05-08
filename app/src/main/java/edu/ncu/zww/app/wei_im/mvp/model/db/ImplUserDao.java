@@ -25,8 +25,8 @@ public class ImplUserDao implements UserDao {
     public void addUsers(List<User> users) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         for (User u : users) {
-            db.execSQL("insert into users (account,name,img,sex,isOnline,groups) values(?,?,?,?,?,?)",
-                    new Object[] { u.getAccount(), u.getName(), u.getImg(),
+            db.execSQL("insert into users (account,name,avatar,sex,isOnline,groups) values(?,?,?,?,?,?)",
+                    new Object[] { u.getAccount(), u.getName(), u.getAvatar(),
                             u.getSex(), u.getIsOnline(), u.getGroups() });
         }
         db.close();
@@ -39,7 +39,7 @@ public class ImplUserDao implements UserDao {
         Cursor c = db.rawQuery("select * from users where account = ?", new String[]{account+""});
         if (c.moveToFirst()) {
             user.setName(c.getString(c.getColumnIndex("name")));
-            user.setImg(c.getString(c.getColumnIndex("img")));
+            user.setAvatar(c.getString(c.getColumnIndex("avatar")));
             user.setSex(c.getInt(c.getColumnIndex("sex")));
         }
         c.close();
@@ -56,7 +56,7 @@ public class ImplUserDao implements UserDao {
             User u = new User();
             u.setAccount(c.getInt(c.getColumnIndex("account")));
             u.setName(c.getString(c.getColumnIndex("name")));
-            u.setImg(c.getString(c.getColumnIndex("img")));
+            u.setAvatar(c.getString(c.getColumnIndex("avatar")));
             u.setSex(c.getInt(c.getColumnIndex("sex")));
             u.setIsOnline(c.getInt(c.getColumnIndex("isOnline")));
             u.setGroups(c.getInt(c.getColumnIndex("groups")));

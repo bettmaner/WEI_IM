@@ -117,9 +117,9 @@ public class ApplicationData {
         // 如果是好友同意状态，还需要保存联系人
         if (StatusText.CONTACT_AGREE.equals(invitation.getStatus())) {
             Contact contact = new Contact(invitation.getName(),1);
-            contact.setImg(invitation.getImg());
+            contact.setAvatar(invitation.getAvatar());
             contact.setAccount(invitation.getAccount());
-            mRealmHelper.saveContact(contact);
+            addFriend(contact);
         }
     }
 
@@ -175,7 +175,7 @@ public class ApplicationData {
         util.setPassword(user.getPassword());
         util.setEmail(user.getEmail());
         util.setName(user.getName());
-        util.setImg(user.getImg());
+        util.setAvatar(user.getAvatar());
         util.setSex(user.getSex());
         LogUtil.d(this+"登录后保存个人信息");
     }
@@ -186,7 +186,7 @@ public class ApplicationData {
         } else {
             mUser = new User();
             mUser.setName(spUtil.getName());
-            mUser.setImg(spUtil.getImg());
+            mUser.setAvatar(spUtil.getAvatar());
             mUser.setAccount(spUtil.getId());
             mUser.setSex(spUtil.getSex());
             mUser.setEmail(spUtil.getEmail());
@@ -201,6 +201,14 @@ public class ApplicationData {
         }
         return mFriendList;
     }
+
+    public void addFriend(Contact contact) {
+        getFriendList().add(contact);
+        // 同时还需要更新数据库
+        mRealmHelper.saveContact(contact);
+    }
+
+
 
     public List<GroupInfo> getGroupList() {
         return mGroupInfoList;
@@ -350,8 +358,9 @@ public class ApplicationData {
     public boolean hasFriend(Integer account) {
         List<Contact> friends = getFriendList();
         for(Contact friend : friends) {
-            if(account == friend.getAccount())
+            if(friend.getAccount().compareTo(account)==0) {
                 return true;
+            }
         }
         return false;
     }

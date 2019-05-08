@@ -19,7 +19,7 @@ public class BeanTransfer {
         Contact contact = new Contact();
         contact.setAccount(user.getAccount());
         contact.setName(user.getName());
-        contact.setImg(user.getImg());
+        contact.setAvatar(user.getAvatar());
         contact.setSex(user.getSex());
         return contact;
     }
@@ -29,7 +29,7 @@ public class BeanTransfer {
         for (User user : users) {
             Contact friend = new Contact(user.getName(),1); // 1表示好友
             friend.setAccount(user.getAccount());
-            friend.setImg(user.getImg());
+            friend.setAvatar(user.getAvatar());
             friend.setSex(user.getSex());
             friends.add(friend);
         }
@@ -40,7 +40,7 @@ public class BeanTransfer {
         GroupInfo groupInfo = new GroupInfo();
         groupInfo.setGid(contact.getAccount());
         groupInfo.setName(contact.getName());
-        groupInfo.setImg(contact.getImg());
+        groupInfo.setAvatar(contact.getAvatar());
         return groupInfo;
     }
 }

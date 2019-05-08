@@ -161,7 +161,7 @@ public class LoginModelImpl implements LRContract.LoginModel {
             util.setPassword(list.get(0).getPassword());
             util.setEmail(list.get(0).getEmail());
             util.setName(list.get(0).getName());
-            util.setImg(list.get(0).getImg());
+            util.setAvatar(list.get(0).getAvatar());
             util.setSex(list.get(0).getSex());
             LogUtil.d(this+"登录后保存个人信息");
 

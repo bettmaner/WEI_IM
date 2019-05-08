@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gjiazhe.wavesidebar.WaveSideBar;
+import com.stfalcon.chatkit.dialogs.DialogsListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.base.BaseFragment;
 import edu.ncu.zww.app.wei_im.mvp.contract.ContactContract;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.Dialog;
 import edu.ncu.zww.app.wei_im.mvp.presenter.ContactPresenter;
 import edu.ncu.zww.app.wei_im.mvp.view.activity.NewContactActivity;
 import edu.ncu.zww.app.wei_im.mvp.view.adapter.ContactAdapter;
@@ -36,7 +38,9 @@ import edu.ncu.zww.app.wei_im.utils.PinYinUtils;
  * A simple {@link Fragment} subclass.
  */
 public class ContactsFragment extends BaseFragment<ContactContract.ContactView,ContactPresenter>
-        implements ContactContract.ContactView {
+        implements ContactContract.ContactView,
+        DialogsListAdapter.OnDialogClickListener<Dialog>,
+        DialogsListAdapter.OnDialogLongClickListener<Dialog>  {
     private WaveSideBar waveSideBar;
     private MyRecyclerView recyclerView;
     private View mHeaderView; // recycler头布局
@@ -141,53 +145,6 @@ public class ContactsFragment extends BaseFragment<ContactContract.ContactView,C
         return new ContactPresenter();
     }
 
-    private void initData() {
-//        friends = new ArrayList<>();
-//        friends.add(new Contact("啊虎"));
-//        friends.add(new Contact("#白虎"));
-//        friends.add(new Contact( "常羲"));
-////        friends.add(new Contact( "./嫦娥"));
-//        friends.add(new Contact( "二郎神"));
-//        friends.add(new Contact( "伏羲"));
-//        friends.add(new Contact( "观世音"));
-//        friends.add(new Contact( "精卫"));
-//        friends.add(new Contact( "夸父"));
-//        friends.add(new Contact( "女娲"));
-//        friends.add(new Contact( "哪吒"));
-//        friends.add(new Contact( "盘古"));
-//        friends.add(new Contact( "青龙"));
-//        friends.add(new Contact( "如来"));
-//        friends.add(new Contact( "孙悟空"));
-//        friends.add(new Contact( "沙僧"));
-//        friends.add(new Contact( "顺风耳"));
-//
-//        friends.add(new Contact( "1羲和"));
-//        friends.add(new Contact( "玄武"));
-//        friends.add(new Contact( "猪八戒"));
-//        friends.add(new Contact( "朱雀"));
-//        friends.add(new Contact( "祝融"));
-//        friends.add(new Contact( "太白金星"));
-//        friends.add(new Contact( "太上老君"));
-
-
-//        Collections.sort(friends, new Comparator<Contact>() {
-//            @Override
-//            public int compare(Contact c1, Contact c2) {
-//                return c1.getPinyin().compareTo(c2.getPinyin());
-//            }
-//        });
-//        List<Contact> notLetter = new ArrayList<>();
-//        List<Contact> copyContacts = new ArrayList<>(friends);
-//        for (Contact contact : copyContacts) {
-//            if (contact.getLetter().equals("#")) {
-//                notLetter.add(contact);
-//                friends.remove(contact);
-//            }
-//        }
-//        friends.addAll(notLetter);
-//        copyContacts.clear();
-    }
-
     @Override
     public void onQuerySuccess(List friendlist) {
         if (friends == null) {
@@ -243,6 +200,16 @@ public class ContactsFragment extends BaseFragment<ContactContract.ContactView,C
 
     @Override
     public void onError(String info) {
+
+    }
+
+    @Override
+    public void onDialogClick(Dialog dialog) {
+
+    }
+
+    @Override
+    public void onDialogLongClick(Dialog dialog) {
 
     }
 }
