@@ -1,5 +1,6 @@
 package edu.ncu.zww.app.wei_im.mvp.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,8 +23,9 @@ import edu.ncu.zww.app.wei_im.mvp.contract.MsgContract;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Dialog;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.DialogsFactory;
 import edu.ncu.zww.app.wei_im.mvp.presenter.MsgPresenter;
+import edu.ncu.zww.app.wei_im.mvp.view.activity.ChatActivity;
+import edu.ncu.zww.app.wei_im.mvp.view.activity.ChatTestActivity;
 import edu.ncu.zww.app.wei_im.utils.MsgDataFormatter;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class MsgFragment extends BaseFragment<MsgContract.MsgView,MsgPresenter>
                         implements MsgContract.MsgView,
@@ -82,7 +84,8 @@ public class MsgFragment extends BaseFragment<MsgContract.MsgView,MsgPresenter>
     // 消息Item点击事件
     @Override
     public void onDialogClick(Dialog dialog) {
-
+        ChatActivity.actionStart(mContext,dialog.getDialogName(),dialog.getId());
+//        ChatTestActivity.actionStart(mContext,dialog.getDialogName(),dialog.getId());
     }
 
     // 消息Item长按事件
@@ -97,8 +100,11 @@ public class MsgFragment extends BaseFragment<MsgContract.MsgView,MsgPresenter>
         public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
             Glide.with(mContext)
                     .load(R.drawable.head_icon)
-                    .bitmapTransform(new CropCircleTransformation(getContext()))
                     .into(imageView);
+            /*Glide.with(mContext)
+                    .load(R.drawable.head_icon)
+                    .bitmapTransform(new CropCircleTransformation(getContext()))
+                    .into(imageView);*/
         }
     }
 }

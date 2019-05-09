@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 
 import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.commons.Constants;

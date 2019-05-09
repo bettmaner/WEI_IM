@@ -48,6 +48,7 @@
             android:name=".mvp.view.activity.NewContactActivity"
             android:launchMode="singleTop" />
         <activity android:name=".mvp.view.activity.ChatActivity" />
+        <activity android:name=".mvp.view.activity.ChatTestActivity"></activity>
     </application>
 
 </manifest>

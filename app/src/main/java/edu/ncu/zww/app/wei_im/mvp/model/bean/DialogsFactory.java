@@ -97,10 +97,16 @@ public final class DialogsFactory {
     }
 
     public static Message getMessage(final Date date,int i) {
-        return new Message(
+        Message message =
+         new Message(
                 getRandomId(),
                 getUser(i),
                 getUser(i).getId()+"说了个笑话",
                 date);
+        if (i==1) {
+            Message.Image img = new Message.Image("dddddffff");
+            message.setImage(img);
+        }
+        return message;
     }
 }

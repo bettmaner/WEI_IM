@@ -10,12 +10,16 @@ public class Message implements IMessage,
         MessageContentType.Image, /*this is for default image messages implementation*/
         MessageContentType /*and this one is for custom content type (in this case - voice message)*/ {
 
-    private String id;
-    private String text;
-    private Date createdAt;
-    private Contact user;
+    private String id; // uuid
+    private String chatType; // 聊天对象类型。内容说明:私人聊天为‘c’+对方账号，群聊天为'g'+群账号。
+    private String msgType = MsgType.TEXT; // 消息类型MsgType,默认文本类型
+    private String text; // 消息文本
+    private Date createdAt; // 创建时间
+    private Contact user; // 对方（对本用户而言）信息
+    private String senderId; // 发送者账号
+    private String sendStatus; // 发送状态
     private Image image;
-    private Voice voice;
+//    private Voice voice;
 
     public Message(String id, Contact user, String text) {
         this(id, user, text, new Date());
@@ -53,12 +57,44 @@ public class Message implements IMessage,
         return image == null ? null : image.url;
     }
 
-    public Voice getVoice() {
-        return voice;
+    public String getChatType() {
+        return chatType;
     }
 
+    public void setChatType(String chatType) {
+        this.chatType = chatType;
+    }
+
+    public String getMsgType() {
+        return msgType;
+    }
+
+    public void setMsgType(String msgType) {
+        this.msgType = msgType;
+        // 非文本类型处理
+        if (!msgType.equals(MsgType.TEXT)) {
+            this.text = MsgType.typeToText(msgType);
+        }
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
+
+//    public Voice getVoice() {
+//        return voice;
+//    }
+
     public String getStatus() {
-        return "Sent";
+        return this.sendStatus;
+    }
+
+    public void setSendStatus(String sendStatus) {
+        this.sendStatus = sendStatus;
     }
 
     public void setText(String text) {
@@ -71,11 +107,12 @@ public class Message implements IMessage,
 
     public void setImage(Image image) {
         this.image = image;
+        setMsgType(MsgType.IMAGE);
     }
 
-    public void setVoice(Voice voice) {
-        this.voice = voice;
-    }
+//    public void setVoice(Voice voice) {
+//        this.voice = voice;
+//    }
 
     public static class Image {
 
@@ -86,6 +123,7 @@ public class Message implements IMessage,
         }
     }
 
+    /*
     public static class Voice {
 
         private String url;
@@ -103,5 +141,5 @@ public class Message implements IMessage,
         public int getDuration() {
             return duration;
         }
-    }
+    }*/
 }

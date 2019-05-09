@@ -12,7 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.leon.lib.settingview.LSettingItem;
 
 import edu.ncu.zww.app.wei_im.MApplication;
@@ -25,6 +27,9 @@ import edu.ncu.zww.app.wei_im.mvp.model.bean.User;
 import edu.ncu.zww.app.wei_im.mvp.presenter.MinePresenter;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import jp.wasabeef.glide.transformations.GrayscaleTransformation;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -101,12 +106,20 @@ public class MineFragment extends BaseFragment<MineContract.MineView, MinePresen
 
 
     private void iniData() {
-        Glide.with(this)
+        /*Glide.with(this)
                 .load("https://i02piccdn.sogoucdn.com/3c28af542f2d49f7-9e7c5d699eaea93e-9b1a581472b9596d6fd6cacbc968e12a_qq")
                 .bitmapTransform(new BlurTransformation(getContext(), 25), new CenterCrop(MApplication.getInstance()))
                 .into(backImage);
         Glide.with(this).load(R.drawable.head_icon)
                 .bitmapTransform(new CropCircleTransformation(getContext()))
+                .into(headImg);*/
+        MultiTransformation multi = new MultiTransformation(new BlurTransformation(25),new CenterCrop());
+        Glide.with(this)
+                .load("https://i02piccdn.sogoucdn.com/3c28af542f2d49f7-9e7c5d699eaea93e-9b1a581472b9596d6fd6cacbc968e12a_qq")
+                .apply(bitmapTransform(multi))
+                .into(backImage);
+        Glide.with(this).load(R.drawable.head_icon)
+                .apply(bitmapTransform(new CircleCrop()))
                 .into(headImg);
         user = ApplicationData.getInstance().getUserInfo();
         if (user != null) {
