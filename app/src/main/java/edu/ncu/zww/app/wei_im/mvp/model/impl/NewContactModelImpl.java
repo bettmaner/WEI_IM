@@ -37,9 +37,7 @@ public class NewContactModelImpl implements OperaFGContract.NewContactModel {
             public void subscribe(ObservableEmitter<ResultBean> emitter) throws Exception {
                 // 给客户发消息
                 ClientControl.sendConOrGroupRequest(invitation,FRIEND_REQUEST);
-                // 结果返回给presenter
-//                ResultBean result = new ResultBean(true,"添加成功");
-//                emitter.onNext(result);
+
                 // 接收服务器返回结果
                 ApplicationData mData = ApplicationData.getInstance();
                 mData.initData();

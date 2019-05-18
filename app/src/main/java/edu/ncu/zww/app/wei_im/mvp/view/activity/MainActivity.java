@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ToolBarHelper mToolBarHelper;
     private boolean setMenuShow;    // 是否显示menu
     private boolean isFirst;        // 是否是第一次加载
-    private final String[] title = {"消息","好友","发现","动态"};
+    private final String[] title = {"消息","好友","发现","设置"};
 
     private TextView msgTab, friTab, disTab, qzoTab;   // 消息、好友、发现、动态按钮
     private Badge msgNumView,friNumView,disNumView,qzoNumView; //底部导航按钮对应的红点信息数框
@@ -196,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (item.getItemId()) {
             case R.id.newGroupChat:
                 Toast.makeText(this, "创建群聊", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this,SelectorActivity.class));
                 break;
             case R.id.addFriend:
                 startActivity(new Intent(this, AddContactActivity.class));

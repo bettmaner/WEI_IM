@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 创建群聊的列表item -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tv_index"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/windowBackground"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="A"
+        android:textAllCaps="true"/>
+
+    <!-- 每个好友的列表 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/selector_item">
+
+        <ImageView
+            android:id="@+id/friend_avatar"
+            style="@style/item_img"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_avatar"/>
+
+        <TextView
+            android:id="@+id/friend_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/friend_avatar"
+            android:gravity="center_vertical"
+            android:textSize="16sp"
+            android:text="John"/>
+        <CheckBox
+            android:id="@+id/check_box"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="19dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <!--<ImageView
+        android:id="@+id/friend_avatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="12dp"
+        android:contentDescription="头像" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp">
+        <TextView
+            android:id="@+id/friend_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="18sp"
+            android:text="昵称"/>
+        <TextView
+            android:id="@+id/friend_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="13sp"
+            android:text="账号"/>
+    </LinearLayout>
+    <CheckBox
+        android:id="@+id/check_box"
+        android:layout_marginRight="19dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />-->
+</LinearLayout>

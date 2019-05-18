@@ -51,6 +51,15 @@
             leon:isShowRightText="true"
             leon:rightTextColor="@color/text_gray"
             leon:leftText="IM账号"/>
+        <com.leon.lib.settingview.LSettingItem
+            android:id="@+id/user_sex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            leon:rightStyle="iconHide"
+            leon:isShowUnderLine="false"
+            leon:isShowRightText="true"
+            leon:rightTextColor="@color/text_gray"
+            leon:leftText="性别"/>
 
         <com.leon.lib.settingview.LSettingItem
             android:id="@+id/quit"

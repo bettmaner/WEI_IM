@@ -123,6 +123,11 @@ public class ApplicationData {
         }
     }
 
+    public void createGroup(final TranObject tranObject) {
+        this.mReceivedMessage = tranObject;
+        GroupInfo groupInfo = (GroupInfo) tranObject.getObject();
+        mRealmHelper.savaGroupInfo(groupInfo);
+    }
 
 //    public void loginMessageArrived(Object tranObject) {
 //
@@ -208,9 +213,18 @@ public class ApplicationData {
         mRealmHelper.saveContact(contact);
     }
 
+    // 处理服务器传来的用户的群
+    public void getAllGroups(TranObject tranObject) {
+        mGroupInfoList = (List<GroupInfo>) tranObject.getObject();
+        mRealmHelper.savaGroupInfoList(mGroupInfoList);
+    }
 
 
+    // 获取存放在本地的用户的所有群
     public List<GroupInfo> getGroupList() {
+        if (mGroupInfoList==null || mGroupInfoList.size()==0) {
+            mGroupInfoList = mRealmHelper.getGroupList();
+        }
         return mGroupInfoList;
     }
 

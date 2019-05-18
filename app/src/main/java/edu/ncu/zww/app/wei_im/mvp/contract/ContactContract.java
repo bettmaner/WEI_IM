@@ -3,6 +3,8 @@ package edu.ncu.zww.app.wei_im.mvp.contract;
 import java.util.List;
 
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.GroupInfo;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.ResultBean;
 import io.reactivex.Observable;
 
 public class ContactContract {
@@ -16,6 +18,13 @@ public class ContactContract {
         void onError(String info);
     }
 
+    public interface SelectorView {
+        void onCreatedSuccess(GroupInfo groupInfo);
+        void onCreatedFail(ResultBean result);
+        void onSubmitVailOk();
+        void onLoading();
+        void onError(String info);
+    }
 
     /**
      *  model
@@ -26,4 +35,12 @@ public class ContactContract {
         Observable<List<Contact>> queryFriends();
     }
 
+    public interface SelectorModel {
+
+    }
+
+    public interface GroupModel {
+        // 查找群
+        Observable<List<GroupInfo>> queryGroupList();
+    }
 }

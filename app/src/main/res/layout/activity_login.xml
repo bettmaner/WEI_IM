@@ -22,7 +22,7 @@
             android:drawableLeft="@drawable/ic_account"
             android:singleLine="true"
             android:drawablePadding="10dp"
-            android:hint="账号"/>
+            android:hint="@string/login_account_hint"/>
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -42,7 +42,7 @@
             android:singleLine="true"
             android:drawablePadding="10dp"
             android:inputType="textPassword"
-            android:hint="密码"/>
+            android:hint="@string/login_psw_hint"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button

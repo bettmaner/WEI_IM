@@ -58,6 +58,12 @@ public class Contact extends RealmObject implements IUser,Serializable {
         }
     }
 
+    public Contact(int account, String name, String avatar,Integer isContact) {
+        this(name,isContact);
+        this.account = account;
+        this.avatar = avatar;
+    }
+
     // 测试用
     public Contact(int account, String name, String avatar, boolean online) {
         this.account = account;

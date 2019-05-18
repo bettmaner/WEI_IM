@@ -1,10 +1,6 @@
 package edu.ncu.zww.app.wei_im.mvp.contract;
 
-import java.util.List;
 
-import edu.ncu.zww.app.wei_im.base.BasePresenter;
-import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
-import edu.ncu.zww.app.wei_im.mvp.model.bean.User;
 import io.reactivex.Observable;
 
 /**

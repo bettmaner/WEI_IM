@@ -24,7 +24,6 @@ import edu.ncu.zww.app.wei_im.mvp.model.bean.Dialog;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.DialogsFactory;
 import edu.ncu.zww.app.wei_im.mvp.presenter.MsgPresenter;
 import edu.ncu.zww.app.wei_im.mvp.view.activity.ChatActivity;
-import edu.ncu.zww.app.wei_im.mvp.view.activity.ChatTestActivity;
 import edu.ncu.zww.app.wei_im.utils.MsgDataFormatter;
 
 public class MsgFragment extends BaseFragment<MsgContract.MsgView,MsgPresenter>
@@ -84,8 +83,7 @@ public class MsgFragment extends BaseFragment<MsgContract.MsgView,MsgPresenter>
     // 消息Item点击事件
     @Override
     public void onDialogClick(Dialog dialog) {
-        ChatActivity.actionStart(mContext,dialog.getDialogName(),dialog.getId());
-//        ChatTestActivity.actionStart(mContext,dialog.getDialogName(),dialog.getId());
+        ChatActivity.actionStart(mContext,dialog.getDialogName(),123,0);
     }
 
     // 消息Item长按事件
@@ -99,7 +97,7 @@ public class MsgFragment extends BaseFragment<MsgContract.MsgView,MsgPresenter>
         @Override
         public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
             Glide.with(mContext)
-                    .load(R.drawable.head_icon)
+                    .load(url)
                     .into(imageView);
             /*Glide.with(mContext)
                     .load(R.drawable.head_icon)

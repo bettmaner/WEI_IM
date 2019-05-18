@@ -3,6 +3,7 @@ package edu.ncu.zww.app.wei_im.database;
 import java.util.List;
 
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.GroupInfo;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Invitation;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TestBean;
 import io.realm.Realm;
@@ -108,7 +109,38 @@ public class RealmHelper {
             }
         });
         mRealm.close();
-//        Realm mRealm = Realm.getDefaultInstance();
+    }
 
+    // 保存群基本信息
+    public void savaGroupInfo(final GroupInfo groupInfo) {
+        Realm mRealm = Realm.getDefaultInstance();
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(groupInfo);//传入对象
+            }
+        });
+        mRealm.close();
+    }
+
+    // 保存群(数组)基本信息
+    public void savaGroupInfoList(final List<GroupInfo> groupInfoList) {
+        Realm mRealm = Realm.getDefaultInstance();
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(groupInfoList);//传入对象
+            }
+        });
+        mRealm.close();
+    }
+
+    // 获取群列表
+    public List<GroupInfo> getGroupList() {
+        Realm mRealm = Realm.getDefaultInstance();
+        RealmResults<GroupInfo> groupRealmList =  mRealm.where(GroupInfo.class).findAll().sort("name",Sort.DESCENDING);
+        List<GroupInfo> groupList = mRealm.copyFromRealm(groupRealmList);
+        mRealm.close();
+        return groupList;
     }
 }

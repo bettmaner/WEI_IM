@@ -15,7 +15,7 @@ import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.GROUP_REQUEST
 
 public class ClientControl {
     private static Client mClient = Client.getInstance();
-
+    private static User mUser;
     // 发送注册的用户信息
     public static void register(User user) throws IOException {
         TranObject<User> t = new TranObject<>(TranObjectType.REGISTER);
@@ -26,6 +26,7 @@ public class ClientControl {
 
     // 发送登录的用户信息
     public static void login(User user) throws IOException {
+        mUser = user;
         TranObject<User> t = new TranObject<>(TranObjectType.LOGIN);
         t.setObject(user);
         mClient.send(t);
@@ -59,6 +60,20 @@ public class ClientControl {
     }
 
 
+    // 创建群聊
+    public static void createGroup(GroupInfo group) throws IOException {
+        TranObject t = new TranObject<GroupInfo>(TranObjectType.CREATE_GROUP);
+        t.setObject(group);
+        t.setInfo("创建群聊");
+        mClient.send(t);
+    }
+
+    // 获取所有群聊
+    public static void getGroupList() throws IOException {
+        TranObject t = new TranObject<GroupInfo>(TranObjectType.GET_ALL_GROUPS);
+        t.setInfo("获取用户群聊");
+        mClient.send(t);
+    }
 
 //    public static void sendMessage(ChatEntity message) {
 //

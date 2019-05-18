@@ -39,7 +39,7 @@ public final class DialogsFactory {
             case 0:
                 return new Dialog(
                         getRandomId(),
-                        "个人",
+                        "王同学",
                         "http://img.touxiangs.com/full/f8b426697174d9f510c4a8696e3708d4d278fd40.jpg",
                         users,
                         getMessage(lastMessageCreatedAt,i),
@@ -47,7 +47,7 @@ public final class DialogsFactory {
             case 1:
                 return new Dialog(
                         getRandomId(),
-                        "两人",
+                        "李同学",
                         "http://img.touxiangs.com/full/f28c5d3b5101efad94bcc094ebaf0f8e94528115.jpg",
                         users,
                         getMessage(lastMessageCreatedAt,i),
@@ -55,7 +55,7 @@ public final class DialogsFactory {
             default:
                 return new Dialog(
                         getRandomId(),
-                        "三人",
+                        "群聊1",
                         "http://img.touxiangs.com/full/f28c5d3b5101efad94bcc094ebaf0f8e94528115.jpg",
                         users,
                         getMessage(lastMessageCreatedAt,i),
@@ -104,7 +104,8 @@ public final class DialogsFactory {
                 getUser(i).getId()+"说了个笑话",
                 date);
         if (i==1) {
-            Message.Image img = new Message.Image("dddddffff");
+            ImgMsgBody img = new ImgMsgBody();
+            img.setThumbUrl("http://pic19.nipic.com/20120323/9248108_173720311160_2.jpg");
             message.setImage(img);
         }
         return message;

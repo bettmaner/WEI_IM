@@ -9,7 +9,9 @@ import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import edu.ncu.zww.app.wei_im.utils.MyObjectInputStream;
 
+import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.CREATE_GROUP;
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.FRIEND_REQUEST;
+import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.GET_ALL_GROUPS;
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.LOGIN;
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.MESSAGE;
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.REGISTER;
@@ -57,7 +59,9 @@ public class ClientInputThread extends Thread {
                 if ((oMsg != null && oMsg instanceof TranObject)) {
                     resultData = (TranObject) oMsg;// 转换成传输对象
                 }
+                System.out.println("-------------------- 服务端发来数据-----------------------");
                 System.out.println(resultData);
+                System.out.println("----------------------------------------------------------");
                 LogUtil.d("ClientInput","线程:" + Thread.currentThread().getName());
                 ApplicationData mData = ApplicationData.getInstance();
                 // 以mData为锁
@@ -93,7 +97,12 @@ public class ClientInputThread extends Thread {
                                 System.out.println("邀请转交给service显示通知栏");
                                 messageListener.Message(resultData); // 转到GetMsgService，负责显示通知
                             }
-
+                            break;
+                        case CREATE_GROUP:
+                            mData.createGroup(resultData);
+                            break;
+                        case GET_ALL_GROUPS:
+                            mData.getAllGroups(resultData);
                             break;
                         case MESSAGE:
 //                        ApplicationData.getInstance().messageArrived(resultData);

@@ -29,6 +29,7 @@ import edu.ncu.zww.app.wei_im.mvp.contract.ContactContract;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Dialog;
 import edu.ncu.zww.app.wei_im.mvp.presenter.ContactPresenter;
+import edu.ncu.zww.app.wei_im.mvp.view.activity.GroupActivity;
 import edu.ncu.zww.app.wei_im.mvp.view.activity.NewContactActivity;
 import edu.ncu.zww.app.wei_im.mvp.view.adapter.ContactAdapter;
 import edu.ncu.zww.app.wei_im.customview.MyRecyclerView;
@@ -134,7 +135,7 @@ public class ContactsFragment extends BaseFragment<ContactContract.ContactView,C
         groupView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "跳转到群界面", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(mContext,GroupActivity.class));
             }
         });
 

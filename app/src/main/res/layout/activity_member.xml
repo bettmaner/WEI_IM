@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:leon="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".mvp.view.activity.MemberActivity">
+
+    <include layout="@layout/toolbar" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/members_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"/>
+
+    <com.leon.lib.settingview.LSettingItem
+        android:id="@+id/group_name_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        leon:isShowRightText="true"
+        leon:isShowUnderLine="false"
+        leon:rightTextColor="@color/text_gray"
+        leon:leftText="群名称"/>
+
+    <TextView
+        android:id="@+id/quit_group_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:layout_marginTop="220dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="@color/red"
+        android:text="删除并退出"/>
+
+</LinearLayout>

@@ -2,12 +2,12 @@ package edu.ncu.zww.app.wei_im.mvp.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
-import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,35 +15,47 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import edu.ncu.zww.app.wei_im.R;
-import edu.ncu.zww.app.wei_im.base.BaseActivity;
 import edu.ncu.zww.app.wei_im.base.BaseActivityFlags;
 import edu.ncu.zww.app.wei_im.customview.chatview.RecordButton;
 import edu.ncu.zww.app.wei_im.customview.chatview.StateButton;
 import edu.ncu.zww.app.wei_im.mvp.contract.ChatContract;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.ImgMsgBody;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Message;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.MsgSendStatus;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.MsgType;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.ResultBean;
 import edu.ncu.zww.app.wei_im.mvp.presenter.ChatPresenter;
 import edu.ncu.zww.app.wei_im.mvp.view.adapter.ChatAdapter;
 import edu.ncu.zww.app.wei_im.utils.LogUtil;
+import edu.ncu.zww.app.wei_im.utils.NumberUtil;
+import edu.ncu.zww.app.wei_im.utils.PictureFileUtil;
 import edu.ncu.zww.app.wei_im.utils.ToolBarHelper;
 import edu.ncu.zww.app.wei_im.utils.chatutils.ChatUiHelper;
-import edu.ncu.zww.app.wei_im.utils.chatutils.MediaManager;
 
 // 聊天Activity
 public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPresenter>
         implements ChatContract.ChatView,SwipeRefreshLayout.OnRefreshListener {
 
-    private String chatName,chatId; // 当前聊天的人/群（即Dialog）的姓名和id，
+    private String chatName; // 当前聊天的人/群（即Dialog）的姓名，
+    private int chatId,chatType; // 聊天的id，类型（0人1群）
 
     @BindView(R.id.llContent)
     LinearLayout mLlContent; // 聊天界面主体（除头布局外）布局
@@ -72,15 +84,16 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
 
     private ImageView ivAudio;
     private ChatAdapter mAdapter; // 消息列表适配器
-    public static final String 	  mSenderId="right";
-    public static final String     mTargetId="left";
+    public String  mSenderId = String.valueOf(ApplicationData.getInstance().getUserInfo().getAccount());
+    public String     mTargetId="left";
     public static final int       REQUEST_CODE_IMAGE=0000;
     public static final int       REQUEST_CODE_VEDIO=1111;
     public static final int       REQUEST_CODE_FILE=2222;
 
-    public static void actionStart(Context context,String name,String id) {
+    public static void actionStart(Context context,String name,int id,int type) {
         Intent intent = new Intent(context,ChatActivity.class);
         intent.putExtra("chatName",name);
+        intent.putExtra("type",type); // 0人1群
         intent.putExtra("chatId",id);
         context.startActivity(intent);
     }
@@ -89,7 +102,8 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
     private void getIntentData() {
         Intent intent = getIntent();
         chatName = intent.getStringExtra("chatName");
-        chatId = intent.getStringExtra("chatId");
+        chatId = intent.getIntExtra("chatId",0);
+        chatType = intent.getIntExtra("chatType",0);
     }
 
     @Override
@@ -104,12 +118,30 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
         toolBarHelper.setBackIcon();
     }
 
-    // toolbar返回图标点击事件
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.chat_toolbar_menu, menu);
+        return true;
+    }
+
+
+    // toolbar菜单按钮点击事件
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
+                break;
+            case R.id.to_member:
+                if (chatType == 0) {
+                    // 个人信息
+
+                } else {
+                    // 成员
+                    startActivity(new Intent(ChatActivity.this, MemberActivity.class));
+                }
+                break;
+            default:
         }
         return super.onOptionsItemSelected(item);
     }
@@ -137,7 +169,7 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
         mSwipeRefresh.setOnRefreshListener(this);
         initChatUi();
 
-        // 消息点击事件
+        // 消息列表点击事件
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -168,29 +200,20 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
 
     @Override
     public void onRefresh() {
-        /*//下拉刷新模拟获取历史消息
+        //下拉刷新模拟获取历史消息
         List<Message> mReceiveMsgList=new ArrayList<Message>();
         //构建文本消息
         Message mMessgaeText=getBaseReceiveMessage(MsgType.TEXT);
-        TextMsgBody mTextMsgBody=new TextMsgBody();
-        mTextMsgBody.setMessage("收到的消息");
-        mMessgaeText.setBody(mTextMsgBody);
+        mMessgaeText.setText("收到的消息");
         mReceiveMsgList.add(mMessgaeText);
         //构建图片消息
         Message mMessgaeImage=getBaseReceiveMessage(MsgType.IMAGE);
-        ImageMsgBody mImageMsgBody=new ImageMsgBody();
-        mImageMsgBody.setThumbUrl("http://pic19.nipic.com/20120323/9248108_173720311160_2.jpg");
-        mMessgaeImage.setBody(mImageMsgBody);
+        ImgMsgBody image= new ImgMsgBody();
+        image.setThumbUrl("http://pic19.nipic.com/20120323/9248108_173720311160_2.jpg");
+        mMessgaeImage.setImage(image);
         mReceiveMsgList.add(mMessgaeImage);
-        //构建文件消息
-        Message mMessgaeFile=getBaseReceiveMessage(MsgType.FILE);
-        FileMsgBody mFileMsgBody=new FileMsgBody();
-        mFileMsgBody.setDisplayName("收到的文件");
-        mFileMsgBody.setSize(12);
-        mMessgaeFile.setBody(mFileMsgBody);
-        mReceiveMsgList.add(mMessgaeFile);
         mAdapter.addData(0,mReceiveMsgList);
-        mSwipeRefresh.setRefreshing(false);*/
+        mSwipeRefresh.setRefreshing(false);
     }
 
     private void initChatUi(){
@@ -248,6 +271,67 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
 
     }
 
+    @OnClick({R.id.btn_send,R.id.rlPhoto,R.id.rlVideo,R.id.rlLocation,R.id.rlFile})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_send:
+                sendTextMsg(mEtContent.getText().toString());
+                mEtContent.setText(""); // 发送完后清空输入框内容
+                break;
+            case R.id.rlPhoto:
+                PictureFileUtil.openGalleryPic(ChatActivity.this,REQUEST_CODE_IMAGE);
+                break;
+            /*case R.id.rlVideo:
+                PictureFileUtil.openGalleryAudio(ChatActivity.this,REQUEST_CODE_VEDIO);
+                break;
+            case R.id.rlFile:
+                PictureFileUtil.openFile(ChatActivity.this,REQUEST_CODE_FILE);
+                break;*/
+            case R.id.rlLocation:
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_IMAGE:
+                    // 图片选择结果回调
+                    List<LocalMedia> selectListPic = PictureSelector.obtainMultipleResult(data);
+                    for (LocalMedia media : selectListPic) {
+                        LogUtil.d("获取图片路径成功:"+  media.getPath());
+                        sendImageMessage(media);
+                    }
+                    break;
+                default:
+            }
+        }
+    }
+
+    // 根据text发送文本消息
+    private void sendTextMsg(String text)  {
+        final Message mMessgae=getBaseSendMessage(MsgType.TEXT); // 先封装消息的基本属性
+        mMessgae.setText(text);
+        //开始发送
+        mAdapter.addData(mMessgae);
+        //模拟两秒后发送成功
+        updateMsg(mMessgae);
+    }
+
+    // 图片消息
+    private void sendImageMessage(final LocalMedia media) {
+        final Message mMessgae=getBaseSendMessage(MsgType.IMAGE);
+        ImgMsgBody mImageMsgBody=new ImgMsgBody();
+        mImageMsgBody.setThumbUrl(media.getCompressPath());
+        mMessgae.setImage(mImageMsgBody);
+        //开始发送
+        mAdapter.addData( mMessgae);
+        //模拟两秒后发送成功
+        updateMsg(mMessgae);
+    }
+
     //语音消息
     private void sendAudioMessage(  final String path,int time) {
         /*final Message mMessgae=getBaseSendMessage(MsgType.AUDIO);
@@ -261,6 +345,49 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
         updateMsg(mMessgae)*/;
     }
 
+    // 发送消息的提前封装，某类型消息空盒子
+    private Message getBaseSendMessage(String msgType){
+        Message mMessgae=new Message();
+        mMessgae.setId(NumberUtil.getUUID());
+        mMessgae.setSenderId(mSenderId);
+        //mMessgae.setTargetId(mTargetId);
+        mMessgae.setCreatedAt(new Date());
+        mMessgae.setSendStatus(MsgSendStatus.SENDING);
+        mMessgae.setMsgType(msgType);
+        return mMessgae;
+    }
+
+    private Message getBaseReceiveMessage(String msgType){
+        Message mMessgae=new Message();
+        mMessgae.setId(NumberUtil.getUUID());
+        mMessgae.setSenderId(mTargetId);
+        //mMessgae.setTargetId(mSenderId);
+        mMessgae.setCreatedAt(new Date());
+        mMessgae.setSendStatus(MsgSendStatus.SENDING);
+        mMessgae.setMsgType(msgType);
+        return mMessgae;
+    }
+
+    // 通知适配器更改item
+    private void updateMsg(final Message mMessgae) {
+        mRvChat.scrollToPosition(mAdapter.getItemCount() - 1);
+        //模拟2秒后发送成功
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                int position=0;
+                mMessgae.setSendStatus(MsgSendStatus.SENT);
+                //更新单个子条目
+                for (int i=0;i<mAdapter.getData().size();i++){
+                    Message mAdapterMessage=mAdapter.getData().get(i);
+                    if (mMessgae.getId().equals(mAdapterMessage.getId())){
+                        position=i;
+                    }
+                }
+                mAdapter.notifyItemChanged(position);
+            }
+        }, 2000);
+
+    }
 
     @Override
     protected void initView() {

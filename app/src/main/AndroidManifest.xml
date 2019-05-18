@@ -31,12 +31,10 @@
         </activity>
         <activity android:name=".mvp.view.activity.SplashActivity">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+             <!--<intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>-->
         </activity>
         <activity android:name=".mvp.view.activity.LoginActivity" />
 
@@ -48,7 +46,17 @@
             android:name=".mvp.view.activity.NewContactActivity"
             android:launchMode="singleTop" />
         <activity android:name=".mvp.view.activity.ChatActivity" />
-        <activity android:name=".mvp.view.activity.ChatTestActivity"></activity>
+        <activity android:name=".mvp.view.activity.MemberActivity" />
+        <activity android:name=".mvp.view.activity.SelectorActivity">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity android:name=".mvp.view.activity.GroupActivity"></activity>
     </application>
 
 </manifest>

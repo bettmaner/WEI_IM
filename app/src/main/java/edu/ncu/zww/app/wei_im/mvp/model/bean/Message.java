@@ -6,9 +6,9 @@ import com.stfalcon.chatkit.commons.models.MessageContentType;
 import java.util.Date;
 
 
-public class Message implements IMessage,
-        MessageContentType.Image, /*this is for default image messages implementation*/
-        MessageContentType /*and this one is for custom content type (in this case - voice message)*/ {
+public class Message implements IMessage/*,
+        MessageContentType.Image*//*, *//**//*this is for default image messages implementation*//**//*
+        MessageContentType *//**//*and this one is for custom content type (in this case - voice message)*/ {
 
     private String id; // uuid
     private String chatType; // 聊天对象类型。内容说明:私人聊天为‘c’+对方账号，群聊天为'g'+群账号。
@@ -18,8 +18,10 @@ public class Message implements IMessage,
     private Contact user; // 对方（对本用户而言）信息
     private String senderId; // 发送者账号
     private String sendStatus; // 发送状态
-    private Image image;
+    private ImgMsgBody image;
 //    private Voice voice;
+
+    public Message(){}
 
     public Message(String id, Contact user, String text) {
         this(id, user, text, new Date());
@@ -30,6 +32,10 @@ public class Message implements IMessage,
         this.text = text;
         this.user = user;
         this.createdAt = createdAt;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -52,9 +58,8 @@ public class Message implements IMessage,
         return this.user;
     }
 
-    @Override
-    public String getImageUrl() {
-        return image == null ? null : image.url;
+    public ImgMsgBody getImage() {
+        return image;
     }
 
     public String getChatType() {
@@ -105,7 +110,7 @@ public class Message implements IMessage,
         this.createdAt = createdAt;
     }
 
-    public void setImage(Image image) {
+    public void setImage(ImgMsgBody image) {
         this.image = image;
         setMsgType(MsgType.IMAGE);
     }
@@ -113,15 +118,6 @@ public class Message implements IMessage,
 //    public void setVoice(Voice voice) {
 //        this.voice = voice;
 //    }
-
-    public static class Image {
-
-        private String url;
-
-        public Image(String url) {
-            this.url = url;
-        }
-    }
 
     /*
     public static class Voice {

@@ -12,10 +12,11 @@ import java.io.File;
 import java.util.List;
 
 import edu.ncu.zww.app.wei_im.R;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.ImgMsgBody;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Message;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.MsgSendStatus;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.MsgType;
-import edu.ncu.zww.app.wei_im.mvp.view.activity.ChatActivity;
 import edu.ncu.zww.app.wei_im.utils.chatutils.GlideUtils;
 
 /**
@@ -43,15 +44,13 @@ public class ChatAdapter extends BaseQuickAdapter<Message,BaseViewHolder> {
     private static final int RECEIVE_VIDEO = R.layout.item_video_receive;
     private static final int SEND_FILE = R.layout.item_file_send;
     private static final int RECEIVE_FILE = R.layout.item_file_receive;
-   private static final int RECEIVE_AUDIO = R.layout.item_audio_receive;
+    private static final int RECEIVE_AUDIO = R.layout.item_audio_receive;
     private static final int SEND_AUDIO = R.layout.item_audio_send;
     /*
     private static final int SEND_LOCATION = R.layout.item_location_send;
     private static final int RECEIVE_LOCATION = R.layout.item_location_receive;*/
 
-
-
-
+    private static final String mUserAccount = String.valueOf(ApplicationData.getInstance().getUserInfo().getAccount());
 
     public ChatAdapter(Context context, List<Message> data) {
         super(data);
@@ -60,7 +59,7 @@ public class ChatAdapter extends BaseQuickAdapter<Message,BaseViewHolder> {
             protected int getItemType(Message entity) { // 根据你的实体类来判断布局类型
 
                 // 根据Message的getSenderId()，判断消息是发送还是接收
-                boolean isSend = entity.getSenderId().equals(ChatActivity.mSenderId);
+                boolean isSend = entity.getSenderId().equals(mUserAccount);
                 // 再获取发送/接收类型
                 if (MsgType.TEXT==entity.getMsgType()) {
                     return isSend ? TYPE_SEND_TEXT : TYPE_RECEIVE_TEXT;
@@ -103,7 +102,7 @@ public class ChatAdapter extends BaseQuickAdapter<Message,BaseViewHolder> {
         if (msgType.equals(MsgType.TEXT)) {
             //只需要设置自己发送的状态
             String sentStatus = item.getStatus();
-            boolean isSend = item.getSenderId().equals(ChatActivity.mSenderId);
+            boolean isSend = item.getSenderId().equals(mUserAccount);
             if (isSend){
                 if (sentStatus.equals(MsgSendStatus.SENDING)) {
                     helper.setVisible(R.id.chat_item_progress, true).setVisible(R.id.chat_item_fail, false);
@@ -114,7 +113,7 @@ public class ChatAdapter extends BaseQuickAdapter<Message,BaseViewHolder> {
                 }
             }
         } else if (msgType.equals(MsgType.IMAGE)) {
-            boolean isSend = item.getSenderId().equals(ChatActivity.mSenderId); // 我是否是发送方
+            boolean isSend = item.getSenderId().equals(mUserAccount); // 我是否是发送方
             if (isSend) {
                 String sentStatus = item.getStatus();
                 if (sentStatus.equals(MsgSendStatus.SENDING)) {
@@ -136,15 +135,15 @@ public class ChatAdapter extends BaseQuickAdapter<Message,BaseViewHolder> {
         if (item.getMsgType().equals(MsgType.TEXT)){
            helper.setText(R.id.chat_item_content_text, item.getText());
         } else if (item.getMsgType().equals(MsgType.IMAGE)){
-            String imgUrl = item.getImageUrl();
-            if (TextUtils.isEmpty(imgUrl)){
-                GlideUtils.loadChatImage(mContext,imgUrl,(ImageView) helper.getView(R.id.bivPic));
+            ImgMsgBody img = item.getImage();
+            if (TextUtils.isEmpty(img.getThumbPath())){
+                GlideUtils.loadChatImage(mContext,img.getThumbUrl(),(ImageView) helper.getView(R.id.bivPic));
             }else{
-                File file = new File(imgUrl);
+                File file = new File(img.getThumbPath());
                 if (file.exists()) {
-                    GlideUtils.loadChatImage(mContext,imgUrl,(ImageView) helper.getView(R.id.bivPic));
+                    GlideUtils.loadChatImage(mContext,img.getThumbPath(),(ImageView) helper.getView(R.id.bivPic));
                 }else {
-                    GlideUtils.loadChatImage(mContext,imgUrl,(ImageView) helper.getView(R.id.bivPic));
+                    GlideUtils.loadChatImage(mContext,img.getThumbUrl(),(ImageView) helper.getView(R.id.bivPic));
                 }
             }
         }/*else if(item.getMsgType().equals(MsgType.VIDEO)){

@@ -17,7 +17,6 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.leon.lib.settingview.LSettingItem;
 
-import edu.ncu.zww.app.wei_im.MApplication;
 import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.base.BaseFragment;
 import edu.ncu.zww.app.wei_im.customview.MyBottomDialog;
@@ -26,8 +25,6 @@ import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.User;
 import edu.ncu.zww.app.wei_im.mvp.presenter.MinePresenter;
 import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
-import jp.wasabeef.glide.transformations.GrayscaleTransformation;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
@@ -39,7 +36,7 @@ public class MineFragment extends BaseFragment<MineContract.MineView, MinePresen
 
     private ImageView backImage,headImg;
     private TextView headName;
-    private LSettingItem nameView,accountView,quitView;
+    private LSettingItem nameView,accountView,sexView,quitView;
     private User user;
 
     public MineFragment() {
@@ -64,6 +61,7 @@ public class MineFragment extends BaseFragment<MineContract.MineView, MinePresen
 
         nameView = view.findViewById(R.id.user_name);
         accountView  = view.findViewById(R.id.user_account);
+        sexView = view.findViewById(R.id.user_sex);
         quitView = view.findViewById(R.id.quit);
         iniData();
         return view;
@@ -106,16 +104,9 @@ public class MineFragment extends BaseFragment<MineContract.MineView, MinePresen
 
 
     private void iniData() {
-        /*Glide.with(this)
-                .load("https://i02piccdn.sogoucdn.com/3c28af542f2d49f7-9e7c5d699eaea93e-9b1a581472b9596d6fd6cacbc968e12a_qq")
-                .bitmapTransform(new BlurTransformation(getContext(), 25), new CenterCrop(MApplication.getInstance()))
-                .into(backImage);
-        Glide.with(this).load(R.drawable.head_icon)
-                .bitmapTransform(new CropCircleTransformation(getContext()))
-                .into(headImg);*/
         MultiTransformation multi = new MultiTransformation(new BlurTransformation(25),new CenterCrop());
         Glide.with(this)
-                .load("https://i02piccdn.sogoucdn.com/3c28af542f2d49f7-9e7c5d699eaea93e-9b1a581472b9596d6fd6cacbc968e12a_qq")
+                .load("http://pic.ik123.com/uploads/allimg/190425/12-1Z425153210.jpg")
                 .apply(bitmapTransform(multi))
                 .into(backImage);
         Glide.with(this).load(R.drawable.head_icon)
@@ -125,6 +116,7 @@ public class MineFragment extends BaseFragment<MineContract.MineView, MinePresen
         if (user != null) {
             nameView.setRightText("ghghh");
             accountView.setRightText(String.valueOf(user.getAccount()));
+            sexView.setRightText("男");
         }
     }
 
