@@ -18,4 +18,9 @@ public class MsgPresenter extends BasePresenter<MsgContract.MsgView> {
 
     }
 
+    @Override
+    public void close() {
+
+    }
+
 }

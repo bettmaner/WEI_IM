@@ -1,9 +1,11 @@
 package edu.ncu.zww.app.wei_im.client;
 
 import java.io.IOException;
+import java.util.List;
 
 import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.GroupInfo;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Invitation;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType;
@@ -72,6 +74,13 @@ public class ClientControl {
     public static void getGroupList() throws IOException {
         TranObject t = new TranObject<GroupInfo>(TranObjectType.GET_ALL_GROUPS);
         t.setInfo("获取用户群聊");
+        mClient.send(t);
+    }
+
+    public static void getGroupMember(Integer groupId) throws IOException {
+        TranObject t = new TranObject<GroupInfo>(TranObjectType.GET_GROUP_MEMBER);
+        t.setInfo("获取"+groupId+"群成员");
+        t.setObject(groupId);
         mClient.send(t);
     }
 

@@ -28,6 +28,11 @@ public class NewContactPresenter extends BasePresenter<OperaFGContract.NewContac
 
     }
 
+    @Override
+    public void close() {
+
+    }
+
     public List<Invitation> queryInvitations() {
         return mNewContactModel.queryInvitations();
     }

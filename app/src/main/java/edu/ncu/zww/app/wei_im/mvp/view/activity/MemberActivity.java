@@ -1,5 +1,7 @@
 package edu.ncu.zww.app.wei_im.mvp.view.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +19,7 @@ import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.base.BaseActivity;
 import edu.ncu.zww.app.wei_im.mvp.contract.MemberContract;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.GroupInfo;
 import edu.ncu.zww.app.wei_im.mvp.presenter.MemberPresenter;
 import edu.ncu.zww.app.wei_im.mvp.view.adapter.MemberAdapter;
 import edu.ncu.zww.app.wei_im.utils.ToolBarHelper;
@@ -30,7 +33,20 @@ public class MemberActivity extends BaseActivity<MemberContract.MemberView,Membe
     LSettingItem gNameView;
 
     private MemberAdapter adapter;
+    private GroupInfo groupInfo; // 群基本数据
     private List<Contact> memberList; // 联系人数据
+    private int groupId;
+
+    public static void actionStart(Context context, int gid) {
+        Intent intent = new Intent(context,MemberActivity.class);
+        intent.putExtra("gid",gid);
+        context.startActivity(intent);
+    }
+
+    // 获取上一个活动传来的数据
+    private void getIntentData() {
+        groupId = getIntent().getIntExtra("gid",0);
+    }
 
     /* --------------------------- 继承方法 --------------------- */
     @Override
@@ -51,7 +67,7 @@ public class MemberActivity extends BaseActivity<MemberContract.MemberView,Membe
 
     @Override
     protected void initView() {
-
+        gNameView.setRightText(groupInfo.getName());
     }
 
     @Override
@@ -74,15 +90,22 @@ public class MemberActivity extends BaseActivity<MemberContract.MemberView,Membe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getIntentData();
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         memberList = new ArrayList<>();
-        getMemberLIst();
+        //getMemberLIst();
+        initData();
         initRecycler();
-        gNameView.setRightText("未命名");
     }
 
-    private void getMemberLIst() {
+    private void initData() {
+        groupInfo = mPresenter.getGroupInfo(groupId);
+        initView();
+        mPresenter.getMemberList(groupId);
+    }
+
+    /*private void getMemberLIst() {
         memberList.add(new Contact(12345,"胡同学","asass",1));
         memberList.add(new Contact(12345,"李同学","asass",1));
         memberList.add(new Contact(12345,"李主任","asass",1));
@@ -90,7 +113,7 @@ public class MemberActivity extends BaseActivity<MemberContract.MemberView,Membe
         memberList.add(new Contact(12345,"王同学","asass",1));
         memberList.add(new Contact(12345,"周校长","asass",1));
         memberList.add(new Contact(12345,"徐同学","asass",1));
-    }
+    }*/
 
     private void initRecycler() {
         StaggeredGridLayoutManager layoutManager =
@@ -99,6 +122,13 @@ public class MemberActivity extends BaseActivity<MemberContract.MemberView,Membe
         recyclerView.setLayoutManager(layoutManager);
         adapter = new MemberAdapter(memberList);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onQuerySuccess(List<Contact> list) {
+        memberList.clear();
+        memberList.addAll(list);
+        adapter.notifyDataSetChanged();
     }
 
 }

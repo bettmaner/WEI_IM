@@ -15,18 +15,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +34,7 @@ import edu.ncu.zww.app.wei_im.customview.chatview.RecordButton;
 import edu.ncu.zww.app.wei_im.customview.chatview.StateButton;
 import edu.ncu.zww.app.wei_im.mvp.contract.ChatContract;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.ImgMsgBody;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Message;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.MsgSendStatus;
@@ -93,7 +91,7 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
     public static void actionStart(Context context,String name,int id,int type) {
         Intent intent = new Intent(context,ChatActivity.class);
         intent.putExtra("chatName",name);
-        intent.putExtra("type",type); // 0人1群
+        intent.putExtra("chatType",type); // 0人1群
         intent.putExtra("chatId",id);
         context.startActivity(intent);
     }
@@ -135,10 +133,11 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
             case R.id.to_member:
                 if (chatType == 0) {
                     // 个人信息
-
+                    Contact contact = mPresenter.getContact(chatId);
+                    ContactInfoActivity.actionStart(ChatActivity.this,contact);
                 } else {
                     // 成员
-                    startActivity(new Intent(ChatActivity.this, MemberActivity.class));
+                    MemberActivity.actionStart(ChatActivity.this,6000011);
                 }
                 break;
             default:

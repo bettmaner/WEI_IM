@@ -2,13 +2,10 @@ package edu.ncu.zww.app.wei_im.mvp.view.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -18,7 +15,6 @@ import java.util.List;
 
 import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.base.BaseActivity;
-import edu.ncu.zww.app.wei_im.database.RealmHelper;
 import edu.ncu.zww.app.wei_im.mvp.contract.ContactContract;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.GroupInfo;
 import edu.ncu.zww.app.wei_im.mvp.presenter.GroupPresenter;

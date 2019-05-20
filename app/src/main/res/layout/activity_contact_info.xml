@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".mvp.view.activity.ContactInfoActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:background="@color/white">
+        <ImageView
+            android:id="@+id/contact_avatar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginRight="20dp"
+            android:src="@mipmap/ic_avatar"/>
+        <TextView
+            android:id="@+id/contact_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/contact_avatar"
+            android:layout_marginTop="3dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="名字"/>
+        <TextView
+            android:id="@+id/contact_account"
+            android:layout_marginTop="9dp"
+            android:layout_toRightOf="@id/contact_avatar"
+            android:layout_below="@id/contact_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WEI_IM号"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/to_chat_activity"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/white">
+        <TextView
+            android:id="@+id/to_chat_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawableLeft="@drawable/ic_msg"
+            android:drawablePadding="6dp"
+            android:textColor="@color/text_blue"
+            android:textSize="17sp"
+            android:text="@string/send_msg"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/make_friend"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        android:layout_marginTop="12dp"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawablePadding="6dp"
+            android:textColor="@color/text_blue"
+            android:textSize="17sp"
+            android:text="@string/make_friend"/>
+    </RelativeLayout>
+</LinearLayout>

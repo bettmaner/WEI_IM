@@ -36,7 +36,7 @@ public class MApplication extends Application {
         DialogUIUtils.init(this); // 使用弹出框插件https://github.com/lingcimi/jjdxm_dialogui
         LogUtil.d("执行了application创建");
 
-        RealmHelper.getInstance().initDB("100066");
+       // RealmHelper.getInstance().initDB("100066");
 
     }
 

@@ -51,4 +51,9 @@ public class GroupPresenter extends BasePresenter<ContactContract.ContactView> {
                     }
                 });
     }
+
+    @Override
+    public void close() {
+
+    }
 }

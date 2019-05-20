@@ -15,4 +15,9 @@ public class GirlPreSenter extends BasePresenter<IGirlView> {
     public void getMessage(TranObject msg) {
         System.out.println("不用理会");
     }
+
+    @Override
+    public void close() {
+
+    }
 }

@@ -28,6 +28,11 @@ public class ContactPresenter extends BasePresenter<ContactContract.ContactView>
 
     }
 
+    @Override
+    public void close() {
+
+    }
+
     public void queryFriends() {
         mContactModel.queryFriends()
                 .subscribeOn(Schedulers.newThread()) // 观察者的操作线程，Schedulers.newThread()启动新线程。

@@ -12,6 +12,7 @@ import edu.ncu.zww.app.wei_im.utils.MyObjectInputStream;
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.CREATE_GROUP;
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.FRIEND_REQUEST;
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.GET_ALL_GROUPS;
+import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.GET_GROUP_MEMBER;
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.LOGIN;
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.MESSAGE;
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.REGISTER;
@@ -103,6 +104,9 @@ public class ClientInputThread extends Thread {
                             break;
                         case GET_ALL_GROUPS:
                             mData.getAllGroups(resultData);
+                            break;
+                        case GET_GROUP_MEMBER:
+                            mData.rcGroupMember(resultData);
                             break;
                         case MESSAGE:
 //                        ApplicationData.getInstance().messageArrived(resultData);

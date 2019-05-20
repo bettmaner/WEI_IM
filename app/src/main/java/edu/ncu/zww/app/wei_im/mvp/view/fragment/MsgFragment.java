@@ -83,7 +83,7 @@ public class MsgFragment extends BaseFragment<MsgContract.MsgView,MsgPresenter>
     // 消息Item点击事件
     @Override
     public void onDialogClick(Dialog dialog) {
-        ChatActivity.actionStart(mContext,dialog.getDialogName(),123,0);
+        ChatActivity.actionStart(mContext,dialog.getDialogName(),100068,0);
     }
 
     // 消息Item长按事件

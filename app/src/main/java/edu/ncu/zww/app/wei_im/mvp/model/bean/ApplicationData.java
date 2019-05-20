@@ -2,12 +2,14 @@ package edu.ncu.zww.app.wei_im.mvp.model.bean;
 
 import android.content.Context;
 
+import java.lang.reflect.Member;
 import java.util.List;
 
 import edu.ncu.zww.app.wei_im.database.RealmHelper;
 import edu.ncu.zww.app.wei_im.utils.BeanTransfer;
 import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import edu.ncu.zww.app.wei_im.utils.SharePreferenceUtil;
+import io.realm.RealmList;
 
 
 public class ApplicationData {
@@ -226,6 +228,15 @@ public class ApplicationData {
             mGroupInfoList = mRealmHelper.getGroupList();
         }
         return mGroupInfoList;
+    }
+
+    // 服务器接收群的成员
+    public void rcGroupMember(TranObject tranObject) {
+        this.mReceivedMessage = tranObject;
+//        GroupMember groupMember = new GroupMember();
+//        groupMember.setGid(tranObject.getFromUser());
+//        groupMember.setMemberList((RealmList<Contact>) tranObject.getObject());
+//        mRealmHelper
     }
 
 

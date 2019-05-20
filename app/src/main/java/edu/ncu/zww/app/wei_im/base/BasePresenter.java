@@ -35,10 +35,13 @@ public abstract class BasePresenter<T> {
         if (mViewRef != null) {
             mViewRef.clear();
         }
+        close();
     }
 
     /**
      *  传递给子类的消息对象
      * */
     public abstract void getMessage(TranObject msg);
+
+    public abstract void close();
 }

@@ -78,4 +78,9 @@ public class LoginPresenter extends BasePresenter<LRContract.LRView> {
 //            }
 //        }
     }
+
+    @Override
+    public void close() {
+
+    }
 }

@@ -12,33 +12,40 @@
     <include layout="@layout/toolbar" />
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/members_rv"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"/>
+        android:layout_height="match_parent">
 
-    <com.leon.lib.settingview.LSettingItem
-        android:id="@+id/group_name_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        leon:isShowRightText="true"
-        leon:isShowUnderLine="false"
-        leon:rightTextColor="@color/text_gray"
-        leon:leftText="群名称"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/members_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:background="@color/white"/>
 
-    <TextView
-        android:id="@+id/quit_group_view"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
-        android:layout_marginTop="220dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:textColor="@color/red"
-        android:text="删除并退出"/>
+        <com.leon.lib.settingview.LSettingItem
+            android:id="@+id/group_name_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/members_rv"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            leon:isShowRightText="true"
+            leon:isShowUnderLine="false"
+            leon:rightTextColor="@color/text_gray"
+            leon:leftText="群名称"/>
+
+        <TextView
+            android:id="@+id/quit_group_view"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/red"
+            android:text="删除并退出"/>
+    </RelativeLayout>
 
 </LinearLayout>

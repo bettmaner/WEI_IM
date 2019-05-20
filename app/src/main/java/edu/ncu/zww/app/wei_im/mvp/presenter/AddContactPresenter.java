@@ -27,6 +27,11 @@ public class AddContactPresenter extends BasePresenter<OperaFGContract.AddContac
 
     }
 
+    @Override
+    public void close() {
+
+    }
+
     public void queryContacts(String account,Integer type) {
         mAddContactModel.queryContacts(account,type)
                 .subscribeOn(Schedulers.newThread()) // 观察者的操作线程，Schedulers.newThread()启动新线程。

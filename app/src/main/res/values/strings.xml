@@ -16,6 +16,8 @@
     <string name="to_message">发送消息</string>
     <string name="delete_contact">删除联系人</string>
 
+    <string name="send_msg">发消息</string>
+    <string name="make_friend">添加为好友</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

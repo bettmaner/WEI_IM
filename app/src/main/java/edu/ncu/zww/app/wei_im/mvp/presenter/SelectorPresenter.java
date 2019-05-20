@@ -30,6 +30,11 @@ public class SelectorPresenter extends BasePresenter<ContactContract.SelectorVie
 
     }
 
+    @Override
+    public void close() {
+
+    }
+
     // 提交按钮点击验证
     public void submit(Map<Integer, Contact> map) {
         if (map.size()<2) {

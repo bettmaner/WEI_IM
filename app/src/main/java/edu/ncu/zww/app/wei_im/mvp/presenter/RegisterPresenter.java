@@ -75,4 +75,9 @@ public class RegisterPresenter extends BasePresenter<LRContract.LRView> {
 //            }
 //        }
     }
+
+    @Override
+    public void close() {
+
+    }
 }

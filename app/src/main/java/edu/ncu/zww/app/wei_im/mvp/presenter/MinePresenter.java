@@ -22,6 +22,11 @@ public class MinePresenter extends BasePresenter<MineContract.MineView> {
 
     }
 
+    @Override
+    public void close() {
+
+    }
+
     // 退出登录
     public void logOff() {
         mineModel.logOff()

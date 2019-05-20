@@ -23,18 +23,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"> <!-- 这行配置网络，视情况配置 -->
         <activity android:name=".mvp.view.activity.MainActivity">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity android:name=".mvp.view.activity.SplashActivity">
-
-             <!--<intent-filter>
+             <intent-filter>
                  <action android:name="android.intent.action.MAIN" />
                  <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>-->
+             </intent-filter>
         </activity>
         <activity android:name=".mvp.view.activity.LoginActivity" />
 
@@ -45,18 +44,19 @@
         <activity
             android:name=".mvp.view.activity.NewContactActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".mvp.view.activity.ChatActivity" />
+        <activity
+            android:name=".mvp.view.activity.ChatActivity"
+            android:parentActivityName=".mvp.view.activity.MainActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".mvp.view.activity.MemberActivity" />
         <activity android:name=".mvp.view.activity.SelectorActivity">
-
-            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
         </activity>
-        <activity android:name=".mvp.view.activity.GroupActivity"></activity>
+        <activity android:name=".mvp.view.activity.GroupActivity" />
+        <activity android:name=".mvp.view.activity.ContactInfoActivity"></activity>
     </application>
 
 </manifest>
