@@ -7,7 +7,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
+import com.dou361.dialogui.DialogUIUtils;
+import com.dou361.dialogui.listener.DialogUIListener;
 import com.leon.lib.settingview.LSettingItem;
 
 import java.util.ArrayList;
@@ -15,6 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import edu.ncu.zww.app.wei_im.R;
 import edu.ncu.zww.app.wei_im.base.BaseActivity;
 import edu.ncu.zww.app.wei_im.mvp.contract.MemberContract;
@@ -24,6 +29,8 @@ import edu.ncu.zww.app.wei_im.mvp.presenter.MemberPresenter;
 import edu.ncu.zww.app.wei_im.mvp.view.adapter.MemberAdapter;
 import edu.ncu.zww.app.wei_im.utils.ToolBarHelper;
 
+import static com.dou361.dialogui.DialogUIUtils.showToast;
+
 public class MemberActivity extends BaseActivity<MemberContract.MemberView,MemberPresenter>
         implements MemberContract.MemberView{
 
@@ -31,6 +38,8 @@ public class MemberActivity extends BaseActivity<MemberContract.MemberView,Membe
     RecyclerView recyclerView;
     @BindView(R.id.group_name_view)
     LSettingItem gNameView;
+    @BindView(R.id.quit_group_view)
+    TextView quitView;
 
     private MemberAdapter adapter;
     private GroupInfo groupInfo; // 群基本数据
@@ -95,8 +104,13 @@ public class MemberActivity extends BaseActivity<MemberContract.MemberView,Membe
         ButterKnife.bind(this);
         memberList = new ArrayList<>();
         //getMemberLIst();
-        initData();
         initRecycler();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initData();
     }
 
     private void initData() {
@@ -124,11 +138,38 @@ public class MemberActivity extends BaseActivity<MemberContract.MemberView,Membe
         recyclerView.setAdapter(adapter);
     }
 
+    @OnClick({R.id.quit_group_view})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.quit_group_view:
+                String str = "删除并退出后，将不再接收此群聊信息";
+                DialogUIUtils.showAlert(this, "", str, "", "", "确定", "取消", false, true, true, new DialogUIListener() {
+                    @Override
+                    public void onPositive() {
+                        mPresenter.quitGroup(groupId);
+                    }
+
+                    @Override
+                    public void onNegative() {
+                        showToast("onNegative");
+                    }
+
+                }).show();
+                break;
+            default:
+        }
+    }
+
     @Override
     public void onQuerySuccess(List<Contact> list) {
         memberList.clear();
         memberList.addAll(list);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void quitGroupSuccess() {
+        startActivity(new Intent(MemberActivity.this,MainActivity.class));
     }
 
 }

@@ -15,7 +15,9 @@ public class MemberContract {
      */
     public interface MemberView {
         void onQuerySuccess(List<Contact> list);
+        void quitGroupSuccess();
     }
+
 
     /**
      *  model

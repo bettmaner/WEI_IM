@@ -6,6 +6,7 @@ import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.GroupInfo;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.GroupMember;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class GroupDao {
 
@@ -63,6 +64,24 @@ public class GroupDao {
         mRealm.close();
     }
 
+    // 退出群聊
+    public void quitGroup(final int gid) {
+        // 先找出群的相关数据
+        final RealmResults<GroupInfo> groupInfo = realm.where(GroupInfo.class)
+                .equalTo("gid",gid).findAll();
+        final GroupMember groupMember = realm.where(GroupMember.class)
+                .equalTo("gid",gid).findFirst();
+
+        // 进行删除
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                groupInfo.deleteFirstFromRealm(); // 删除群信息
+                //groupMember.setMemberList(null) ; // 删除群成员的成员连接
+            }
+        });
+    }
+
     // 添加成员
     public void addMember(final int gid, final Contact contact) {
         realm.executeTransaction(new Realm.Transaction() {
@@ -86,6 +105,8 @@ public class GroupDao {
             }
         });
     }
+
+
 
     public void closeRealm() {
         if (realm!=null) {

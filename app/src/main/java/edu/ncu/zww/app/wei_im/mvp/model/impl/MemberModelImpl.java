@@ -8,6 +8,7 @@ import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.GroupInfo;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.GroupMember;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.ResultBean;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 import edu.ncu.zww.app.wei_im.mvp.model.db.GroupDao;
 import io.reactivex.Observable;
@@ -73,6 +74,29 @@ public class MemberModelImpl implements MemberContract.MemberModel {
                 emitter.onComplete();
             }
         });
+    }
+
+    // 增删群
+    public Observable<ResultBean> cdGroupMember(final int gid, final List<Integer> memberList, final int type) {
+        return Observable.create(new ObservableOnSubscribe<ResultBean>(){
+            @Override
+            public void subscribe(final ObservableEmitter<ResultBean> emitter) throws Exception {
+                // 存入群的id和需要增删的群成员
+                GroupInfo groupInfo = new GroupInfo();
+                groupInfo.setGid(gid);
+                groupInfo.setMemberList(memberList);
+                // 请求服务器
+//                ClientControl.cdGroupMember(groupInfo,type);
+                // 如果成功
+                ResultBean resultBean = new ResultBean(true,"成功");
+                emitter.onNext(resultBean);
+                emitter.onComplete();
+            }
+        });
+    }
+
+    public void quitGroupFromRealm(final int gid) {
+        groupDao.quitGroup(gid);
     }
 
     public void closeRealm() {

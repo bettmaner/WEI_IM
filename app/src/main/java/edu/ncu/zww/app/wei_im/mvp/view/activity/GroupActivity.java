@@ -81,8 +81,12 @@ public class GroupActivity extends BaseActivity<ContactContract.ContactView, Gro
         super.onCreate(savedInstanceState);
         initView();
         initRecycler();
-        mPresenter.getGroupList();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mPresenter.getGroupList();
     }
 
     private void initRecycler() {

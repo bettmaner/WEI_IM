@@ -22,7 +22,9 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"> <!-- 这行配置网络，视情况配置 -->
-        <activity android:name=".mvp.view.activity.MainActivity">
+        <activity
+            android:name=".mvp.view.activity.MainActivity"
+            android:launchMode="singleTask">
             <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,10 +52,10 @@
             android:launchMode="singleTask"/>
         <activity android:name=".mvp.view.activity.MemberActivity" />
         <activity android:name=".mvp.view.activity.SelectorActivity">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity android:name=".mvp.view.activity.GroupActivity" />
         <activity android:name=".mvp.view.activity.ContactInfoActivity"></activity>

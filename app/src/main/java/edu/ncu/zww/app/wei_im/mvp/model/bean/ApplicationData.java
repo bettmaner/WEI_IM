@@ -230,6 +230,20 @@ public class ApplicationData {
         return mGroupInfoList;
     }
 
+    public void removeGroup(Integer groupId) {
+        if (mGroupInfoList != null) {
+            int pos = 0;
+            for (int i = mGroupInfoList.size()-1; i>=0; i--) {
+                if (groupId.compareTo(mGroupInfoList.get(i).getGid())==0) {
+                    pos = i;
+                    break;
+                }
+            }
+            mGroupInfoList.remove(pos);
+        }
+
+    }
+
     // 服务器接收群的成员
     public void rcGroupMember(TranObject tranObject) {
         this.mReceivedMessage = tranObject;

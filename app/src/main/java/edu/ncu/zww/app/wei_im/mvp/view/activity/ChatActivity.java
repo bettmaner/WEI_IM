@@ -137,7 +137,7 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
                     ContactInfoActivity.actionStart(ChatActivity.this,contact);
                 } else {
                     // 成员
-                    MemberActivity.actionStart(ChatActivity.this,6000011);
+                    MemberActivity.actionStart(ChatActivity.this,chatId);
                 }
                 break;
             default:
