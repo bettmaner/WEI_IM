@@ -17,6 +17,7 @@ public class ApplicationData {
 //    private T currentModel;
     private SharePreferenceUtil spUtil;
     private RealmHelper mRealmHelper; // realm数据库操作类
+//    private
     private User mUser; // 个人数据
     private boolean mIsReceived ;   // 是否已接收完数据
     private TranObject mReceivedMessage;    // 服务器最新传来的信息
@@ -131,6 +132,11 @@ public class ApplicationData {
         mRealmHelper.savaGroupInfo(groupInfo);
     }
 
+    // 保存Message
+    public void saveMessage(final TranObject tranObject) {
+
+    }
+
 //    public void loginMessageArrived(Object tranObject) {
 //
 //        mReceivedMessage = (TranObject) tranObject;
@@ -229,6 +235,7 @@ public class ApplicationData {
         }
         return mGroupInfoList;
     }
+
 
     public void removeGroup(Integer groupId) {
         if (mGroupInfoList != null) {

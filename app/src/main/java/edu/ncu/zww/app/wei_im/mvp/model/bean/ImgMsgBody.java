@@ -1,6 +1,8 @@
 package edu.ncu.zww.app.wei_im.mvp.model.bean;
 
-public class ImgMsgBody {
+import java.io.Serializable;
+
+public class ImgMsgBody implements Serializable {
 
     //缩略图文件的本地路径
     private String thumbPath;

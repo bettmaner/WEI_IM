@@ -50,16 +50,16 @@ public class ChatAdapter extends BaseQuickAdapter<Message,BaseViewHolder> {
     private static final int SEND_LOCATION = R.layout.item_location_send;
     private static final int RECEIVE_LOCATION = R.layout.item_location_receive;*/
 
-    private static final String mUserAccount = String.valueOf(ApplicationData.getInstance().getUserInfo().getAccount());
+    private static final Integer mUserAccount = ApplicationData.getInstance().getUserInfo().getAccount();
 
     public ChatAdapter(Context context, List<Message> data) {
         super(data);
         setMultiTypeDelegate(new MultiTypeDelegate<Message>() {
             @Override
             protected int getItemType(Message entity) { // 根据你的实体类来判断布局类型
-
-                // 根据Message的getSenderId()，判断消息是发送还是接收
-                boolean isSend = entity.getSenderId().equals(mUserAccount);
+                System.out.println(mUserAccount);
+                // 如果接收者不是用户则为发送
+                boolean isSend = mUserAccount.compareTo(entity.getReceiveId()) != 0;
                 // 再获取发送/接收类型
                 if (MsgType.TEXT==entity.getMsgType()) {
                     return isSend ? TYPE_SEND_TEXT : TYPE_RECEIVE_TEXT;
@@ -102,7 +102,7 @@ public class ChatAdapter extends BaseQuickAdapter<Message,BaseViewHolder> {
         if (msgType.equals(MsgType.TEXT)) {
             //只需要设置自己发送的状态
             String sentStatus = item.getStatus();
-            boolean isSend = item.getSenderId().equals(mUserAccount);
+            boolean isSend = mUserAccount.compareTo(item.getReceiveId()) != 0;
             if (isSend){
                 if (sentStatus.equals(MsgSendStatus.SENDING)) {
                     helper.setVisible(R.id.chat_item_progress, true).setVisible(R.id.chat_item_fail, false);
@@ -113,7 +113,7 @@ public class ChatAdapter extends BaseQuickAdapter<Message,BaseViewHolder> {
                 }
             }
         } else if (msgType.equals(MsgType.IMAGE)) {
-            boolean isSend = item.getSenderId().equals(mUserAccount); // 我是否是发送方
+            boolean isSend =  mUserAccount.compareTo(item.getReceiveId()) != 0; // 我是否是发送方
             if (isSend) {
                 String sentStatus = item.getStatus();
                 if (sentStatus.equals(MsgSendStatus.SENDING)) {

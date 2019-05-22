@@ -86,7 +86,7 @@ public class MemberModelImpl implements MemberContract.MemberModel {
                 groupInfo.setGid(gid);
                 groupInfo.setMemberList(memberList);
                 // 请求服务器
-//                ClientControl.cdGroupMember(groupInfo,type);
+                ClientControl.cdGroupMember(groupInfo,type);
                 // 如果成功
                 ResultBean resultBean = new ResultBean(true,"成功");
                 emitter.onNext(resultBean);

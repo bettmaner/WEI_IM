@@ -77,7 +77,7 @@ public class GroupDao {
             @Override
             public void execute(Realm realm) {
                 groupInfo.deleteFirstFromRealm(); // 删除群信息
-                //groupMember.setMemberList(null) ; // 删除群成员的成员连接
+                groupMember.setMemberList(null) ; // 删除群成员的成员连接
             }
         });
     }

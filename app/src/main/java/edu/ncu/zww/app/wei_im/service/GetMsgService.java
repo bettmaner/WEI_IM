@@ -25,8 +25,12 @@ import edu.ncu.zww.app.wei_im.client.Client;
 import edu.ncu.zww.app.wei_im.client.ClientInputThread;
 import edu.ncu.zww.app.wei_im.client.MessageListener;
 import edu.ncu.zww.app.wei_im.commons.Constants;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.GroupInfo;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType;
+import edu.ncu.zww.app.wei_im.mvp.view.activity.ChatActivity;
 import edu.ncu.zww.app.wei_im.mvp.view.activity.NewContactActivity;
 import edu.ncu.zww.app.wei_im.test.TestInput;
 import edu.ncu.zww.app.wei_im.utils.LogUtil;
@@ -96,11 +100,24 @@ public class GetMsgService extends Service {
                             .build();
                     notification.flags |= Notification.FLAG_AUTO_CANCEL;
                     //.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
-                    manager.notify(1,notification);
+                    manager.notify(1,notification); // id是全局标识，不用管
                     break;
                 case GROUP_REQUEST:
                     break;
                 case MESSAGE:
+                    // 如果在后台
+//                    edu.ncu.zww.app.wei_im.mvp.model.bean.Message message = (edu.ncu.zww.app.wei_im.mvp.model.bean.Message) tranObject.getObject();
+
+                    Intent chatIntent = new Intent(mContext,ChatActivity.class);
+                    /*if (message.getChatType() == 0) { // 私人消息
+                        Contact sender = message.getUser(); // 获取发送者信息
+                        chatIntent.putExtra("chatName",sender.getName());
+                        chatIntent.putExtra("chatType",0); // 0人1群
+                        chatIntent.putExtra("chatId",sender.getAccount());
+                    } else { // 群消息
+//                        GroupInfo groupInfo = ApplicationData.getInstance().
+                    }*/
+
                     break;
                 default:
             }

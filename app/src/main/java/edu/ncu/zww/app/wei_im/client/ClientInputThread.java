@@ -113,6 +113,7 @@ public class ClientInputThread extends Thread {
 
                             // 处理得到的消息，详见GetMsgService的Message方法，处理消息是显示在通知栏还是广播出去
                             messageListener.Message(resultData);
+//                            mData.saveMessage(resultData);
                             break;
                         default:
                             break;

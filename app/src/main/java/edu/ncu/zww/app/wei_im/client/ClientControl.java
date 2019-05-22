@@ -7,6 +7,7 @@ import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.GroupInfo;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Invitation;
+import edu.ncu.zww.app.wei_im.mvp.model.bean.Message;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.User;
@@ -14,6 +15,7 @@ import edu.ncu.zww.app.wei_im.utils.BeanTransfer;
 
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.FRIEND_REQUEST;
 import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.GROUP_REQUEST;
+import static edu.ncu.zww.app.wei_im.mvp.model.bean.TranObjectType.MESSAGE;
 
 public class ClientControl {
     private static Client mClient = Client.getInstance();

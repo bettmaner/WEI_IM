@@ -15,8 +15,7 @@ public class ChatContract {
      *  作用：view层得到要显示的数据
      */
     public interface ChatView {
-        void onSendSuccess(ResultBean result);
-        void onSendFail(ResultBean result);
+        void onSendResult(Message message);
         void onError(String info);
     }
 
@@ -25,8 +24,8 @@ public class ChatContract {
      *  model
      *  作用：model层根据参数向网络获取数据,并通过callBack回调给presenter
      */
-    public interface ChattModel {
+    public interface ChatModel {
         // 发送消息
-        Observable<ResultBean> sendMsg(TranObject tranObj);
+        Observable<Message> sendMsg(Message message);
     }
 }

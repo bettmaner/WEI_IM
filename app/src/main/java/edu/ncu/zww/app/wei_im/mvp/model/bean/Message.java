@@ -3,22 +3,30 @@ package edu.ncu.zww.app.wei_im.mvp.model.bean;
 import com.stfalcon.chatkit.commons.models.IMessage;
 import com.stfalcon.chatkit.commons.models.MessageContentType;
 
+import java.io.Serializable;
 import java.util.Date;
 
+import io.realm.RealmObject;
 
-public class Message implements IMessage/*,
+/**
+ * 聊天的消息类
+ * */
+public class Message extends RealmObject implements IMessage,Serializable {
+            /*,
         MessageContentType.Image*//*, *//**//*this is for default image messages implementation*//**//*
-        MessageContentType *//**//*and this one is for custom content type (in this case - voice message)*/ {
-
+        MessageContentType *//**//*and this one is for custom content type (in this case - voice message)*/
     private String id; // uuid
-    private String chatType; // 聊天对象类型。内容说明:私人聊天为‘c’+对方账号，群聊天为'g'+群账号。
+    private Integer chatType; // 聊天对象类型。
+    private Integer groupId; // 群id；如果不是群聊天则不管
+    private Date createdAt; // 创建时间
+    private Contact user; // 信息发送方的信息
+    private Integer receiveId; // 接收者账号
+    private String sendStatus; // 发送状态
     private String msgType = MsgType.TEXT; // 消息类型MsgType,默认文本类型
     private String text; // 消息文本
-    private Date createdAt; // 创建时间
-    private Contact user; // 对方（对本用户而言）信息
-    private String senderId; // 发送者账号
-    private String sendStatus; // 发送状态
     private ImgMsgBody image;
+    private Object Annex; // 附件
+    private Integer read = 0; // 已读标志。0未读，1已读。
 //    private Voice voice;
 
     public Message(){}
@@ -62,12 +70,20 @@ public class Message implements IMessage/*,
         return image;
     }
 
-    public String getChatType() {
+    public Integer getChatType() {
         return chatType;
     }
 
-    public void setChatType(String chatType) {
+    public void setChatType(Integer chatType) {
         this.chatType = chatType;
+    }
+
+    public Integer getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
     }
 
     public String getMsgType() {
@@ -82,12 +98,16 @@ public class Message implements IMessage/*,
         }
     }
 
-    public String getSenderId() {
-        return senderId;
+    public void setUser(Contact user) {
+        this.user = user;
     }
 
-    public void setSenderId(String senderId) {
-        this.senderId = senderId;
+    public Integer getReceiveId() {
+        return receiveId;
+    }
+
+    public void setReceiveId(Integer receiveId) {
+        this.receiveId = receiveId;
     }
 
 //    public Voice getVoice() {
@@ -115,7 +135,23 @@ public class Message implements IMessage/*,
         setMsgType(MsgType.IMAGE);
     }
 
-//    public void setVoice(Voice voice) {
+    public Object getAnnex() {
+        return Annex;
+    }
+
+    public void setAnnex(Object annex) {
+        Annex = annex;
+    }
+
+    public Integer getRead() {
+        return read;
+    }
+
+    public void setRead(Integer read) {
+        this.read = read;
+    }
+
+    //    public void setVoice(Voice voice) {
 //        this.voice = voice;
 //    }
 
@@ -138,4 +174,21 @@ public class Message implements IMessage/*,
             return duration;
         }
     }*/
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id='" + id + '\'' +
+                ", chatType=" + chatType +
+                ", groupId=" + groupId +
+                ", createdAt=" + createdAt +
+                ", user=" + user +
+                ", receiveId=" + receiveId +
+                ", sendStatus='" + sendStatus + '\'' +
+                ", msgType='" + msgType + '\'' +
+                ", text='" + text + '\'' +
+                ", image=" + image +
+                ", Annex=" + Annex +
+                '}';
+    }
 }

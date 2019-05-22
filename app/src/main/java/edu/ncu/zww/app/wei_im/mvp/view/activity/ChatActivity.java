@@ -82,8 +82,8 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
 
     private ImageView ivAudio;
     private ChatAdapter mAdapter; // 消息列表适配器
-    public String  mSenderId = String.valueOf(ApplicationData.getInstance().getUserInfo().getAccount());
-    public String     mTargetId="left";
+    public Contact user;
+    public String  mTargetId="left";
     public static final int       REQUEST_CODE_IMAGE=0000;
     public static final int       REQUEST_CODE_VEDIO=1111;
     public static final int       REQUEST_CODE_FILE=2222;
@@ -156,6 +156,7 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
     protected void onCreate(Bundle savedInstanceState) {
         getIntentData();
         super.onCreate(savedInstanceState);
+        user = mPresenter.getUser();
         initContent();
     }
 
@@ -276,6 +277,7 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
             case R.id.btn_send:
                 sendTextMsg(mEtContent.getText().toString());
                 mEtContent.setText(""); // 发送完后清空输入框内容
+
                 break;
             case R.id.rlPhoto:
                 PictureFileUtil.openGalleryPic(ChatActivity.this,REQUEST_CODE_IMAGE);
@@ -309,14 +311,16 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
         }
     }
 
-    // 根据text发送文本消息
+    // 点击发送后被调用，根据text发送文本消息
     private void sendTextMsg(String text)  {
         final Message mMessgae=getBaseSendMessage(MsgType.TEXT); // 先封装消息的基本属性
         mMessgae.setText(text);
         //开始发送
         mAdapter.addData(mMessgae);
         //模拟两秒后发送成功
-        updateMsg(mMessgae);
+//        updateMsg(mMessgae);
+        mPresenter.sendMessage(mMessgae);
+
     }
 
     // 图片消息
@@ -348,9 +352,13 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
     private Message getBaseSendMessage(String msgType){
         Message mMessgae=new Message();
         mMessgae.setId(NumberUtil.getUUID());
-        mMessgae.setSenderId(mSenderId);
-        //mMessgae.setTargetId(mTargetId);
+        mMessgae.setChatType(chatType);
+        if (chatType==1) {
+            mMessgae.setGroupId(chatId);
+        }
         mMessgae.setCreatedAt(new Date());
+        mMessgae.setUser(user);
+        mMessgae.setReceiveId(chatId);
         mMessgae.setSendStatus(MsgSendStatus.SENDING);
         mMessgae.setMsgType(msgType);
         return mMessgae;
@@ -359,9 +367,11 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
     private Message getBaseReceiveMessage(String msgType){
         Message mMessgae=new Message();
         mMessgae.setId(NumberUtil.getUUID());
-        mMessgae.setSenderId(mTargetId);
-        //mMessgae.setTargetId(mSenderId);
+        mMessgae.setChatType(chatType);
         mMessgae.setCreatedAt(new Date());
+//        mMessgae.setReceiveId(mTargetId);
+        //mMessgae.setTargetId(mSenderId);
+        mMessgae.setReceiveId(user.getAccount());
         mMessgae.setSendStatus(MsgSendStatus.SENDING);
         mMessgae.setMsgType(msgType);
         return mMessgae;
@@ -396,14 +406,17 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
     protected void initListener() {
     }
 
-    @Override
-    public void onSendSuccess(ResultBean result) {
-
-    }
 
     @Override
-    public void onSendFail(ResultBean result) {
-
+    public void onSendResult(Message message) {
+        int position=0;
+        for (int i=0;i<mAdapter.getData().size();i++){
+            Message mAdapterMessage=mAdapter.getData().get(i);
+            if (message.getId().equals(mAdapterMessage.getId())){
+                position=i;
+            }
+        }
+        mAdapter.notifyItemChanged(position);
     }
 
     @Override

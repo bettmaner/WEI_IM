@@ -78,11 +78,13 @@ public class GroupInfo extends RealmObject implements Serializable {
 
     @Override
     public String toString() {
-        return "Group{" +
+        return "GroupInfo{" +
                 "gid=" + gid +
                 ", name='" + name + '\'' +
                 ", avatar='" + avatar + '\'' +
-                ", creator='" + creator + '\'' +
+                ", creator=" + creator +
+                ", createTime=" + createTime +
+                ", memberList=" + memberList +
                 '}';
     }
 }
