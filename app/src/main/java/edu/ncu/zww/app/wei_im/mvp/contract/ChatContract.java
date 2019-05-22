@@ -16,6 +16,7 @@ public class ChatContract {
      */
     public interface ChatView {
         void onSendResult(Message message);
+        void onReceiveMsg(Message message);
         void onError(String info);
     }
 

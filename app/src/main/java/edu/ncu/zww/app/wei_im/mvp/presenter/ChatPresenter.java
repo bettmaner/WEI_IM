@@ -15,14 +15,24 @@ import io.reactivex.schedulers.Schedulers;
 public class ChatPresenter extends BasePresenter<ChatContract.ChatView> {
 
     private ChatModelImpl mChatModel;
+    private int chatType,chatId;
 
-    public ChatPresenter() {
+    public ChatPresenter(int chatType,int chatId) {
         this.mChatModel = new ChatModelImpl();
+        this.chatType = chatType;
+        this.chatId = chatId;
     }
 
     @Override
-    public void getMessage(TranObject msg) {
-
+    public void getMessage(TranObject msg) { // 广播接收的消息
+        System.out.println("ds");
+        Message message = (Message) msg.getObject();
+        // 该消息是否是当前聊天的
+        if (message.getChatType() + chatType == 0 && message.getSenderId() == chatId) { // 私人聊天情况判断
+            getView().onReceiveMsg(message);
+        } else if (message.getChatType() + chatType == 2 && message.getGroupId() == chatId) { // 群聊天情况
+            getView().onReceiveMsg(message);
+        }
     }
 
     public Contact getUser() {

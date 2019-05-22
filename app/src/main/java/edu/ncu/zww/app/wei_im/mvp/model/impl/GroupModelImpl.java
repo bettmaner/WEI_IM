@@ -1,19 +1,14 @@
 package edu.ncu.zww.app.wei_im.mvp.model.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.ncu.zww.app.wei_im.client.ClientControl;
 import edu.ncu.zww.app.wei_im.mvp.contract.ContactContract;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.ApplicationData;
-import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.GroupInfo;
-import edu.ncu.zww.app.wei_im.mvp.model.bean.GroupMember;
-import edu.ncu.zww.app.wei_im.mvp.model.bean.TranObject;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import io.realm.RealmList;
 
 
 public class GroupModelImpl implements ContactContract.GroupModel {

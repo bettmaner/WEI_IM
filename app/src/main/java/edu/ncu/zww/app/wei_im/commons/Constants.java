@@ -2,7 +2,7 @@ package edu.ncu.zww.app.wei_im.commons;
 
 public class Constants {
     //public static final String SERVER_IP = "192.168.1.100";// 服务器ip
-    public static final String SERVER_IP = "192.168.37.2";// 服务器ip
+    public static final String SERVER_IP = "192.168.154.2";// 服务器ip
     public static final int SERVER_PORT = 12345;// 服务器端口
 
     public static final String ACTION = "edu.ncu.zww.app.wei_im.message";//消息广播action

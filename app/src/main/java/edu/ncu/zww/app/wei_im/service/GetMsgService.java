@@ -106,17 +106,36 @@ public class GetMsgService extends Service {
                     break;
                 case MESSAGE:
                     // 如果在后台
-//                    edu.ncu.zww.app.wei_im.mvp.model.bean.Message message = (edu.ncu.zww.app.wei_im.mvp.model.bean.Message) tranObject.getObject();
+                    edu.ncu.zww.app.wei_im.mvp.model.bean.Message message = (edu.ncu.zww.app.wei_im.mvp.model.bean.Message) tranObject.getObject();
 
                     Intent chatIntent = new Intent(mContext,ChatActivity.class);
-                    /*if (message.getChatType() == 0) { // 私人消息
+                    String chatName;
+                    if (message.getChatType() == 0) { // 私人消息
                         Contact sender = message.getUser(); // 获取发送者信息
-                        chatIntent.putExtra("chatName",sender.getName());
+                        chatName = sender.getName();
+                        chatIntent.putExtra("chatName",chatName);
                         chatIntent.putExtra("chatType",0); // 0人1群
                         chatIntent.putExtra("chatId",sender.getAccount());
                     } else { // 群消息
-//                        GroupInfo groupInfo = ApplicationData.getInstance().
-                    }*/
+                        GroupInfo groupInfo = ApplicationData.getInstance()
+                                .getMessageDao().getGroupInfo(message.getGroupId());
+                        chatName = groupInfo.getName();
+                        chatIntent.putExtra("chatName",chatName);
+                        chatIntent.putExtra("chatType",1); // 0人1群
+                        chatIntent.putExtra("chatId",groupInfo.getGid());
+                    }
+                    PendingIntent msgPi = PendingIntent.getActivity(mContext,0,chatIntent,PendingIntent.FLAG_CANCEL_CURRENT);
+                    Notification msgNotify = new NotificationCompat.Builder(mContext,CHANNEL_ID_CHAT)
+                            .setContentTitle(chatName)
+                            .setContentText(message.getText())
+                            .setWhen(System.currentTimeMillis())
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
+                            .setContentIntent(msgPi)
+                            .build();
+                    msgNotify.flags |= Notification.FLAG_AUTO_CANCEL;
+                    //.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
+                    manager.notify(1,msgNotify); // id是全局标识，不用管
 
                     break;
                 default:
@@ -214,6 +233,13 @@ public class GetMsgService extends Service {
                             message.getData().putSerializable("msg",
                                     msg);
                             handler.sendMessage(message);
+
+                            if (msg.getType().equals(TranObjectType.MESSAGE)) {
+                                // 发送广播
+                                Intent bIntent = new Intent(Constants.ACTION);
+                                bIntent.putExtra(Constants.MSGKEY, msg);
+                                sendBroadcast(bIntent);// 把收到的消息以广播的形式发送出去
+                            }
 
 //                            if (SharePreferenceUtil.getInstance().getIsStart()) {// 如果
 //                                // 是在后台运行，就更新通知栏，否则就发送广播给Activity

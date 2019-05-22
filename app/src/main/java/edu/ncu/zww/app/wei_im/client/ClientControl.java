@@ -99,4 +99,13 @@ public class ClientControl {
 //            e.printStackTrace();
 //        }
 //    }
+
+    // 发送消息
+    public static void sendMsg(Message message) throws IOException {
+        TranObject tranObject = new TranObject<Message>(MESSAGE);
+        tranObject.setFromUser(mUser.getAccount());
+        tranObject.setToUser(message.getReceiveId());
+        tranObject.setObject(message);
+        mClient.send(tranObject);
+    }
 }

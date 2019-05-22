@@ -29,6 +29,7 @@ import edu.ncu.zww.app.wei_im.mvp.contract.ContactContract;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Contact;
 import edu.ncu.zww.app.wei_im.mvp.model.bean.Dialog;
 import edu.ncu.zww.app.wei_im.mvp.presenter.ContactPresenter;
+import edu.ncu.zww.app.wei_im.mvp.view.activity.ChatActivity;
 import edu.ncu.zww.app.wei_im.mvp.view.activity.GroupActivity;
 import edu.ncu.zww.app.wei_im.mvp.view.activity.NewContactActivity;
 import edu.ncu.zww.app.wei_im.mvp.view.adapter.ContactAdapter;
@@ -147,7 +148,7 @@ public class ContactsFragment extends BaseFragment<ContactContract.ContactView,C
     }
 
     @Override
-    public void onQuerySuccess(List friendlist) {
+    public void onQuerySuccess(final List friendlist) {
         if (friends == null) {
             friends = new ArrayList<>();
         } else {
@@ -163,9 +164,9 @@ public class ContactsFragment extends BaseFragment<ContactContract.ContactView,C
             adapter.setOnItemClickListener(new ContactAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    String name = friends.get(position).getName();
-                    final String pinyin = PinYinUtils.getPinyin(name);
-//                    Toast.makeText(mContext, pinyin, Toast.LENGTH_SHORT).show();
+//                    String name = friends.get(position).getName();
+//                    final String pinyin = PinYinUtils.getPinyin(name);
+                    final Contact contact = friends.get(position);
 
                     PopupMenu popupMenu = new PopupMenu(mContext,view);
                     popupMenu.getMenuInflater().inflate(R.menu.contact_item_popup_menu, popupMenu.getMenu());
@@ -174,19 +175,12 @@ public class ContactsFragment extends BaseFragment<ContactContract.ContactView,C
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            switch (item.getItemId()) {
-                                case R.id.to_message:
-                                    Toast.makeText(mContext, "跳转发消息", Toast.LENGTH_SHORT).show();
-//                                    System.out.println("菜单删除键");
-//                                    fruitList.remove(i);
-//                                    adapter.notifyItemRemoved(i);
-////                                adapter.notifyDataSetChanged();
-                                    break;
-                                case R.id.delete_contact:
-                                    Toast.makeText(mContext, "删除联系人", Toast.LENGTH_SHORT).show();
-                                    break;
-                                default:
+                            if ("发送消息".equals(item.toString())) {
+                                ChatActivity.actionStart(mContext,contact.getName(),contact.getAccount(),0);
+                            } else if ("删除联系人".equals(item.toString())) {
+                                Toast.makeText(mContext, "删除联系人", Toast.LENGTH_SHORT).show();
                             }
+
                             return false;
                         }
                     });

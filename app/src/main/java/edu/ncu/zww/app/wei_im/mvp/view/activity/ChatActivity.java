@@ -148,7 +148,7 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
 
     @Override
     protected ChatPresenter createPresenter() {
-        return new ChatPresenter();
+        return new ChatPresenter(chatType,chatId);
     }
 
 
@@ -408,7 +408,7 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
 
 
     @Override
-    public void onSendResult(Message message) {
+    public void onSendResult(Message message) { // 更新发送状态
         int position=0;
         for (int i=0;i<mAdapter.getData().size();i++){
             Message mAdapterMessage=mAdapter.getData().get(i);
@@ -417,6 +417,11 @@ public class ChatActivity extends BaseActivityFlags<ChatContract.ChatView,ChatPr
             }
         }
         mAdapter.notifyItemChanged(position);
+    }
+
+    @Override
+    public void onReceiveMsg(Message message) {
+        mAdapter.addData(message);
     }
 
     @Override

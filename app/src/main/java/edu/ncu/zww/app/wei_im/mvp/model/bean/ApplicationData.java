@@ -6,6 +6,7 @@ import java.lang.reflect.Member;
 import java.util.List;
 
 import edu.ncu.zww.app.wei_im.database.RealmHelper;
+import edu.ncu.zww.app.wei_im.mvp.model.db.MessageDao;
 import edu.ncu.zww.app.wei_im.utils.BeanTransfer;
 import edu.ncu.zww.app.wei_im.utils.LogUtil;
 import edu.ncu.zww.app.wei_im.utils.SharePreferenceUtil;
@@ -17,7 +18,7 @@ public class ApplicationData {
 //    private T currentModel;
     private SharePreferenceUtil spUtil;
     private RealmHelper mRealmHelper; // realm数据库操作类
-//    private
+    private MessageDao mMsgDao; // 消息
     private User mUser; // 个人数据
     private boolean mIsReceived ;   // 是否已接收完数据
     private TranObject mReceivedMessage;    // 服务器最新传来的信息
@@ -62,6 +63,16 @@ public class ApplicationData {
         mFriendList = null;
         mUser = null;
         mReceivedMessage = null;
+        initMsgDao();
+
+    }
+
+    public void initMsgDao() {
+        if (mMsgDao != null) {
+            mMsgDao.closeRealm();
+            mMsgDao = null;
+        }
+        mMsgDao = new MessageDao();
     }
 
     public void setIsReceived(boolean mIsReceived) {
@@ -265,7 +276,13 @@ public class ApplicationData {
         mRealmHelper.saveInvitation(invitation);
     }
 
+    public RealmHelper getmRealmHelper() {
+        return mRealmHelper;
+    }
 
+    public MessageDao getMessageDao() {
+        return mMsgDao;
+    }
 
     //    public List<User> getFriendSearched() {
 //        return mFriendSearched;

@@ -65,6 +65,12 @@ public class ClientInputThread extends Thread {
                 System.out.println("----------------------------------------------------------");
                 LogUtil.d("ClientInput","线程:" + Thread.currentThread().getName());
                 ApplicationData mData = ApplicationData.getInstance();
+
+                if (resultData.getType().equals(MESSAGE)) {
+                    messageListener.Message(resultData);
+                    continue;
+                }
+
                 // 以mData为锁
                 synchronized(mData){
                     // ismIsReceived为真表示有线程在取值，所以应该先等待
@@ -108,13 +114,14 @@ public class ClientInputThread extends Thread {
                         case GET_GROUP_MEMBER:
                             mData.rcGroupMember(resultData);
                             break;
-                        case MESSAGE:
+                        /*case MESSAGE:
 //                        ApplicationData.getInstance().messageArrived(resultData);
 
                             // 处理得到的消息，详见GetMsgService的Message方法，处理消息是显示在通知栏还是广播出去
-                            messageListener.Message(resultData);
+                            System.out.println("as");
+//                            messageListener.Message(resultData);
 //                            mData.saveMessage(resultData);
-                            break;
+                            break;*/
                         default:
                             break;
                     }

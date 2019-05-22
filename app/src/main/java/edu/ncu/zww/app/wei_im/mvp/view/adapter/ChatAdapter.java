@@ -61,15 +61,15 @@ public class ChatAdapter extends BaseQuickAdapter<Message,BaseViewHolder> {
                 // 如果接收者不是用户则为发送
                 boolean isSend = mUserAccount.compareTo(entity.getReceiveId()) != 0;
                 // 再获取发送/接收类型
-                if (MsgType.TEXT==entity.getMsgType()) {
+                if (MsgType.TEXT.equals(entity.getMsgType())) {
                     return isSend ? TYPE_SEND_TEXT : TYPE_RECEIVE_TEXT;
-                }else if(MsgType.IMAGE==entity.getMsgType()){
+                }else if(MsgType.IMAGE.equals(entity.getMsgType())){
                      return isSend ? TYPE_SEND_IMAGE : TYPE_RECEIVE_IMAGE;
-                }else if(MsgType.VIDEO==entity.getMsgType()){
+                }else if(MsgType.VIDEO.equals(entity.getMsgType())){
                      return isSend ? TYPE_SEND_VIDEO : TYPE_RECEIVE_VIDEO;
-                 }else if(MsgType.FILE==entity.getMsgType()){
+                 }else if(MsgType.FILE.equals(entity.getMsgType())){
                      return isSend ? TYPE_SEND_FILE : TYPE_RECEIVE_FILE;
-                 }else if(MsgType.AUDIO==entity.getMsgType()){
+                 }else if(MsgType.AUDIO.equals(entity.getMsgType())){
                      return isSend ? TYPE_SEND_AUDIO : TYPE_RECEIVE_AUDIO;
                  }
                 return 0;
